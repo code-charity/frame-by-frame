@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "Frame By Frame",
+    "version": "1.0",
+    
+    "content_scripts": [{
+        "all_frames": true,
+        "js": [
+            "content-scripts.js"
+        ],
+        "css": [
+            "content-scripts.css"
+        ],
+        "matches": [
+            "http://*/*",
+            "https://*/*"
+        ],
+        "run_at": "document_start"
+    }]
+}

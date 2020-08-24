@@ -1,0 +1,11 @@
+.frame-by-frame--outline
+{
+    position: fixed;
+    outline: 2px solid #f00;
+    pointer-events: none
+}
+
+.frame-by-frame--outline.hidden
+{
+    visibility: hidden
+}
