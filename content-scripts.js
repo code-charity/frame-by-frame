@@ -39,6 +39,10 @@ function observer() {
                 resize(this);
             });
             
+            videos[i].addEventListener('timeupdate', function() {
+                resize(this);
+            });
+            
             //console.log(videos[i]);
             
             index++;
@@ -62,10 +66,21 @@ function resize(target) {
         height: bounding_rect.height
     };
     
-    outline.style.left = bounding_rect.left + 'px';
-    outline.style.top = bounding_rect.top + 'px';
-    outline.style.width = bounding_rect.width + 'px';
-    outline.style.height = bounding_rect.height + 'px';
+    if (outline.offsetLeft !== bounding_rect.left) {
+        outline.style.left = bounding_rect.left + 'px';
+    }
+    
+    if (outline.offsetTop !== bounding_rect.top) {
+        outline.style.top = bounding_rect.top + 'px';
+    }
+    
+    if (outline.offsetWidth !== bounding_rect.width) {
+        outline.style.width = bounding_rect.width + 'px';
+    }
+    
+    if (outline.offsetHeight !== bounding_rect.height) {
+        outline.style.height = bounding_rect.height + 'px';
+    }
 }
 
 window.addEventListener('resize', function () {
