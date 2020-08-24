@@ -129,21 +129,27 @@ window.addEventListener('mousemove', function(event) {
 
 window.addEventListener('keydown', function(event) {
     if (activeVideo && activeVideo !== undefined) {
-        event.preventDefault();
-        
         if (activeVideo.paused === false) {
             activeVideo.pause();
         }
         
-        console.log(activeVideo.paused, event.keyCode);
-        
         if (event.keyCode === 37) {
+            event.preventDefault();
+            event.stopPropagation();
+        
             activeVideo.currentTime = Math.max(0, activeVideo.currentTime - 1 / 25);
+        
+            return false;
         } else if (event.keyCode === 39) {
+            event.preventDefault();
+            event.stopPropagation();
+        
             activeVideo.currentTime = Math.min(activeVideo.duration, activeVideo.currentTime + 1 / 25);
+        
+            return false;
         }
     }
-});
+}, true);
 
 
 /*------------------------------------------------------------------------------
