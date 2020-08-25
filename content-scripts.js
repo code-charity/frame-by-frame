@@ -149,22 +149,28 @@ window.addEventListener('keydown', function(event) {
         }
         
         if (event.keyCode === 37) {
-            event.preventDefault();
-            event.stopPropagation();
-        
             activeVideo.currentTime = Math.max(0, activeVideo.currentTime - 1 / 25);
-        
-            return false;
         } else if (event.keyCode === 39) {
-            event.preventDefault();
-            event.stopPropagation();
-        
             activeVideo.currentTime = Math.min(activeVideo.duration, activeVideo.currentTime + 1 / 25);
-        
-            return false;
         }
     }
 }, true);
+
+function prevent(event) {
+    if (
+        activeVideo && activeVideo !== undefined &&
+        (event.keyCode === 37 || event.keyCode === 39)
+    ) {
+        event.preventDefault();
+        event.stopPropagation();
+            
+        return false;
+    }
+}
+
+window.addEventListener('keydown', prevent, true);
+window.addEventListener('keyup', prevent, true);
+window.addEventListener('keypress', prevent, true);
 
 
 /*------------------------------------------------------------------------------
