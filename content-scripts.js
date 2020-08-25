@@ -1,20 +1,41 @@
 /*------------------------------------------------------------------------------
 >>> Frame By Frame
 --------------------------------------------------------------------------------
-1.0 Variables
+1.0 Global variables
 2.0 Observer
-3.0 Resize
-4.0 Mouse & keyboard
-5.0 Init
+3.0 Outline
+4.0 Mouse
+5.0 Keyboard
+6.0 Init
 ------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------
-1.0 VARIABLES
+1.0 GLOBAL VARIABLES
 ------------------------------------------------------------------------------*/
 
-var boundingRects = {},
-    activeVideo = false,
-    index = 0;
+var boundingRects = [],
+    outline,
+    activeElement;
+    
+function isset(variable) {
+    if (typeof variable === 'undefined' || variable === null) {
+        return false;
+    }
+
+    return true;
+}
+
+/*HTMLMediaElement.prototype.play = (function(original) {
+    return function() {
+        if (activeElement === this) {
+            setTimeout(function(){
+                this.pause();
+            });
+        }
+        
+        return original.apply(this, arguments);
+    };
+})(HTMLMediaElement.prototype.play);*/
 
 
 /*------------------------------------------------------------------------------
@@ -26,99 +47,90 @@ function observer() {
         var videos = document.querySelectorAll('video:not(.frame-by-frame)');
         
         for (var i = 0, l = videos.length; i < l; i++) {
-            videos[i].dataset.frameByFrameIndex = index;
-            videos[i].classList.add('frame-by-frame');
+            var video = videos[i];
             
-            resize(videos[i]);
+            video.classList.add('frame-by-frame');
+            video.dataset.frameByFrameIndex = boundingRects.length;
             
-            videos[i].addEventListener('play', function() {
-                resize(this);
-            });
+            boundingRects.push([0, 0, 0, 0]);
             
-            videos[i].addEventListener('playing', function() {
-                resize(this);
-            });
-            
-            videos[i].addEventListener('timeupdate', function() {
-                resize(this);
-            });
-            
-            //console.log(videos[i]);
-            
-            index++;
+            updateMediaEventListeners(video);
+        }
+    }
+}
+
+function mediaEventListenersCallback() {
+    updateBoundingRect(this);
+}
+
+function updateMediaEventListeners(target) {
+    target.addEventListener('play', mediaEventListenersCallback);
+    target.addEventListener('playing', mediaEventListenersCallback);
+    target.addEventListener('timeupdate', mediaEventListenersCallback);
+}
+
+function updateBoundingRect(target) {
+    var bounding_rect = target.getBoundingClientRect();
+
+    boundingRects[target.dataset.frameByFrameIndex] = [
+        bounding_rect.left,
+        bounding_rect.top,
+        bounding_rect.width,
+        bounding_rect.height
+    ];
+    
+    updateOutline();
+}
+
+function updateBoundingRectAll() {
+    if (document.querySelector('.frame-by-frame')) {
+        var videos = document.querySelectorAll('.frame-by-frame');
+        
+        for (var i = 0, l = videos.length; i < l; i++) {
+            updateBoundingRect(videos[i]);
         }
     }
 }
 
 
 /*------------------------------------------------------------------------------
-3.0 RESIZE
+3.0 OUTLINE
 ------------------------------------------------------------------------------*/
 
-function resize(target) {
-    var bounding_rect = target.getBoundingClientRect(),
-        outline = document.querySelector('.frame-by-frame--outline');
+function createOutline() {
+    outline = document.createElement('div');
     
-    boundingRects[target.dataset.frameByFrameIndex] = {
-        left: bounding_rect.left,
-        top: bounding_rect.top,
-        width: bounding_rect.width,
-        height: bounding_rect.height
-    };
+    outline.className = 'frame-by-frame--outline hidden';
     
-    if (outline.offsetLeft !== bounding_rect.left) {
-        outline.style.left = bounding_rect.left + 'px';
-    }
-    
-    if (outline.offsetTop !== bounding_rect.top) {
-        outline.style.top = bounding_rect.top + 'px';
-    }
-    
-    if (outline.offsetWidth !== bounding_rect.width) {
-        outline.style.width = bounding_rect.width + 'px';
-    }
-    
-    if (outline.offsetHeight !== bounding_rect.height) {
-        outline.style.height = bounding_rect.height + 'px';
+    document.body.appendChild(outline);
+}
+
+function updateOutline() {
+    if (isset(activeElement)) {
+        var bounding_rect = boundingRects[activeElement.dataset.frameByFrameIndex];
+
+        if (outline.offsetLeft !== bounding_rect[0]) {
+            outline.style.left = bounding_rect[0] + 'px';
+        }
+        
+        if (outline.offsetTop !== bounding_rect[1]) {
+            outline.style.top = bounding_rect[1] + 'px';
+        }
+        
+        if (outline.offsetWidth !== bounding_rect[2]) {
+            outline.style.width = bounding_rect[2] + 'px';
+        }
+        
+        if (outline.offsetHeight !== bounding_rect[3]) {
+            outline.style.height = bounding_rect[3] + 'px';
+        }
     }
 }
 
-window.addEventListener('resize', function () {
-    if (document.querySelector('.frame-by-frame')) {
-        var videos = document.querySelectorAll('.frame-by-frame');
-        
-        for (var i = 0, l = videos.length; i < l; i++) {
-            resize(videos[i]);
-        }
-    }
-});
-
-window.addEventListener('scroll', function () {
-    if (document.querySelector('.frame-by-frame')) {
-        var videos = document.querySelectorAll('.frame-by-frame');
-        
-        for (var i = 0, l = videos.length; i < l; i++) {
-            resize(videos[i]);
-        }
-    }
-});
-
 
 /*------------------------------------------------------------------------------
-4.0 MOUSE & KEYBOARD
+4.0 MOUSE
 ------------------------------------------------------------------------------*/
-
-/*HTMLMediaElement.prototype.play = (function(original) {
-    return function() {
-        if (activeVideo === this) {
-            setTimeout(function(){
-                this.pause();
-            });
-        }
-        
-        return original.apply(this, arguments);
-    };
-})(HTMLMediaElement.prototype.play);*/
 
 window.addEventListener('mousemove', function(event) {
     var x = event.clientX,
@@ -126,75 +138,80 @@ window.addEventListener('mousemove', function(event) {
         
     if (document.querySelector('.frame-by-frame')) {
         var videos = document.querySelectorAll('.frame-by-frame'),
-            found = false,
-            outline = document.querySelector('.frame-by-frame--outline');
+            found = false;
         
         for (var i = 0, l = videos.length; i < l; i++) {
             var bounding_rect = boundingRects[videos[i].dataset.frameByFrameIndex];
             
             if (
-                x >= bounding_rect.left &&
-                y >= bounding_rect.top &&
-                x < bounding_rect.left + bounding_rect.width &&
-                y < bounding_rect.top + bounding_rect.height
+                x >= bounding_rect[0] &&
+                y >= bounding_rect[1] &&
+                x < bounding_rect[0] + bounding_rect[2] &&
+                y < bounding_rect[1] + bounding_rect[3]
             ) {
                 found = videos[i];
             }
         }
         
         if (found) {
-            activeVideo = found;
+            activeElement = found;
             
             outline.classList.remove('hidden');
-        } else if (activeVideo) {
-            activeVideo = false;
+        } else if (activeElement) {
+            activeElement = undefined;
             
             outline.classList.add('hidden');
         }
     }
 });
 
+
+/*------------------------------------------------------------------------------
+5.0 KEYBOARD
+------------------------------------------------------------------------------*/
+
+function preventKeyboardListeners(event) {
+    if (activeElement !== undefined) {
+        if (event.keyCode === 37 || event.keyCode === 39) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            return false;
+        }
+    }
+}
+
 window.addEventListener('keydown', function(event) {
-    if (activeVideo && activeVideo !== undefined) {
-        if (activeVideo.paused === false) {
-            activeVideo.pause();
+    if (isset(activeElement)) {
+        if (activeElement.paused === false) {
+            activeElement.pause();
         }
         
+        var frame = 1 / 25;
+        
         if (event.keyCode === 37) {
-            activeVideo.currentTime = Math.max(0, activeVideo.currentTime - 1 / 25);
+            activeElement.currentTime = Math.max(0, activeElement.currentTime - frame);
         } else if (event.keyCode === 39) {
-            activeVideo.currentTime = Math.min(activeVideo.duration, activeVideo.currentTime + 1 / 25);
+            activeElement.currentTime = Math.min(activeElement.duration, activeElement.currentTime + frame);
         }
     }
 }, true);
 
-function prevent(event) {
-    if (
-        activeVideo && activeVideo !== undefined &&
-        (event.keyCode === 37 || event.keyCode === 39)
-    ) {
-        event.preventDefault();
-        event.stopPropagation();
-            
-        return false;
-    }
-}
-
-window.addEventListener('keydown', prevent, true);
-window.addEventListener('keyup', prevent, true);
-window.addEventListener('keypress', prevent, true);
-
 
 /*------------------------------------------------------------------------------
-5.0 INIT
+6.0 INIT
 ------------------------------------------------------------------------------*/
 
+window.addEventListener('resize', updateBoundingRectAll);
+window.addEventListener('scroll', updateBoundingRectAll);
+window.addEventListener('mousewheel', updateBoundingRectAll);
+
+window.addEventListener('keydown', preventKeyboardListeners, true);
+window.addEventListener('keyup', preventKeyboardListeners, true);
+window.addEventListener('keypress', preventKeyboardListeners, true);
+
 window.addEventListener('DOMContentLoaded', function() {
-    var outline = document.createElement('div');
-    
-    outline.className = 'frame-by-frame--outline hidden';
-    
-    document.body.appendChild(outline);
+    createOutline();
     
     setInterval(observer, 250);
 });
