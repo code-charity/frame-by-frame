@@ -14,12 +14,15 @@
     z-index: 2147483647;
 
     box-sizing: border-box;
+    padding: 4px;
 
     pointer-events: none;
-padding: 4px;
+
     border: 2px solid #000;
     border-radius: 5px;
     box-shadow: inset 0 0 0 2px #fff;
+    
+    overflow: hidden;
 }
 
 .frame-by-frame--outline.hidden
@@ -27,11 +30,14 @@ padding: 4px;
     visibility: hidden;
 }
 
-.frame-by-frame--outline-time
+.frame-by-frame--outline-info
 {
-    position: absolute;
     font: 400 14px monospace;
+
+    position: absolute;
+
     padding: 4px;
+
     color: #fff;
     background: rgba(0,0,0,.7);
 }

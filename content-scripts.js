@@ -4,7 +4,7 @@
 1.0 Global variables
 2.0 Observer
 3.0 Outline
-  3.1 Time
+  3.1 Info
 4.0 Mouse
 5.0 Keyboard
 6.0 Init
@@ -17,7 +17,7 @@
 var boundingRects = [],
     mouse = [],
     outline,
-    outlineTime,
+    outlineInfo,
     activeElement;
     
 function isset(variable) {
@@ -67,13 +67,13 @@ function mediaPlayEventListenersCallback() {
     
     videoDetection(this);
     
-    outline__updateTime();
+    outline__updateInfo();
 }
 
 function mediaEventListenersCallback() {
     updateBoundingRect(this);
     
-    outline__updateTime();
+    outline__updateInfo();
 }
 
 function updateMediaEventListeners(target) {
@@ -179,12 +179,12 @@ function videosDetection() {
 
 function createOutline() {
     outline = document.createElement('div');
-    outlineTime = document.createElement('div');
+    outlineInfo = document.createElement('div');
     
     outline.className = 'frame-by-frame--outline hidden';
-    outlineTime.className = 'frame-by-frame--outline-time';
+    outlineInfo.className = 'frame-by-frame--outline-info';
     
-    outline.appendChild(outlineTime);
+    outline.appendChild(outlineInfo);
     document.body.appendChild(outline);
 }
 
@@ -211,58 +211,63 @@ function updateOutline() {
 }
 
 /*------------------------------------------------------------------------------
-3.1 TIME
+3.1 INFO
 ------------------------------------------------------------------------------*/
 
-// TODO: polish outline__updateTime()
+// TODO: polish formatTime()
 
-function outline__updateTime() {
+function formatTime(currentTime, duration) {
+    currentTime *= 1000;
+    
+    var ms = currentTime % 1000;
+    
+    currentTime = (currentTime - ms) / 1000;
+    
+    ms = Math.floor(ms);
+    
+    if (ms < 10) {
+        ms = '00' + ms;
+    } else if (ms < 100) {
+        ms = '0' + ms;
+    }
+    
+    var ss = currentTime % 60;
+        
+    currentTime = (currentTime - ss) / 60;
+    
+    if (ss < 10) {
+        ss = '0' + ss;
+    }
+        
+    var mm = currentTime % 60;
+    
+    var hh = (currentTime - mm) / 60;
+            
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    
+    if (hh < 10) {
+        hh = '0' + hh;
+    }
+    
+    if (duration < 60) {
+        return ss + '.' + ms;
+    } else if (duration < 3600) {
+        return mm + ':' + ss + '.' + ms;
+    } else {
+        return hh + ':' + mm + ':' + ss + '.' + ms;
+    }
+}
+
+function outline__updateInfo() {
     if (isset(activeElement)) {
         var duration = activeElement.duration,
-            currentTime = activeElement.currentTime * 1000,
-            ms = currentTime % 1000;
+            currentTime = activeElement.currentTime;
             
-        currentTime = (currentTime - ms) / 1000;
-        
-        ms = Math.floor(ms);
-        
-        if (ms < 10) {
-            ms = '00' + ms;
-        } else if (ms < 100) {
-            ms = '0' + ms;
-        }
-        
-        var ss = currentTime % 60;
-        
-        currentTime = (currentTime - ss) / 60;
-        
-        if (ss < 10) {
-            ss = '0' + ss;
-        }
-            
-        var mm = currentTime % 60;
-        
-        if (duration < 60) {
-            outlineTime.innerText = 'time: ' + ss + '.' + ms;
-        } else if (duration < 3600) {
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-        
-            outlineTime.innerText = 'time: ' + mm + ':' + ss + '.' + ms;
-        } else {
-            var hh = (currentTime - mm) / 60;
-            
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            
-            if (hh < 10) {
-                hh = '0' + hh;
-            }
-            
-            outlineTime.innerText = 'time: ' + hh + ':' + mm + ':' + ss + '.' + ms;
-        }
+        outlineInfo.innerText = 'time: ' + formatTime(currentTime, duration) +
+                                '\n duration: ' + formatTime(duration, duration) +
+                                '\n frame: ' + Math.floor(currentTime / (1 / 30)) + ' / ' + Math.floor(duration / (1 / 30));
     }
 }
 
@@ -300,7 +305,7 @@ window.addEventListener('keydown', function(event) {
             activeElement.pause();
         }
         
-        var frame = 1 / 25;
+        var frame = 1 / 30;
         
         if (event.shiftKey) {
             frame *= 5;
