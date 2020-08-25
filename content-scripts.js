@@ -18,7 +18,8 @@ var boundingRects = [],
     mouse = [],
     outline,
     outlineInfo,
-    activeElement;
+    activeElement,
+    is_autoplay = false;
     
 function isset(variable) {
     if (typeof variable === 'undefined' || variable === null) {
@@ -134,6 +135,10 @@ function videoDetection(target) {
         
         outline.classList.remove('hidden');
     } else if (activeElement) {
+        if (is_autoplay) {
+            activeElement.play();
+        }
+        
         activeElement = undefined;
         
         outline.classList.add('hidden');
@@ -165,6 +170,10 @@ function videosDetection() {
             
             outline.classList.remove('hidden');
         } else if (activeElement) {
+            if (is_autoplay) {
+                activeElement.play();
+            }
+        
             activeElement = undefined;
             
             outline.classList.add('hidden');
@@ -301,10 +310,6 @@ function preventKeyboardListeners(event) {
 
 window.addEventListener('keydown', function(event) {
     if (isset(activeElement)) {
-        if (activeElement.paused === false) {
-            activeElement.pause();
-        }
-        
         var frame = 1 / 30;
         
         if (event.shiftKey) {
@@ -312,8 +317,20 @@ window.addEventListener('keydown', function(event) {
         }
         
         if (event.keyCode === 37) {
+            if (activeElement.paused === false) {
+                activeElement.pause();
+                
+                is_autoplay = true;
+            }
+            
             activeElement.currentTime = Math.max(0, activeElement.currentTime - frame);
         } else if (event.keyCode === 39) {
+            if (activeElement.paused === false) {
+                activeElement.pause();
+                
+                is_autoplay = true;
+            }
+            
             activeElement.currentTime = Math.min(activeElement.duration, activeElement.currentTime + frame);
         }
     }
