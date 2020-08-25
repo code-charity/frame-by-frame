@@ -14,6 +14,7 @@
 ------------------------------------------------------------------------------*/
 
 var boundingRects = [],
+    mouse = [],
     outline,
     activeElement;
     
@@ -59,13 +60,23 @@ function observer() {
     }
 }
 
+function mediaPlayEventListenersCallback() {
+    updateBoundingRect(this);
+    
+    videoDetection(this);
+}
+
 function mediaEventListenersCallback() {
     updateBoundingRect(this);
 }
 
 function updateMediaEventListeners(target) {
-    target.addEventListener('play', mediaEventListenersCallback);
-    target.addEventListener('playing', mediaEventListenersCallback);
+    target.removeEventListener('play', mediaPlayEventListenersCallback);
+    target.removeEventListener('playing', mediaPlayEventListenersCallback);
+    target.removeEventListener('timeupdate', mediaEventListenersCallback);
+    
+    target.addEventListener('play', mediaPlayEventListenersCallback);
+    target.addEventListener('playing', mediaPlayEventListenersCallback);
     target.addEventListener('timeupdate', mediaEventListenersCallback);
 }
 
@@ -90,8 +101,70 @@ function updateBoundingRectAll() {
             updateBoundingRect(videos[i]);
         }
     }
+    
+    videosDetection();
 }
 
+function videoDetection(target) {
+    var found = false,
+        x = mouse[0],
+        y = mouse[1],
+        bounding_rect = boundingRects[target.dataset.frameByFrameIndex];
+        
+    if (
+        x >= bounding_rect[0] &&
+        y >= bounding_rect[1] &&
+        x < bounding_rect[0] + bounding_rect[2] &&
+        y < bounding_rect[1] + bounding_rect[3]
+    ) {
+        found = target;
+    }
+    
+    if (found) {
+        activeElement = found;
+        
+        updateBoundingRect(target);
+        updateOutline();
+        
+        outline.classList.remove('hidden');
+    } else if (activeElement) {
+        activeElement = undefined;
+        
+        outline.classList.add('hidden');
+    }
+}
+
+function videosDetection() {
+    if (document.querySelector('.frame-by-frame')) {
+        var videos = document.querySelectorAll('.frame-by-frame'),
+            found = false,
+            x = mouse[0],
+            y = mouse[1];
+        
+        for (var i = 0, l = videos.length; i < l; i++) {
+            var bounding_rect = boundingRects[videos[i].dataset.frameByFrameIndex];
+            
+            if (
+                x >= bounding_rect[0] &&
+                y >= bounding_rect[1] &&
+                x < bounding_rect[0] + bounding_rect[2] &&
+                y < bounding_rect[1] + bounding_rect[3]
+            ) {
+                found = videos[i];
+            }
+        }
+        
+        if (found) {
+            activeElement = found;
+            
+            outline.classList.remove('hidden');
+        } else if (activeElement) {
+            activeElement = undefined;
+            
+            outline.classList.add('hidden');
+        }
+    }
+}
 
 /*------------------------------------------------------------------------------
 3.0 OUTLINE
@@ -133,36 +206,10 @@ function updateOutline() {
 ------------------------------------------------------------------------------*/
 
 window.addEventListener('mousemove', function(event) {
-    var x = event.clientX,
-        y = event.clientY;
-        
-    if (document.querySelector('.frame-by-frame')) {
-        var videos = document.querySelectorAll('.frame-by-frame'),
-            found = false;
-        
-        for (var i = 0, l = videos.length; i < l; i++) {
-            var bounding_rect = boundingRects[videos[i].dataset.frameByFrameIndex];
-            
-            if (
-                x >= bounding_rect[0] &&
-                y >= bounding_rect[1] &&
-                x < bounding_rect[0] + bounding_rect[2] &&
-                y < bounding_rect[1] + bounding_rect[3]
-            ) {
-                found = videos[i];
-            }
-        }
-        
-        if (found) {
-            activeElement = found;
-            
-            outline.classList.remove('hidden');
-        } else if (activeElement) {
-            activeElement = undefined;
-            
-            outline.classList.add('hidden');
-        }
-    }
+    mouse[0] = event.clientX;
+    mouse[1] = event.clientY;
+    
+    videosDetection();
 });
 
 
