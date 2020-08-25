@@ -189,6 +189,10 @@ window.addEventListener('keydown', function(event) {
         
         var frame = 1 / 25;
         
+        if (event.shiftKey) {
+            frame *= 5;
+        }
+        
         if (event.keyCode === 37) {
             activeElement.currentTime = Math.max(0, activeElement.currentTime - frame);
         } else if (event.keyCode === 39) {
