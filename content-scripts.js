@@ -4,6 +4,7 @@
 1.0 Global variables
 2.0 Observer
 3.0 Outline
+  3.1 Time
 4.0 Mouse
 5.0 Keyboard
 6.0 Init
@@ -16,6 +17,7 @@
 var boundingRects = [],
     mouse = [],
     outline,
+    outlineTime,
     activeElement;
     
 function isset(variable) {
@@ -64,10 +66,14 @@ function mediaPlayEventListenersCallback() {
     updateBoundingRect(this);
     
     videoDetection(this);
+    
+    outline__updateTime();
 }
 
 function mediaEventListenersCallback() {
     updateBoundingRect(this);
+    
+    outline__updateTime();
 }
 
 function updateMediaEventListeners(target) {
@@ -166,15 +172,19 @@ function videosDetection() {
     }
 }
 
+
 /*------------------------------------------------------------------------------
 3.0 OUTLINE
 ------------------------------------------------------------------------------*/
 
 function createOutline() {
     outline = document.createElement('div');
+    outlineTime = document.createElement('div');
     
     outline.className = 'frame-by-frame--outline hidden';
+    outlineTime.className = 'frame-by-frame--outline-time';
     
+    outline.appendChild(outlineTime);
     document.body.appendChild(outline);
 }
 
@@ -196,6 +206,62 @@ function updateOutline() {
         
         if (outline.offsetHeight !== bounding_rect[3]) {
             outline.style.height = bounding_rect[3] + 'px';
+        }
+    }
+}
+
+/*------------------------------------------------------------------------------
+3.1 TIME
+------------------------------------------------------------------------------*/
+
+// TODO: polish outline__updateTime()
+
+function outline__updateTime() {
+    if (isset(activeElement)) {
+        var duration = activeElement.duration,
+            currentTime = activeElement.currentTime * 1000,
+            ms = currentTime % 1000;
+            
+        currentTime = (currentTime - ms) / 1000;
+        
+        ms = Math.floor(ms);
+        
+        if (ms < 10) {
+            ms = '00' + ms;
+        } else if (ms < 100) {
+            ms = '0' + ms;
+        }
+        
+        var ss = currentTime % 60;
+        
+        currentTime = (currentTime - ss) / 60;
+        
+        if (ss < 10) {
+            ss = '0' + ss;
+        }
+            
+        var mm = currentTime % 60;
+        
+        if (duration < 60) {
+            outlineTime.innerText = 'time: ' + ss + '.' + ms;
+        } else if (duration < 3600) {
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+        
+            outlineTime.innerText = 'time: ' + mm + ':' + ss + '.' + ms;
+        } else {
+            var hh = (currentTime - mm) / 60;
+            
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            
+            if (hh < 10) {
+                hh = '0' + hh;
+            }
+            
+            outlineTime.innerText = 'time: ' + hh + ':' + mm + ':' + ss + '.' + ms;
         }
     }
 }
