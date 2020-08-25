@@ -108,6 +108,18 @@ window.addEventListener('scroll', function () {
 4.0 MOUSE & KEYBOARD
 ------------------------------------------------------------------------------*/
 
+/*HTMLMediaElement.prototype.play = (function(original) {
+    return function() {
+        if (activeVideo === this) {
+            setTimeout(function(){
+                this.pause();
+            });
+        }
+        
+        return original.apply(this, arguments);
+    };
+})(HTMLMediaElement.prototype.play);*/
+
 window.addEventListener('mousemove', function(event) {
     var x = event.clientX,
         y = event.clientY;
