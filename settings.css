@@ -3,6 +3,11 @@
 -----------------------------------------------------------------
 # Fonts
 # Body
+# Header
+# Main
+  # Section
+  # Appearance
+  # Shortcuts
 ---------------------------------------------------------------*/
 
 /*---------------------------------------------------------------
@@ -33,4 +38,224 @@ body
 {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
+}
+
+
+/*---------------------------------------------------------------
+# HEADER
+---------------------------------------------------------------*/
+
+.satus-header
+{
+    box-shadow: none;
+}
+
+.satus-header .satus-section
+{
+    justify-content: space-between;
+}
+
+.satus-header .satus-button
+{
+    border-radius: 10px;
+    background: #fff;
+}
+
+.satus-header .satus-button svg
+{
+    display: block;
+
+    width: 16px;
+    height: 16px;
+    margin: auto;
+}
+
+.satus-header .satus-text--title
+{
+    position: static;
+    left: 0;
+
+    max-width: none;
+    margin: 0;
+}
+
+
+/*---------------------------------------------------------------
+# MAIN
+---------------------------------------------------------------*/
+
+/*---------------------------------------------------------------
+# SECTION
+---------------------------------------------------------------*/
+
+.satus-main .satus-text--section-label
+{
+    width: calc(100% - 32px);
+    margin: 20px auto 10px;
+}
+
+.satus-main .satus-section
+{
+    width: calc(100% - 32px);
+    margin: 0 16px;
+}
+
+
+/*---------------------------------------------------------------
+# APPEARANCE
+---------------------------------------------------------------*/
+
+.satus-button--info,
+.satus-button--sorting
+{
+    font-size: 13px;
+
+    padding: 0 8px;
+
+    border-radius: 10px;
+}
+
+.satus-button--info svg,
+.satus-button--sorting svg
+{
+    width: 16px;
+    height: 16px;
+
+    fill: #fff;
+}
+
+.satus-button--info > * + .satus-button__label,
+.satus-button--sorting > * + .satus-button__label
+{
+    margin: 0 0 0 6px;
+}
+
+.satus-button--info
+{
+    margin: 0 10px 0 0;
+
+    color: #d7a618;
+    background: #eed26e;
+}
+
+.satus-button--sorting
+{
+    color: #d03f2c;
+    background: #f08470;
+}
+
+
+/*---------------------------------------------------------------
+# SHORTCUTS
+---------------------------------------------------------------*/
+
+.satus-shortcut
+{
+    font-size: 13px;
+
+    flex-direction: column;
+
+    height: auto;
+    padding: 64px 8px 8px;
+
+    border-radius: 10px;
+    background: #fff;
+
+    align-items: flex-start;
+}
+
+.satus-shortcut:hover
+{
+    background: #fff;
+}
+
+.satus-shortcut:not(:last-child)
+{
+    margin: 0 10px 0 0;
+}
+
+.satus-shortcut__value
+{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+
+    overflow: hidden;
+
+    width: auto;
+    height: auto;
+    margin: none;
+}
+
+.satus-shortcut__value > .satus-shortcut__key
+{
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 8px;
+
+    min-width: unset;
+    max-width: 28px;
+    height: 20px;
+    padding: 4px 4px;
+
+    color: #fff;
+    border: none;
+    background: #b4c2d3;
+    box-shadow: none;
+
+    justify-content: flex-start;
+}
+
+.satus-shortcut__value > .satus-shortcut__plus
+{
+    position: relative;
+
+    width: 6px;
+    height: 6px;
+    margin: 6px 2px;
+}
+
+.satus-shortcut__value > .satus-shortcut__plus::before
+{
+    left: 2px;
+
+    height: 6px;
+
+    background-color: #b4c2d3;
+}
+
+
+.satus-shortcut__value > .satus-shortcut__plus::after
+{
+    top: 2px;
+
+    width: 6px;
+
+    background-color: #b4c2d3;
+}
+
+.satus-shortcut__value > .satus-shortcut__mouse
+{
+    width: 16px;
+    height: 20px;
+
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background: #b4c2d3;
+    box-shadow: none;
+}
+
+.satus-shortcut__value > .satus-shortcut__mouse > div
+{
+    left: 7px;
+
+    height: 6px;
+
+    background: #fff;
+}
+
+.satus-shortcut__value > .satus-shortcut__mouse::before,
+.satus-shortcut__value > .satus-shortcut__mouse::after
+{
+    content: none;
 }

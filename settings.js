@@ -13,7 +13,7 @@ var menu = {
     header: {
         type: 'header',
 
-        section_start: {
+        section: {
             type: 'section',
 
             go_back: {
@@ -32,28 +32,12 @@ var menu = {
                 type: 'text',
                 variant: 'title',
                 label: 'Frame By Frame'
-            }
-        },
-        section_end: {
-            type: 'section',
-            variant: 'align-end',
-
-            vertical_menu: {
+            },
+            made_with_love: {
                 type: 'button',
-                before: '<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="5.25" r="0.45"/><circle cx="12" cy="12" r="0.45"/><circle cx="12" cy="18.75" r="0.45"/></svg>',
-
-                onclick: {
-                    type: 'dialog',
-                    variant: 'vertical-menu',
-
-                    github: {
-                        type: 'button',
-                        label: 'GitHub',
-                        before: '<svg fill="none" stroke="var(--satus-theme-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>',
-                        onclick: function() {
-                            window.open('https://github.com/victor-savinov/frame-by-frame/', '_blank');
-                        }
-                    }
+                before: '<svg fill="#f08f79" viewBox="0 0 24 24"><path d="M13.35 20.13c-.76.69-1.93.69-2.69-.01l-.11-.1C5.3 15.27 1.87 12.16 2 8.28c.06-1.7.93-3.33 2.34-4.29 2.64-1.8 5.9-.96 7.66 1.1 1.76-2.06 5.02-2.91 7.66-1.1 1.41.96 2.28 2.59 2.34 4.29.14 3.88-3.3 6.99-8.55 11.76l-.1.09z"></svg>',
+                onclick: function() {
+                    window.open('https://chrome.google.com/webstore/detail/frame-by-frame/cclnaabdfgnehogonpeddbgejclcjneh/reviews');
                 }
             }
         }
@@ -62,24 +46,24 @@ var menu = {
         type: 'main',
         appearanceKey: 'home',
         onchange: function() {
-            document.querySelector('.satus-text--title').innerText = satus.locale.getMessage(this.history[this.history.length - 1].label) || menu.header.section_start.title.label;
+            document.querySelector('.satus-text--title').innerText = satus.locale.getMessage(this.history[this.history.length - 1].label) || menu.header.section.title.label;
         },
 
-        section: {
+        appearance_label: {
+            type: 'text',
+            variant: 'section-label',
+            label: 'Appearance'
+        },
+        appearance_section: {
             type: 'section',
-            variant: 'card',
 
-            appearance: {
+            info: {
                 type: 'button',
-                label: 'Appearance',
-                before: '<svg fill="none" stroke="var(--satus-theme-primary)" stroke-width="1.75" viewBox="0 0 24 24"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>',
+                class: 'satus-button--info',
+                label: 'Info',
+                before: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>',
 
-                text_statistics: {
-                    type: 'text',
-                    variant: 'section-label',
-                    label: 'Statistics'
-                },
-                section_statistics: {
+                section: {
                     type: 'section',
                     variant: 'card',
 
@@ -103,13 +87,15 @@ var menu = {
                         type: 'color-picker',
                         label: 'Background color'
                     }
-                },
-                text_items: {
-                    type: 'text',
-                    variant: 'section-label',
-                    label: 'Items'
-                },
-                section_items: {
+                }
+            },
+            sorting: {
+                type: 'button',
+                class: 'satus-button--sorting',
+                label: 'Sorting',
+                before: '<svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>',
+
+                section: {
                     type: 'section',
                     variant: 'card',
 
@@ -132,40 +118,28 @@ var menu = {
                         }
                     }
                 }
-            },
-            shortcuts: {
-                type: 'button',
-                label: 'Shortcuts',
-                before: '<svg fill="none" stroke="var(--satus-theme-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24"><path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z"/></svg>',
+            }
+        },
+        shortcuts_label: {
+            type: 'text',
+            variant: 'section-label',
+            label: 'Shortcuts'
+        },
+        shortcuts_section: {
+            type: 'section',
 
-                section: {
-                    type: 'section',
-                    variant: 'card',
-
-                    shortcut_previous_frame: {
-                        type: 'shortcut',
-                        label: 'Previous frame',
-                        value: {
-                            key: 'ArrowLeft'
-                        }
-                    },
-                    shortcut_next_frame: {
-                        type: 'shortcut',
-                        label: 'Next frame',
-                        value: {
-                            key: 'ArrowRight'
-                        }
-                    }
+            shortcut_previous_frame: {
+                type: 'shortcut',
+                label: 'Previous frame',
+                value: {
+                    key: 'ArrowLeft'
                 }
             },
-            settings: {
-                type: 'button',
-                label: 'Settings',
-                before: '<svg fill="none" stroke="var(--satus-theme-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>',
-
-                section: {
-                    type: 'section',
-                    variant: 'card'
+            shortcut_next_frame: {
+                type: 'shortcut',
+                label: 'Next frame',
+                value: {
+                    key: 'ArrowRight'
                 }
             }
         }

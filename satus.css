@@ -755,6 +755,11 @@ body[data-appearance='home'] .satus-text--title
     flex: 1;
 }
 
+.satus-section--align-cener
+{
+    justify-content: center;
+}
+
 .satus-section--align-end
 {
     justify-content: flex-end;
@@ -1521,7 +1526,7 @@ body[data-appearance='home'] .satus-text--title
 
 .satus-text--section-label
 {
-    font-size: 17px;
+    font-size: 16px;
 
     display: block;
 

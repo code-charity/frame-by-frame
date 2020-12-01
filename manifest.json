@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "Frame-By-Frame",
+    "name": "Frame By Frame",
     "description": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames.",
     "version": "1.0",
     "default_locale": "en",
@@ -15,12 +15,6 @@
     "browser_action": {
         "default_popup": "index.html"
     },
-
-    "options_page": "options.html",
-
-    "optional_permissions": [
-        "downloads"
-    ],
 
     "content_scripts": [{
         "all_frames": true,
