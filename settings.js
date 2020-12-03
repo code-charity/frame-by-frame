@@ -63,13 +63,38 @@ var menu = {
                 label: 'Info',
                 before: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>',
 
-                section: {
+
+                font_label: {
+                    type: 'text',
+                    variant: 'section-label',
+                    label: 'Font'
+                },
+                font_section: {
                     type: 'section',
                     variant: 'card',
 
+                    font_name: {
+                        type: 'select',
+                        label: 'Name',
+                        value: 'medium',
+
+                        options: [{
+                            label: 'Inherit',
+                            value: 'inherit'
+                        }, {
+                            label: 'Arial',
+                            value: 'Arial'
+                        }, {
+                            label: 'Times New Roman',
+                            value: 'Times New Roman'
+                        }, {
+                            label: 'Courier New',
+                            value: 'Courier New'
+                        }]
+                    },
                     font_size: {
                         type: 'select',
-                        label: 'Font size',
+                        label: 'Size',
                         value: 'medium',
 
                         options: [{
@@ -82,10 +107,24 @@ var menu = {
                             label: 'Large',
                             value: 'large'
                         }]
-                    },
+                    }
+                },
+                color_label: {
+                    type: 'text',
+                    variant: 'section-label',
+                    label: 'Color'
+                },
+                color_section: {
+                    type: 'section',
+                    variant: 'card',
+
                     background_color: {
                         type: 'color-picker',
-                        label: 'Background color'
+                        label: 'Background'
+                    },
+                    outline_color: {
+                        type: 'color-picker',
+                        label: 'Outline'
                     }
                 }
             },

@@ -47,6 +47,8 @@ body
 
 .satus-header
 {
+    padding: 0 16px;
+
     box-shadow: none;
 }
 
@@ -57,6 +59,7 @@ body
 
 .satus-header .satus-button
 {
+    border: 1px solid rgba(0,0,0,.05);
     border-radius: 10px;
     background: #fff;
 }
@@ -68,6 +71,11 @@ body
     width: 16px;
     height: 16px;
     margin: auto;
+}
+
+body[data-appearance=home] .satus-button--back
+{
+    visibility: visible;
 }
 
 .satus-header .satus-text--title
@@ -98,6 +106,13 @@ body
 {
     width: calc(100% - 32px);
     margin: 0 16px;
+}
+
+.satus-main .satus-section--card
+{
+    border-color: rgba(0,0,0,.05);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px -4px rgba(0,0,0,.1);
 }
 
 
@@ -136,12 +151,14 @@ body
 
     color: #d7a618;
     background: #eed26e;
+    box-shadow: 0 6px 6px -4px #eed26e;
 }
 
 .satus-button--sorting
 {
     color: #d03f2c;
     background: #f08470;
+    box-shadow: 0 6px 6px -4px #f08470;
 }
 
 
@@ -158,8 +175,10 @@ body
     height: auto;
     padding: 64px 8px 8px;
 
+    border: 1px solid rgba(0,0,0,.05);
     border-radius: 10px;
     background: #fff;
+    box-shadow: 0 4px 8px -4px rgba(0,0,0,.1);
 
     align-items: flex-start;
 }
