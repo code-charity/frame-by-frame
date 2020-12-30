@@ -1,0 +1,105 @@
+/*---------------------------------------------------------------
+>>> Frame By Frame
+-----------------------------------------------------------------
+1.0 Outline
+---------------------------------------------------------------*/
+
+/*---------------------------------------------------------------
+1.0 OUTLINE
+---------------------------------------------------------------*/
+
+.frame-by-frame--ui
+{
+    position: fixed !important;
+    z-index: 2147483647 !important;
+
+    display: block !important;
+    overflow: hidden !important;
+
+    box-sizing: border-box !important;
+    padding: 4px !important;
+
+    pointer-events: none !important;
+
+    opacity: 1 !important;
+    border: 1px solid rgba(255,255,255,.2) !important;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.2) !important;
+}
+
+.frame-by-frame--ui.frame-by-frame--hidden,
+.frame-by-frame--ui.frame-by-frame--perm
+{
+    visibility: hidden !important;
+}
+
+.frame-by-frame--container
+{
+    font: 400 16px monospace !important;
+
+    position: absolute !important;
+    top: 16px !important;
+    left: 16px !important;
+
+    width: 192px !important;
+    padding: 16px !important;
+
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.2) !important;
+    background: rgba(0,0,0,.8) !important;
+
+    backdrop-filter: blur(4px) !important;
+}
+
+.frame-by-frame--container > div
+{
+    display: flex !important;
+
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.frame-by-frame--container > div:not(:last-child)
+{
+    margin: 0 0 8px !important;
+}
+
+.frame-by-frame--container > div > div:first-child
+{
+    text-transform: uppercase !important;
+
+    color: rgba(255,255,255,.4) !important;
+}
+
+.frame-by-frame--container > div > div:last-child
+{
+    color: rgba(255,255,255,.8) !important;
+}
+
+.frame-by-frame__frame
+{
+    padding-bottom: 8px !important;
+
+    border-bottom: 1px solid rgba(255,255,255,.2) !important;
+}
+
+.frame-by-frame--container > .frame-by-frame__prev > div:last-child,
+.frame-by-frame--container > .frame-by-frame__next > div:last-child,
+.frame-by-frame--container > .frame-by-frame__hide > div:last-child
+{
+    font-size: 14px !important;
+
+    display: flex !important;
+
+    box-sizing: border-box !important;
+    width: 22px !important;
+    height: 22px !important;
+
+    color: #171717 !important;
+    border: 1px solid #a7a7a7 !important;
+    border-bottom-width: 3px !important;
+    border-radius: 6px !important;
+    background: #d2d2d2 !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+}

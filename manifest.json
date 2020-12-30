@@ -3,23 +3,18 @@
     "name": "Frame By Frame",
     "description": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames.",
     "version": "1.0",
-    "default_locale": "en",
 
     "icons": {
-        "16": "assets/icons/16.png",
-        "32": "assets/icons/32.png",
-        "48": "assets/icons/48.png",
-        "128": "assets/icons/128.png"
-    },
-
-    "browser_action": {
-        "default_popup": "index.html"
+        "16": "icons/16.png",
+        "32": "icons/32.png",
+        "48": "icons/48.png",
+        "128": "icons/128.png"
     },
 
     "content_scripts": [{
         "all_frames": true,
         "css": [
-            "content-scripts.css"
+            "content-styles.css"
         ],
         "js": [
             "content-scripts.js"
@@ -32,7 +27,6 @@
 
     "permissions": [
         "storage",
-        "tabs",
-        "<all_urls>"
+        "tabs"
     ]
 }
