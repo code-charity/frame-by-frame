@@ -168,6 +168,8 @@ function videosDetection() {
 
             activeElement = undefined;
 
+            is_autoplay = false;
+
             ui.classList.add('frame-by-frame--hidden');
         }
     }
