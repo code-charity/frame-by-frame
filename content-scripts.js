@@ -348,17 +348,17 @@ window.addEventListener('scroll', updateBoundingRectAll);
 window.addEventListener('mousewheel', updateBoundingRectAll);
 
 window.addEventListener('DOMContentLoaded', function() {
-    createUI();
+    chrome.storage.local.get(function(items) {
+        createUI();
 
-    observer();
+        observer();
 
-    setInterval(observer, 1000)
-});
+        setInterval(observer, 1000);
 
-chrome.storage.local.get(function(items) {
-    if (items.hidden === true) {
-        ui.classList.add('frame-by-frame--perm');
-    }
+        if (items.hidden === true) {
+            ui.classList.add('frame-by-frame--perm');
+        }
+    });
 });
 
 chrome.storage.onChanged.addListener(function(changes) {
