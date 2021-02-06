@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-    Move your mouse cursor over video and use keyboard arrows to switch frames.
+    Move your mouse cursor over any video and use keyboard arrows to switch frames.
     <br>
     <a href="https://chrome.google.com/webstore/detail/frame-by-frame/cclnaabdfgnehogonpeddbgejclcjneh">Get Started »</a>
 </p>
