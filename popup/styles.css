@@ -1,0 +1,166 @@
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# 
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# 
+--------------------------------------------------------------*/
+
+body
+{
+    width: 256px;
+    height: 256px;
+    margin: 0;
+
+    border: 1px solid #1a1a1a;
+    background: #050505;
+}
+
+.heart
+{
+    position: absolute;
+    right: 40px;
+    bottom: 0;
+
+    display: block;
+
+    width: 24px;
+    height: 24px;
+    padding: 8px;
+
+    cursor: pointer;
+    transition: .2s;
+
+    opacity: .75;
+
+    fill: #ec033e;
+}
+
+.heart:hover
+{
+    transform: scale(1.2);
+
+    opacity: 1;
+}
+
+.github
+{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    display: block;
+
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+
+    cursor: pointer;
+    transition: .2s;
+
+    opacity: .75;
+
+    fill: #e2e7f3;
+}
+
+.github:hover
+{
+    transform: scale(1.2);
+
+    opacity: 1;
+}
+
+.video
+{
+    font: 700 18px monospace;
+
+    position: absolute;
+    top: 83px;
+    left: 48px;
+
+    display: flex;
+    overflow: hidden;
+
+    width: 160px;
+    height: 90px;
+
+    animation-name: hover;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    letter-spacing: 1px;
+
+    color: #404040;
+    border: 1px solid #808080;
+    border-radius: 8px;
+    background: linear-gradient(#1a1a1a, #1a1a1a);
+
+    justify-content: center;
+    align-items: center;
+}
+
+.cursor
+{
+    position: absolute;
+    bottom: 32px;
+    left: 8px;
+
+    width: 28px;
+
+    animation-name: move;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes move
+{
+    0%
+    {
+        transform: translate(0px, 0px);
+
+        opacity: 0;
+    }
+    10%
+    {
+        transform: translate(0px, 0px);
+
+        opacity: 1;
+    }
+    90%
+    {
+        transform: translate(160px, -56px);
+
+        opacity: 1;
+    }
+    100%
+    {
+        transform: translate(160px, -56px);
+
+        opacity: 0;
+    }
+}
+
+
+@keyframes hover
+{
+    0%
+    {
+        color: #404040;
+        border: 1px solid #808080;
+        background: linear-gradient(#1a1a1a, #1a1a1a);
+    }
+    40%
+    {
+        color: #404040;
+        border: 1px solid #808080;
+        background: linear-gradient(#1a1a1a, #1a1a1a);
+    }
+    100%
+    {
+        color: #fff;
+        border: 1px solid #232323;
+        background: linear-gradient(#3d6ef8, #3e53f9);
+    }
+}

@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Frame By Frame",
     "description": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames.",
-    "version": "1.0.2",
+    "version": "1.4.0",
 
     "icons": {
         "16": "icons/16.png",
@@ -17,13 +17,19 @@
             "content-styles.css"
         ],
         "js": [
-            "content-scripts.js"
+            "content-script.js"
         ],
         "matches": [
             "<all_urls>"
         ],
         "run_at": "document_start"
     }],
+
+    "browser_action": {
+        "default_popup": "popup/index.html"
+    },
+
+    "offline": true,
 
     "permissions": [
         "storage"
