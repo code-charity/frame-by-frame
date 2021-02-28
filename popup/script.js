@@ -1,0 +1,1 @@
+document.querySelector('.video').innerText = chrome.i18n.getMessage('video');

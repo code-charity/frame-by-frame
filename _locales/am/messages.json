@@ -1,0 +1,26 @@
+{
+    "description": {
+        "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
+    },
+    "duration": {
+        "message": "Duration"
+    },
+    "frame": {
+        "message": "Frame"
+    },
+    "hide": {
+        "message": "Hide"
+    },
+    "next": {
+        "message": "Next"
+    },
+    "prev": {
+        "message": "Prev"
+    },
+    "time": {
+        "message": "Time"
+    },
+    "video": {
+        "message": "video"
+    }
+}

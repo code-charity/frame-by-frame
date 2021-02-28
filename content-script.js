@@ -22,7 +22,8 @@ var ui = {},
         x: 0,
         y: 0
     },
-    changing = false;
+    changing = false,
+    sleeping_mode = false;
 
 
 /*--------------------------------------------------------------
@@ -36,7 +37,7 @@ function createUserInterfaceItem(name, container) {
 
     element.className = 'frame-by-frame__' + name;
 
-    element_name.innerText = name;
+    element_name.innerText = chrome.i18n.getMessage(name);
 
     ui[name] = element_value;
 
@@ -187,6 +188,22 @@ function updateUserInterface() {
     }
 }
 
+function updateSleepingMode() {
+    if (sleeping_mode) {
+        ui.container.classList.remove('frame-by-frame--sleeping-mode');
+
+        clearTimeout(sleeping_mode);
+    }
+
+    if (ui.container) {
+        sleeping_mode = setTimeout(function() {
+            ui.container.classList.add('frame-by-frame--sleeping-mode');
+
+            sleeping_mode = false;
+        }, 3000);
+    }
+}
+
 
 /*--------------------------------------------------------------
 # SEARCH VIDEOS
@@ -280,11 +297,14 @@ window.addEventListener('mousemove', function(event) {
     mouse.x = event.clientX;
     mouse.y = event.clientY;
 
+    updateSleepingMode();
+
     checkMouse();
 });
 
 window.addEventListener('scroll', function() {
     calcPositions();
+    updateSleepingMode();
     checkMouse();
 });
 
@@ -325,6 +345,8 @@ window.addEventListener('keydown', function(event) {
                 hidden: ui.info_panel.classList.contains('frame-by-frame__info-panel--collapsed')
             });
         }
+
+        updateSleepingMode();
     }
 }, true);
 
