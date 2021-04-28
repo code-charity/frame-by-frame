@@ -12,13 +12,7 @@
 # GLOBAL VARIABLES
 --------------------------------------------------------------*/
 
-var active = {
-        element: {},
-        left: 0,
-        top: 0,
-        width: 0,
-        height: 0  
-    },
+var active = false,
     ui = {},
     media = [],
     mouse = {
@@ -278,10 +272,10 @@ function checkMouse() {
     }
 
     if (ui.container && changing === false) {
-        resizeUserInterface();
-        moveUserInterface();
-
         if (active) {
+            resizeUserInterface();
+            moveUserInterface();
+
             setTimeout(function() {
                 ui.container.classList.add('frame-by-frame--visible');
             });
