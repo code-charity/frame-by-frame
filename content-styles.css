@@ -60,6 +60,11 @@
     backdrop-filter: blur(8px);
 }
 
+.frame-by-frame__info-panel svg {
+    width: 24px;
+    height: 24px;
+}
+
 .frame-by-frame__info-panel--collapsed
 {
     visibility: hidden;
