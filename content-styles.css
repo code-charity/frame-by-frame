@@ -14,21 +14,23 @@
     position: fixed;
     z-index: 2147483647;
 
-    display: none;
-
     box-sizing: border-box;
 
-    transition: opacity .2s 1000ms;
-    pointer-events: none;
+    transition-property: opacity, visibility;
+    transition-delay: 200ms;
+    transition-duration: 200ms;
 
     opacity: 0;
     border: 1px solid rgba(255,255,255,.2);
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .frame-by-frame--visible
 {
-    transition: opacity .2s 0ms;
+    transition-delay: 0ms;
     opacity: 1;
+    visibility: visible;
 }
 
 .frame-by-frame--sleeping-mode

@@ -12,9 +12,14 @@
 # GLOBAL VARIABLES
 --------------------------------------------------------------*/
 
-var ui = {},
+var active,
+    ui = {},
     media = [],
     mouse = {
+        x: 0,
+        y: 0
+    },
+    scroll = {
         x: 0,
         y: 0
     },
@@ -160,11 +165,11 @@ function resizeUserInterface() {
     var container = ui.container;
 
     if (container.offsetLeft !== active.left) {
-        container.style.left = active.left + 'px';
+        container.style.left = active.left - scroll.x + 'px';
     }
 
     if (container.offsetTop !== active.top) {
-        container.style.top = active.top + 'px';
+        container.style.top = active.top - scroll.y + 'px';
     }
 
     if (container.offsetWidth !== active.width) {
@@ -244,13 +249,12 @@ function searchVideos() {
 
 function calcPositions() {
     for (var i = 0, l = media.length; i < l; i++) {
-        var object = media[i];
+        var object = media[i],
+            data = object.element.getBoundingClientRect();
 
-        if (object.element.style.display != 'none') {
-            var data = object.element.getBoundingClientRect();
-
-            object.left = data.left;
-            object.top = data.top;
+        if (data.width !== 0 && data.height !== 0) {
+            object.left = data.left + scroll.x;
+            object.top = data.top + scroll.y;
             object.width = data.width;
             object.height = data.height;
         }
@@ -263,27 +267,26 @@ function calcPositions() {
 --------------------------------------------------------------*/
 
 function checkMouse() {
-    active = false;
+    //active = false;
 
     for (var i = 0, l = media.length; i < l; i++) {
         var rect = media[i];
 
         if (
-            mouse.x > rect.left &&
-            mouse.y > rect.top &&
-            mouse.x < rect.left + rect.width &&
-            mouse.y < rect.top + rect.height
+            mouse.x + scroll.x > rect.left &&
+            mouse.y + scroll.y > rect.top &&
+            mouse.x + scroll.x < rect.left + rect.width &&
+            mouse.y + scroll.y < rect.top + rect.height
         ) {
             active = rect;
         }
     }
 
     if (ui.container && changing === false) {
+        resizeUserInterface();
+        moveUserInterface();
+
         if (active) {
-            resizeUserInterface();
-
-            moveUserInterface();
-
             setTimeout(function() {
                 ui.container.classList.add('frame-by-frame--visible');
             });
@@ -303,6 +306,9 @@ window.addEventListener('mousemove', function(event) {
 });
 
 window.addEventListener('scroll', function() {
+    scroll.x = this.scrollX;
+    scroll.y = this.scrollY;
+
     calcPositions();
     updateSleepingMode();
     checkMouse();
