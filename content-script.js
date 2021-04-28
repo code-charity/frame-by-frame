@@ -216,7 +216,7 @@ function searchVideos() {
         var founded = false;
 
         for (var j = 0, k = media.length; j < k; j++) {
-            if (elements[i] === media[i].element) {
+            if (elements[i] === media[j].element) {
                 founded = true;
             }
         }
