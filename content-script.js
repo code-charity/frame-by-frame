@@ -12,7 +12,13 @@
 # GLOBAL VARIABLES
 --------------------------------------------------------------*/
 
-var active,
+var active = {
+        element: {},
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 0  
+    },
     ui = {},
     media = [],
     mouse = {
@@ -164,21 +170,10 @@ function moveUserInterface() {
 function resizeUserInterface() {
     var container = ui.container;
 
-    if (container.offsetLeft !== active.left) {
-        container.style.left = active.left - scroll.x + 'px';
-    }
-
-    if (container.offsetTop !== active.top) {
-        container.style.top = active.top - scroll.y + 'px';
-    }
-
-    if (container.offsetWidth !== active.width) {
-        container.style.width = active.width + 'px';
-    }
-
-    if (container.offsetHeight !== active.height) {
-        container.style.height = active.height + 'px';
-    }
+    container.style.left = active.left - scroll.x + 'px';
+    container.style.top = active.top - scroll.y + 'px';
+    container.style.width = active.width + 'px';
+    container.style.height = active.height + 'px';
 }
 
 function updateUserInterface() {
@@ -308,6 +303,8 @@ window.addEventListener('mousemove', function(event) {
 window.addEventListener('scroll', function() {
     scroll.x = this.scrollX;
     scroll.y = this.scrollY;
+
+    console.log(scroll);
 
     calcPositions();
     updateSleepingMode();
