@@ -152,6 +152,7 @@
     border-radius: 50%;
     background: #e6e6e6;
     box-shadow: 0 0 1px 2px rgb(0,0,0,.1);
+    transition: 100ms 1000ms;
 }
 
 
@@ -159,6 +160,7 @@
 .frame-by-frame__info-panel--collapsed .frame-by-frame__show-hide
 {
     visibility: visible;
+    transition: 100ms 0ms;
 
     opacity: 1;
 }
@@ -178,6 +180,7 @@
     width: 16px;
     height: 16px;
 
+    transition: 100ms 1000ms;
     cursor: pointer;
 
     opacity: 0;
@@ -194,4 +197,5 @@
 .frame-by-frame__info-panel:hover .frame-by-frame__drag-and-drop
 {
     opacity: 1;
+    transition: 100ms 0ms;
 }
