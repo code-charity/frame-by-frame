@@ -12,7 +12,8 @@
 # GLOBAL VARIABLES
 --------------------------------------------------------------*/
 
-var active = false,
+var storage = {},
+    active = false,
     ui = {},
     media = [],
     mouse = {
@@ -28,7 +29,12 @@ var active = false,
         y: 0
     },
     changing = false,
-    sleeping_mode = false;
+    sleeping_mode = false,
+    hide_in_fullscreen = false;
+
+function isset(variable) {
+    return !(typeof variable === 'undefined' || variable === null);
+}
 
 
 /*--------------------------------------------------------------
@@ -298,8 +304,6 @@ window.addEventListener('scroll', function() {
     scroll.x = this.scrollX;
     scroll.y = this.scrollY;
 
-    console.log(scroll);
-
     calcPositions();
     updateSleepingMode();
     checkMouse();
@@ -310,62 +314,319 @@ window.addEventListener('scroll', function() {
 # KEYBOARD
 ------------------------------------------------------------------------------*/
 
-window.addEventListener('keydown', function(event) {
-    if (active) {
-        var video = active.element,
-            frame = 1 / 60;
+function keyboard() {
+    var keys = {},
+        wheel = 0,
+        hover = false,
+        status_timer,
+        features = {
+            next_shortcut: function() {
+                if (active) {
+                    var video = active.element,
+                        frame = 1 / 60;
 
-        if (event.shiftKey) {
-            frame *= 10;
-        }
+                    if (event.shiftKey) {
+                        frame *= 10;
+                    }
 
-        if (event.keyCode === 37) {
-            if (video.paused === false) {
-                video.pause();
+                    if (video.paused === false) {
+                        video.pause();
 
-                is_autoplay = true;
+                        is_autoplay = true;
+                    }
+
+                    video.currentTime = Math.min(video.duration, video.currentTime + frame);
+
+                    updateSleepingMode();
+                }
+            },
+            prev_shortcut: function() {
+                if (active) {
+                    var video = active.element,
+                        frame = 1 / 60;
+
+                    if (event.shiftKey) {
+                        frame *= 10;
+                    }
+
+                    if (video.paused === false) {
+                        video.pause();
+
+                        is_autoplay = true;
+                    }
+
+                    video.currentTime = Math.min(video.duration, video.currentTime - frame);
+
+                    updateSleepingMode();
+                }
+            },
+            hide_shortcut: function() {
+                if (active) {
+                    chrome.storage.local.set({
+                        hidden: ui.info_panel.classList.contains('frame-by-frame__info-panel--collapsed')
+                    });
+
+                    updateSleepingMode();
+                }
             }
+        };
 
-            video.currentTime = Math.max(0, video.currentTime - frame);
-        } else if (event.keyCode === 39) {
-            if (video.paused === false) {
-                video.pause();
-
-                is_autoplay = true;
-            }
-
-            video.currentTime = Math.min(video.duration, video.currentTime + frame);
-        } else if (event.keyCode === 73) {
-            ui.info_panel.classList.toggle('frame-by-frame__info-panel--collapsed');
-
-            chrome.storage.local.set({
-                hidden: ui.info_panel.classList.contains('frame-by-frame__info-panel--collapsed')
-            });
-        }
-
-        updateSleepingMode();
-    }
-}, true);
-
-
-/*------------------------------------------------------------------------------
-# PREVENT KEYBOARD EVENTS
-------------------------------------------------------------------------------*/
-
-function preventKeyboardListeners(event) {
-    if (active) {
-        if (event.keyCode === 37 || event.keyCode === 39 || event.keyCode === 73) {
-            event.preventDefault();
-            event.stopPropagation();
-
+    function start(type = 'keys') {
+        console.log(features);
+        if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
             return false;
         }
-    }
-}
 
-window.addEventListener('keydown', preventKeyboardListeners, true);
-window.addEventListener('keyup', preventKeyboardListeners, true);
-window.addEventListener('keypress', preventKeyboardListeners, true);
+
+        for (var i in features) {
+            if (isset(storage[i])) {
+                var data = JSON.parse(storage[i]);
+
+                if (!data) {
+                    if (i === 'next_shortcut') {
+                        data = {
+                            key: 'ArrowRight'
+                        };
+                    } else if (i === 'prev_shortcut') {
+                        data = {
+                            key: 'ArrowLeft'
+                        };
+                    } else if (i === 'hide_shortcut') {
+                        data = {
+                            key: 'i'
+                        };
+                    }
+                }
+
+                if (
+                    (data.key === keys.key || !isset(data.key)) &&
+                    (data.shiftKey === keys.shiftKey || !isset(data.shiftKey)) &&
+                    (data.ctrlKey === keys.ctrlKey || !isset(data.ctrlKey)) &&
+                    (data.altKey === keys.altKey || !isset(data.altKey)) &&
+                    ((data.wheel > 0) === (wheel > 0) || !isset(data.wheel)) &&
+                    ((hover === true && (data.wheel > 0) === (wheel > 0) && Object.keys(keys).length === 0 && keys.constructor === Object) || (isset(data.key) || isset(data.altKey) || isset(data.ctrlKey)))
+                ) {
+                    console.log(data, keys);
+                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    features[i]();
+
+                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    /*-------------------------------------------------------------------------
+    1.0 Keyboard
+    -------------------------------------------------------------------------*/
+
+    window.addEventListener('keydown', function(event) {
+        keys = {
+            key: event.key,
+            keyCode: event.keyCode,
+            shiftKey: event.shiftKey,
+            ctrlKey: event.ctrlKey,
+            altKey: event.altKey
+        };
+
+        start();
+
+        if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
+            return;
+        }
+
+        for (var i in features) {
+            if (isset(storage[i])) {
+                var data = JSON.parse(storage[i]);
+
+                if (!data) {
+                    if (i === 'next_shortcut') {
+                        data = {
+                            key: 'ArrowRight'
+                        };
+                    } else if (i === 'prev_shortcut') {
+                        data = {
+                            key: 'ArrowLeft'
+                        };
+                    } else if (i === 'hide_shortcut') {
+                        data = {
+                            key: 'i'
+                        };
+                    }
+                }
+
+                if (
+                    (data.key === keys.key || !isset(data.key)) &&
+                    (data.shiftKey === keys.shiftKey || !isset(data.shiftKey)) &&
+                    (data.ctrlKey === keys.ctrlKey || !isset(data.ctrlKey)) &&
+                    (data.altKey === keys.altKey || !isset(data.altKey)) &&
+                    ((data.wheel > 0) === (wheel > 0) || !isset(data.wheel)) &&
+                    ((hover === true && (data.wheel > 0) === (wheel > 0) && Object.keys(keys).length === 0 && keys.constructor === Object) || (isset(data.key) || isset(data.altKey) || isset(data.ctrlKey)))
+                ) {
+                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    features[i]();
+
+                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
+                        return false;
+                    }
+                }
+            }
+        }
+    }, {
+        passive: false,
+        capture: true
+    });
+
+    window.addEventListener('keyup', function(event) {
+        if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
+            keys = {};
+
+            return true;
+        }
+
+        for (var i in features) {
+            if (isset(storage[i])) {
+                var data = JSON.parse(storage[i]);
+
+                if (!data) {
+                    if (i === 'next_shortcut') {
+                        data = {
+                            key: 'ArrowRight'
+                        };
+                    } else if (i === 'prev_shortcut') {
+                        data = {
+                            key: 'ArrowLeft'
+                        };
+                    } else if (i === 'hide_shortcut') {
+                        data = {
+                            key: 'i'
+                        };
+                    }
+                }
+
+                if (
+                    (data.key === keys.key || !isset(data.key)) &&
+                    (data.shiftKey === keys.shiftKey || !isset(data.shiftKey)) &&
+                    (data.ctrlKey === keys.ctrlKey || !isset(data.ctrlKey)) &&
+                    (data.altKey === keys.altKey || !isset(data.altKey)) &&
+                    ((data.wheel > 0) === (wheel > 0) || !isset(data.wheel)) &&
+                    ((hover === true && (data.wheel > 0) === (wheel > 0) && Object.keys(keys).length === 0 && keys.constructor === Object) || (isset(data.key) || isset(data.altKey) || isset(data.ctrlKey)))
+                ) {
+                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    features[i]();
+
+                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
+                        keys = {};
+
+                        return false;
+                    }
+                }
+            }
+        }
+
+        keys = {};
+    }, {
+        passive: false,
+        capture: true
+    });
+
+    window.addEventListener('keypress', function(event) {
+        if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
+            return true;
+        }
+
+        for (var i in features) {
+            if (isset(storage[i])) {
+                var data = JSON.parse(storage[i]);
+
+                if (!data) {
+                    if (i === 'next_shortcut') {
+                        data = {
+                            key: 'ArrowRight'
+                        };
+                    } else if (i === 'prev_shortcut') {
+                        data = {
+                            key: 'ArrowLeft'
+                        };
+                    } else if (i === 'hide_shortcut') {
+                        data = {
+                            key: 'i'
+                        };
+                    }
+                }
+
+                if (
+                    (data.key === keys.key || !isset(data.key)) &&
+                    (data.shiftKey === keys.shiftKey || !isset(data.shiftKey)) &&
+                    (data.ctrlKey === keys.ctrlKey || !isset(data.ctrlKey)) &&
+                    (data.altKey === keys.altKey || !isset(data.altKey)) &&
+                    ((data.wheel > 0) === (wheel > 0) || !isset(data.wheel)) &&
+                    ((hover === true && (data.wheel > 0) === (wheel > 0) && Object.keys(keys).length === 0 && keys.constructor === Object) || (isset(data.key) || isset(data.altKey) || isset(data.ctrlKey)))
+                ) {
+                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    features[i]();
+
+                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
+                        keys = {};
+
+                        return false;
+                    }
+                }
+            }
+        }
+    }, {
+        passive: false,
+        capture: true
+    });
+
+
+    /*-------------------------------------------------------------------------
+    2.0 Mouse
+    -------------------------------------------------------------------------*/
+
+    window.addEventListener('mousemove', function(event) {
+        hover = false;
+
+        for (var i = 0, l = event.path.length; i < l; i++) {
+            if (event.path[i].classList && event.path[i].classList.contains('html5-video-player')) {
+                hover = true;
+            }
+        }
+    }, {
+        passive: false,
+        capture: true
+    });
+
+    window.addEventListener('wheel', function(event) {
+        wheel = event.deltaY;
+
+        start('wheel');
+    }, {
+        passive: false,
+        capture: true
+    });
+}
 
 
 /*--------------------------------------------------------------
@@ -383,6 +644,8 @@ window.addEventListener('DOMContentLoaded', function() {
     createUserInterface();
 
     chrome.storage.local.get(function(items) {
+        storage = items;
+
         if (items.hidden === true) {
             ui.info_panel.classList.add('frame-by-frame__info-panel--collapsed')
         }
@@ -397,15 +660,23 @@ window.addEventListener('DOMContentLoaded', function() {
             ui.container.style.display = 'none';
         }
 
+        if (items.hasOwnProperty('hide_in_fullscreen')) {
+            hide_in_fullscreen = items.hide_in_fullscreen;
+        }
+
         setInterval(searchVideos, 2500);
         setInterval(calcPositions, 1000);
         setInterval(checkMouse, 100);
+
+        keyboard();
     });
 });
 
 chrome.storage.onChanged.addListener(function(changes) {
     for (var key in changes) {
         var value = changes[key].newValue;
+
+        storage[key] = value;
 
         if (key === 'hidden') {
             if (value === true) {
@@ -417,6 +688,8 @@ chrome.storage.onChanged.addListener(function(changes) {
             position = value;
 
             moveUserInterface();
+        } else if (key === 'hide_in_fullscreen') {
+            hide_in_fullscreen = value;
         }
 
         if (key === location.hostname) {

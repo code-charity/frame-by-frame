@@ -30,14 +30,14 @@ var skeleton = {
 				type: 'shortcut',
 				label: 'next',
 				value: {
-					key: '>'
+					key: 'ArrowRight'
 				}
 			},
 			prev_shortcut: {
 				type: 'shortcut',
 				label: 'prev',
 				value: {
-					key: '<'
+					key: 'ArrowLeft'
 				}
 			},
 			hide_shortcut: {
@@ -78,18 +78,20 @@ var skeleton = {
 satus.storage.import(function(items) {
 	satus.locale.import(function() {
 	    satus.modules.updateStorageKeys(skeleton, function() {
-			satus.render(skeleton);
-
 			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 				chrome.tabs.sendMessage(tabs[0].id, {}, function(response) {
-					document.querySelector('.satus-section--toolbar .satus-switch__label').innerText = response || chrome.i18n.getMessage('accessIsDenied');
+					skeleton.main.toolbar.enable.label = response || 'accessIsDenied';
 
 					if (!response) {
-						document.querySelector('.satus-section--toolbar').style.opacity = .25;
-						document.querySelector('.satus-section--toolbar').style.pointerEvents = 'none';
+						skeleton.main.toolbar.enable.style = {
+							opacity: .25,
+							pointerEvents: 'none'
+						};
 					} else {
-						document.querySelector('.satus-section--toolbar input').dataset.storageKey = response;
+						skeleton.main.toolbar.enable.storage_key = response;
 					}
+
+					satus.render(skeleton);
 				});
 			});
 		});
