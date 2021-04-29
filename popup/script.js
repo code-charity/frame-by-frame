@@ -87,6 +87,8 @@ satus.storage.import(function(items) {
 					if (!response) {
 						document.querySelector('.satus-section--toolbar').style.opacity = .25;
 						document.querySelector('.satus-section--toolbar').style.pointerEvents = 'none';
+					} else {
+						document.querySelector('.satus-section--toolbar input').dataset.storageKey = response;
 					}
 				});
 			});

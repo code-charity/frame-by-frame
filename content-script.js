@@ -393,6 +393,10 @@ window.addEventListener('DOMContentLoaded', function() {
             moveUserInterface();
         }
 
+        if (items[location.hostname] === false) {
+            ui.container.style.display = 'none';
+        }
+
         setInterval(searchVideos, 2500);
         setInterval(calcPositions, 1000);
         setInterval(checkMouse, 100);
@@ -412,9 +416,15 @@ chrome.storage.onChanged.addListener(function(changes) {
         } else if (key === 'position') {
             position = value;
 
-            console.log(value);
-
             moveUserInterface();
+        }
+
+        if (key === location.hostname) {
+            if (value === false) {
+                ui.container.style.display = 'none';
+            } else {
+                ui.container.style.display = '';
+            }
         }
     }
 });
