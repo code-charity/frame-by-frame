@@ -1,4 +1,10 @@
 {
+    "accessIsDenied": {
+        "message": "Access is denied"
+    },
+    "cancel": {
+        "message": "Cancel"
+    },
     "description": {
         "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
     },
@@ -11,16 +17,28 @@
     "hide": {
         "message": "Hide"
     },
+    "hideInFullscreen": {
+        "message": "Hide in fullscreen"
+    },
     "next": {
         "message": "Next"
+    },
+    "other": {
+        "message": "Other"
     },
     "prev": {
         "message": "Prev"
     },
+    "reset": {
+        "message": "Reset"
+    },
+    "save": {
+        "message": "Save"
+    },
+    "shortcuts": {
+        "message": "Shortcuts"
+    },
     "time": {
         "message": "Time"
-    },
-    "video": {
-        "message": "video"
     }
 }

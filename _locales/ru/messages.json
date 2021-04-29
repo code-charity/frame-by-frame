@@ -1,4 +1,10 @@
 {
+    "accessIsDenied": {
+        "message": "Access is denied"
+    },
+    "cancel": {
+        "message": "Cancel"
+    },
     "description": {
         "message": "Лучшее Frame By Frame расширение. Работает со всеми веб-сайтами! Наведите курсор на видео, затем используйте клавиатуру, чтобы выбрать нужный кадр."
     },
@@ -11,16 +17,28 @@
     "hide": {
         "message": "Скрыть"
     },
+    "hideInFullscreen": {
+        "message": "Hide in fullscreen"
+    },
     "next": {
         "message": "Следующий"
+    },
+    "other": {
+        "message": "Other"
     },
     "prev": {
         "message": "Предыдущий"
     },
+    "reset": {
+        "message": "Reset"
+    },
+    "save": {
+        "message": "Save"
+    },
+    "shortcuts": {
+        "message": "Shortcuts"
+    },
     "time": {
         "message": "Время"
-    },
-    "video": {
-        "message": "видео"
     }
 }

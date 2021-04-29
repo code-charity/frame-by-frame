@@ -240,10 +240,9 @@ satus.locale.import = function(language, callback) {
 
             chrome.runtime.onMessage.addListener(listener);
 
-            console.log('_locales/' + language + '/messages.json');
             chrome.runtime.sendMessage({
                 name: 'translation_request',
-                path: '_locales/' + language + '/messages.json'
+                path: '../_locales/' + language + '/messages.json'
             });
         }
     };
@@ -256,7 +255,7 @@ satus.locale.import = function(language, callback) {
         }
     };
 
-    xhr.open('GET', '_locales/' + language + '/messages.json', true);
+    xhr.open('GET', '../_locales/' + language + '/messages.json', true);
     xhr.send();
 };
 
