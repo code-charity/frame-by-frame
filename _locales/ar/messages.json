@@ -1,44 +1,44 @@
 {
     "accessIsDenied": {
-        "message": "Access is denied"
+        "message": "يمنع الوصول"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "إلغاء"
     },
     "description": {
-        "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
+        "message": "أفضل أداة إطار حسب بإطار. تعمل على جميع المواقع! حرك مؤشر الفأرة على الفيديو و إستعمل مفاتيح الأسهم لتبديل بين الإطارات."
     },
     "duration": {
-        "message": "Duration"
+        "message": "المدة"
     },
     "frame": {
-        "message": "Frame"
+        "message": "إطار"
     },
     "hide": {
-        "message": "Hide"
+        "message": "إخفاء"
     },
     "hideInFullscreen": {
-        "message": "Hide in fullscreen"
+        "message": "إخفاء في وضع ملء الشاشة"
     },
     "next": {
-        "message": "Next"
+        "message": "التالي"
     },
     "other": {
-        "message": "Other"
+        "message": "أخرى"
     },
     "prev": {
-        "message": "Prev"
+        "message": "السابق"
     },
     "reset": {
-        "message": "Reset"
+        "message": "إعادة تعيين"
     },
     "save": {
-        "message": "Save"
+        "message": "حفظ"
     },
     "shortcuts": {
-        "message": "Shortcuts"
+        "message": "الإختصارات"
     },
     "time": {
-        "message": "Time"
+        "message": "الوقت"
     }
 }
