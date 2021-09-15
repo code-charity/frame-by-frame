@@ -1,44 +1,44 @@
 {
     "accessIsDenied": {
-        "message": "Access is denied"
+        "message": "הגישה נדחתה"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "ביטול"
     },
     "description": {
-        "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
+        "message": "הכלי הטוב ביותר למעבר בין חלוניות (פריימים). עובד עם כל האתרים! יש להזיז את סמן העכבר על גבי סרטון ולהשתמש במקשי החיצים למעבר בין פריימים."
     },
     "duration": {
-        "message": "Duration"
+        "message": "משך"
     },
     "frame": {
-        "message": "Frame"
+        "message": "פריים"
     },
     "hide": {
-        "message": "Hide"
+        "message": "הסתרה"
     },
     "hideInFullscreen": {
-        "message": "Hide in fullscreen"
+        "message": "הסתרה במסך מלא"
     },
     "next": {
-        "message": "Next"
+        "message": "הבא"
     },
     "other": {
-        "message": "Other"
+        "message": "אחר"
     },
     "prev": {
-        "message": "Prev"
+        "message": "הקודם"
     },
     "reset": {
-        "message": "Reset"
+        "message": "איפוס"
     },
     "save": {
-        "message": "Save"
+        "message": "שמירה"
     },
     "shortcuts": {
-        "message": "Shortcuts"
+        "message": "קיצורים"
     },
     "time": {
-        "message": "Time"
+        "message": "זמן"
     }
 }
