@@ -2,6 +2,12 @@
     "accessIsDenied": {
         "message": "הגישה נדחתה"
     },
+    "appearance": {
+        "message": "Appearance"
+    },
+    "backgroundColor": {
+        "message": "Background color"
+    },
     "cancel": {
         "message": "ביטול"
     },
@@ -20,14 +26,14 @@
     "hideInFullscreen": {
         "message": "הסתרה במסך מלא"
     },
-    "next": {
-        "message": "הבא"
+    "nextFrame": {
+        "message": "Next frame"
     },
-    "other": {
-        "message": "אחר"
+    "opacity": {
+        "message": "Opacity"
     },
-    "prev": {
-        "message": "הקודם"
+    "previousFrame": {
+        "message": "Previous frame"
     },
     "reset": {
         "message": "איפוס"

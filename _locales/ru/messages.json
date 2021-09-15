@@ -2,6 +2,12 @@
     "accessIsDenied": {
         "message": "Access is denied"
     },
+    "appearance": {
+        "message": "Appearance"
+    },
+    "backgroundColor": {
+        "message": "Background color"
+    },
     "cancel": {
         "message": "Cancel"
     },
@@ -20,14 +26,14 @@
     "hideInFullscreen": {
         "message": "Hide in fullscreen"
     },
-    "next": {
-        "message": "Следующий"
+    "nextFrame": {
+        "message": "Next frame"
     },
-    "other": {
-        "message": "Other"
+    "opacity": {
+        "message": "Opacity"
     },
-    "prev": {
-        "message": "Предыдущий"
+    "previousFrame": {
+        "message": "Previous frame"
     },
     "reset": {
         "message": "Reset"

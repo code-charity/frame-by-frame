@@ -1,0 +1,133 @@
+/*--------------------------------------------------------------
+>>> POPUP:
+----------------------------------------------------------------
+# Body
+# Made with love
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# BODY
+--------------------------------------------------------------*/
+
+body {
+    color: #565676;
+    background: #0e0e1b;
+    --satus-primary: #3d3d8f;
+    --satus-hover: rgba(255,255,255,.03);
+    --satus-header-background: #1c1c36;
+    --satus-header-text: #9595b2;
+    --satus-layers-background: #0e0e1b;
+    --satus-layers-text: #565676;
+    --satus-section-card-background: #161627;
+    --satus-section-card-text: #9595b2;
+    --satus-switch-background: rgba(255, 255, 255, .12);
+    --satus-modal-background: #202031;
+    --satus-modal-text: #9595b2;
+}
+
+.satus-header {
+    font-weight: 600;
+    font-size: 15px;
+    justify-content: flex-start;
+}
+
+.satus-header .satus-button {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    padding: 8px;
+    color: inherit;
+    border-radius: 50%;
+    margin: 0 8px 0 -8px;
+}
+
+.satus-header .satus-button:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, .04);
+}
+
+.satus-header .satus-button>svg {
+    stroke: currentcolor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+.satus-switch--domain {
+    width: calc(100% - 16px);
+    height: 48px;
+    margin: 16px 8px 16px;
+    padding: 0 16px;
+    color: #494965;
+    border: 1px solid #22222f;
+    border-radius: 8px;
+    background-color: #14141f;
+}
+
+.satus-switch--domain:hover {
+    background-color: #181825;
+    color: #565676;
+    border-color: #272735;
+}
+
+.satus-span--error {
+    display: flex;
+    box-sizing: border-box;
+    width: calc(100% - 16px);
+    height: 48px;
+    margin: 16px 8px 16px;
+    padding: 0 16px;
+    color: rgba(255, 127, 127, .7);
+    border: 1px solid rgba(255, 0, 0, .15);
+    border-radius: 8px;
+    background: rgba(255, 0, 0, .1);
+    align-items: center;
+}
+
+.satus-section--label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/*--------------------------------------------------------------
+# MADE WITH LOVE
+--------------------------------------------------------------*/
+
+.made-with-love {
+    font-size: 13px;
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    padding: 0;
+    cursor: pointer;
+    transform: translateX(-50%);
+    text-align: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #9595b2;
+    font-weight: 600;
+}
+
+.satus-base[data-hide-made-with-love=true] .made-with-love {
+    display: none;
+}
+
+.made-with-love svg {
+    position: relative;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    fill: #d62121;
+}
+
+.satus.dark .made-with-love svg {
+    fill: #704343;
+}
+
+.made-with-love span {
+    margin: 0 0 0 4px;
+}

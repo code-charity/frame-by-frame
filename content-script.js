@@ -664,6 +664,14 @@ window.addEventListener('DOMContentLoaded', function() {
             hide_in_fullscreen = items.hide_in_fullscreen;
         }
 
+        if (items.hasOwnProperty('opacity')) {
+            ui.info_panel.style.opacity = items.opacity;
+        }
+
+        if (items.hasOwnProperty('background_color')) {
+            ui.info_panel.style.backgroundColor = items.background_color;
+        }
+
         setInterval(searchVideos, 2500);
         setInterval(calcPositions, 1000);
         setInterval(checkMouse, 100);
@@ -690,6 +698,10 @@ chrome.storage.onChanged.addListener(function(changes) {
             moveUserInterface();
         } else if (key === 'hide_in_fullscreen') {
             hide_in_fullscreen = value;
+        } else if (key === 'opacity') {
+            ui.info_panel.style.opacity = value;
+        } else if (key === 'background_color') {
+            ui.info_panel.style.backgroundColor = value;
         }
 
         if (key === location.hostname) {

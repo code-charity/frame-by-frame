@@ -2,6 +2,12 @@
     "accessIsDenied": {
         "message": "يمنع الوصول"
     },
+    "appearance": {
+        "message": "Appearance"
+    },
+    "backgroundColor": {
+        "message": "Background color"
+    },
     "cancel": {
         "message": "إلغاء"
     },
@@ -20,14 +26,14 @@
     "hideInFullscreen": {
         "message": "إخفاء في وضع ملء الشاشة"
     },
-    "next": {
-        "message": "التالي"
+    "nextFrame": {
+        "message": "Next frame"
     },
-    "other": {
-        "message": "أخرى"
+    "opacity": {
+        "message": "Opacity"
     },
-    "prev": {
-        "message": "السابق"
+    "previousFrame": {
+        "message": "Previous frame"
     },
     "reset": {
         "message": "إعادة تعيين"
