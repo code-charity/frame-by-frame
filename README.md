@@ -28,7 +28,7 @@
 - [ ] [Filipino](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/fil/messages.json) `/fil/`
 - [ ] [French](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/fr/messages.json) `/fr/`
 - [ ] [Gujarati](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/gu/messages.json) `/gu/`
-- [ ] [Hebrew](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/he/messages.json) `/he/`
+- [x] [Hebrew](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/he/messages.json) `/he/`
 - [ ] [Hindi](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/hi/messages.json) `/hi/`
 - [ ] [Croatian](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/hr/messages.json) `/hr/`
 - [ ] [Hungarian](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/hu/messages.json) `/hu/`
