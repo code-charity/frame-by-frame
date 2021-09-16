@@ -5,6 +5,7 @@
 # Made with love
 --------------------------------------------------------------*/
 
+
 /*--------------------------------------------------------------
 # BODY
 --------------------------------------------------------------*/
@@ -13,21 +14,21 @@ body {
     color: #565676;
     background: #0e0e1b;
     --satus-primary: #3d3d8f;
-    --satus-hover: rgba(255,255,255,.03);
-    --satus-header-background: #1c1c36;
+    --satus-hover: rgba(255, 255, 255, .03);
+    --satus-header-background: #2a2a51;
     --satus-header-text: #9595b2;
     --satus-layers-background: #0e0e1b;
     --satus-layers-text: #565676;
-    --satus-section-card-background: #161627;
+    --satus-section-card-background: #171726;
     --satus-section-card-text: #9595b2;
     --satus-switch-background: rgba(255, 255, 255, .12);
-    --satus-modal-background: #202031;
+    --satus-modal-background: #2a2a51;
     --satus-modal-text: #9595b2;
 }
 
 .satus-header {
-    font-weight: 600;
     font-size: 15px;
+    font-weight: 600;
     justify-content: flex-start;
 }
 
@@ -35,10 +36,10 @@ body {
     width: 40px;
     min-width: 40px;
     height: 40px;
+    margin: 0 8px 0 -8px;
     padding: 8px;
     color: inherit;
     border-radius: 50%;
-    margin: 0 8px 0 -8px;
 }
 
 .satus-header .satus-button:hover {
@@ -56,32 +57,29 @@ body {
 .satus-switch--domain {
     width: calc(100% - 16px);
     height: 48px;
-    margin: 16px 8px 16px;
+    margin: 16px 8px 8px;
     padding: 0 16px;
-    color: #494965;
-    border: 1px solid #22222f;
+    transition: 150ms;
+    color: #7d95a1;
+    border: 1px solid #233843;
     border-radius: 8px;
-    background-color: #14141f;
+    background-color: #1c2d36;
 }
 
+.satus-switch--domain[data-value='true'] .satus-switch__thumb {
+    background-color: #375a6c;
+}
+
+.satus-switch--domain:focus,
 .satus-switch--domain:hover {
-    background-color: #181825;
-    color: #565676;
-    border-color: #272735;
+    color: #899ea9;
+    border-color: #2a4350;
+    background-color: #233843;
 }
 
-.satus-span--error {
-    display: flex;
-    box-sizing: border-box;
+.satus-alert {
     width: calc(100% - 16px);
-    height: 48px;
-    margin: 16px 8px 16px;
-    padding: 0 16px;
-    color: rgba(255, 127, 127, .7);
-    border: 1px solid rgba(255, 0, 0, .15);
-    border-radius: 8px;
-    background: rgba(255, 0, 0, .1);
-    align-items: center;
+    margin: 16px 8px 8px;
 }
 
 .satus-section--label {
@@ -96,6 +94,7 @@ body {
 
 .made-with-love {
     font-size: 13px;
+    font-weight: 600;
     position: absolute;
     bottom: 16px;
     left: 50%;
@@ -104,12 +103,17 @@ body {
     min-height: auto;
     padding: 0;
     cursor: pointer;
+    transition: 150ms;
     transform: translateX(-50%);
     text-align: center;
-    justify-content: center;
     text-decoration: none;
+    opacity: .4;
     color: #9595b2;
-    font-weight: 600;
+    justify-content: center;
+}
+
+.made-with-love:hover {
+    opacity: 1;
 }
 
 .satus-base[data-hide-made-with-love=true] .made-with-love {

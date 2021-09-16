@@ -1,7 +1,4 @@
 {
-    "accessIsDenied": {
-        "message": "يمنع الوصول"
-    },
     "appearance": {
         "message": "Appearance"
     },
@@ -43,6 +40,12 @@
     },
     "shortcuts": {
         "message": "الإختصارات"
+    },
+    "somethingWentWrongTryReloadingThePage": {
+        "message": "Something went wrong. Try reloading the page."
+    },
+    "textColor": {
+        "message": "Text color"
     },
     "time": {
         "message": "الوقت"

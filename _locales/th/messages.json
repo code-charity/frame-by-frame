@@ -1,7 +1,4 @@
 {
-    "accessIsDenied": {
-        "message": "Access is denied"
-    },
     "appearance": {
         "message": "Appearance"
     },
@@ -43,6 +40,12 @@
     },
     "shortcuts": {
         "message": "Shortcuts"
+    },
+    "somethingWentWrongTryReloadingThePage": {
+        "message": "Something went wrong. Try reloading the page."
+    },
+    "textColor": {
+        "message": "Text color"
     },
     "time": {
         "message": "Time"

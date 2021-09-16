@@ -133,12 +133,12 @@ function createUserInterface() {
     createUserInterfaceItem('time', info_panel);
     createUserInterfaceItem('duration', info_panel);
     createUserInterfaceItem('frame', info_panel);
-    createUserInterfaceItem('next', info_panel);
-    createUserInterfaceItem('prev', info_panel);
+    createUserInterfaceItem('nextFrame', info_panel);
+    createUserInterfaceItem('previousFrame', info_panel);
     createUserInterfaceItem('hide', info_panel);
 
-    ui.next.innerText = '>';
-    ui.prev.innerText = '<';
+    ui.nextFrame.innerText = '>';
+    ui.previousFrame.innerText = '<';
     ui.hide.innerText = 'i';
 
     info_panel.appendChild(show_hide_button);
@@ -664,12 +664,22 @@ window.addEventListener('DOMContentLoaded', function() {
             hide_in_fullscreen = items.hide_in_fullscreen;
         }
 
-        if (items.hasOwnProperty('opacity')) {
-            ui.info_panel.style.opacity = items.opacity;
+        if (items.background_color) {
+            ui.info_panel.style.backgroundColor = 'rgb(' + items.background_color.rgb.join(',') + ')';
+        } else {
+            ui.info_panel.style.backgroundColor = '#000';
         }
 
-        if (items.hasOwnProperty('background_color')) {
-            ui.info_panel.style.backgroundColor = items.background_color;
+        if (items.text_color) {
+            ui.info_panel.style.color = 'rgb(' + items.text_color.rgb.join(',') + ')';
+        } else {
+            ui.info_panel.style.color = '#fff';
+        }
+
+        if (items.hasOwnProperty('opacity')) {
+            ui.info_panel.style.opacity = items.opacity;
+        } else {
+            ui.info_panel.style.opacity = .85;
         }
 
         setInterval(searchVideos, 2500);
@@ -701,7 +711,17 @@ chrome.storage.onChanged.addListener(function(changes) {
         } else if (key === 'opacity') {
             ui.info_panel.style.opacity = value;
         } else if (key === 'background_color') {
-            ui.info_panel.style.backgroundColor = value;
+            if (value) {
+                ui.info_panel.style.backgroundColor = 'rgb(' + value.rgb.join(',') + ')';
+            } else {
+                ui.info_panel.style.backgroundColor = '#000';
+            }
+        } else if (key === 'text_color') {
+            if (value) {
+                ui.info_panel.style.backgroundColor = 'rgb(' + value.rgb.join(',') + ')';
+            } else {
+                ui.info_panel.style.backgroundColor = '#fff';
+            }
         }
 
         if (key === location.hostname) {
