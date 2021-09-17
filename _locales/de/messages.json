@@ -5,6 +5,9 @@
     "backgroundColor": {
         "message": "Background color"
     },
+    "blur": {
+        "message": "Blur"
+    },
     "cancel": {
         "message": "Cancel"
     },
@@ -17,11 +20,11 @@
     "frame": {
         "message": "Frame"
     },
-    "hide": {
-        "message": "Verstecken"
-    },
     "hideInFullscreen": {
         "message": "Hide in fullscreen"
+    },
+    "hidePanel": {
+        "message": "Hide panel"
     },
     "nextFrame": {
         "message": "Next frame"

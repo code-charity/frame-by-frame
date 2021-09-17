@@ -84,6 +84,13 @@ var skeleton = {
 								rgb: [255, 255, 255]
 							}
 						},
+						blur: {
+							component: 'slider',
+							text: 'blur',
+							value: 4,
+							max: 16,
+							storage: 'blur'
+						},
 						opacity: {
 							component: 'slider',
 							text: 'opacity',
@@ -125,31 +132,31 @@ var skeleton = {
 						class: 'satus-section--card',
 						title: 'shortcuts',
 
-						next_shortcut: {
-							component: 'shortcut',
-							text: 'nextFrame',
-							value: {
-								keys: {
-									37: {
-										key: 'ArrowRight'
-									}
-								}
-							}
-						},
 						prev_shortcut: {
 							component: 'shortcut',
 							text: 'previousFrame',
 							value: {
 								keys: {
-									39: {
+									37: {
 										key: 'ArrowLeft'
+									}
+								}
+							}
+						},
+						next_shortcut: {
+							component: 'shortcut',
+							text: 'nextFrame',
+							value: {
+								keys: {
+									39: {
+										key: 'ArrowRight'
 									}
 								}
 							}
 						},
 						hide_shortcut: {
 							component: 'shortcut',
-							text: 'hide',
+							text: 'hidePanel',
 							value: {
 								keys: {
 									72: {

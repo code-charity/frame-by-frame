@@ -5,6 +5,9 @@
     "backgroundColor": {
         "message": "Background color"
     },
+    "blur": {
+        "message": "Blur"
+    },
     "cancel": {
         "message": "ביטול"
     },
@@ -17,11 +20,11 @@
     "frame": {
         "message": "פריים"
     },
-    "hide": {
-        "message": "הסתרה"
-    },
     "hideInFullscreen": {
         "message": "הסתרה במסך מלא"
+    },
+    "hidePanel": {
+        "message": "Hide panel"
     },
     "nextFrame": {
         "message": "Next frame"

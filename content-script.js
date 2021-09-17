@@ -133,13 +133,6 @@ function createUserInterface() {
     createUserInterfaceItem('time', info_panel);
     createUserInterfaceItem('duration', info_panel);
     createUserInterfaceItem('frame', info_panel);
-    createUserInterfaceItem('nextFrame', info_panel);
-    createUserInterfaceItem('previousFrame', info_panel);
-    createUserInterfaceItem('hide', info_panel);
-
-    ui.nextFrame.innerText = '>';
-    ui.previousFrame.innerText = '<';
-    ui.hide.innerText = 'i';
 
     info_panel.appendChild(show_hide_button);
     info_panel.appendChild(drag_and_drop_button);
@@ -216,7 +209,7 @@ function searchVideos() {
         var founded = false;
 
         for (var j = 0, k = media.length; j < k; j++) {
-            if (elements[i] === media[j].element) {
+            if (media[j] && elements[i] === media[j].element) {
                 founded = true;
             }
         }
@@ -244,14 +237,19 @@ function searchVideos() {
 
 function calcPositions() {
     for (var i = 0, l = media.length; i < l; i++) {
-        var object = media[i],
-            data = object.element.getBoundingClientRect();
+        var object = media[i];
 
-        if (data.width !== 0 && data.height !== 0) {
-            object.left = data.left + scroll.x;
-            object.top = data.top + scroll.y;
-            object.width = data.width;
-            object.height = data.height;
+        if (object) {
+            var data = object.element.getBoundingClientRect();
+
+            if (data.width !== 0 && data.height !== 0) {
+                object.left = data.left + scroll.x;
+                object.top = data.top + scroll.y;
+                object.width = data.width;
+                object.height = data.height;
+            } else {
+                delete media[i];
+            }
         }
     }
 }
@@ -262,12 +260,13 @@ function calcPositions() {
 --------------------------------------------------------------*/
 
 function checkMouse() {
-    //active = false;
+    active = false;
 
     for (var i = 0, l = media.length; i < l; i++) {
         var rect = media[i];
 
         if (
+            rect &&
             mouse.x + scroll.x > rect.left &&
             mouse.y + scroll.y > rect.top &&
             mouse.x + scroll.x < rect.left + rect.width &&
@@ -315,12 +314,17 @@ window.addEventListener('scroll', function() {
 ------------------------------------------------------------------------------*/
 
 function keyboard() {
-    var keys = {},
-        wheel = 0,
+    var data = {
+            alt: false,
+            ctrl: false,
+            shift: false,
+            keys: {},
+            wheel: 0
+        },
         hover = false,
-        status_timer,
         features = {
             next_shortcut: function() {
+                console.log(0);
                 if (active) {
                     var video = active.element,
                         frame = 1 / 60;
@@ -371,257 +375,96 @@ function keyboard() {
             }
         };
 
-    function start(type = 'keys') {
-        console.log(features);
+    function handler() {
+        var prevent = false;
+
+        for (var key in features) {
+            var shortcut = storage[key];
+
+            if (shortcut) {
+                var same_keys = true;
+
+                if (
+                    (data.alt === shortcut.alt || shortcut.hasOwnProperty('alt') === false) &&
+                    (data.ctrl === shortcut.ctrl || shortcut.hasOwnProperty('ctrl') === false) &&
+                    (data.shift === shortcut.shift || shortcut.hasOwnProperty('shift') === false) &&
+                    (data.wheel === shortcut.wheel || shortcut.hasOwnProperty('wheel') === false)
+                ) {
+                    for (var code in data.keys) {
+                        if (!shortcut.keys[code]) {
+                            same_keys = false;
+                        }
+                    }
+                    for (var code in shortcut.keys) {
+                        if (!data.keys[code]) {
+                            same_keys = false;
+                        }
+                    }
+
+                    if (data.wheel === 0 || data.player === true) {
+                        if (same_keys === true) {
+                            features[key]();
+
+                            prevent = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return prevent;
+    }
+
+    window.addEventListener('keydown', function(event) {
         if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
             return false;
         }
 
-
-        for (var i in features) {
-            if (isset(storage[i])) {
-                var data = JSON.parse(storage[i]);
-
-                if (!data) {
-                    if (i === 'next_shortcut') {
-                        data = {
-                            key: 'ArrowRight'
-                        };
-                    } else if (i === 'prev_shortcut') {
-                        data = {
-                            key: 'ArrowLeft'
-                        };
-                    } else if (i === 'hide_shortcut') {
-                        data = {
-                            key: 'i'
-                        };
-                    }
-                }
-
-                if (
-                    (data.key === keys.key || !isset(data.key)) &&
-                    (data.shiftKey === keys.shiftKey || !isset(data.shiftKey)) &&
-                    (data.ctrlKey === keys.ctrlKey || !isset(data.ctrlKey)) &&
-                    (data.altKey === keys.altKey || !isset(data.altKey)) &&
-                    ((data.wheel > 0) === (wheel > 0) || !isset(data.wheel)) &&
-                    ((hover === true && (data.wheel > 0) === (wheel > 0) && Object.keys(keys).length === 0 && keys.constructor === Object) || (isset(data.key) || isset(data.altKey) || isset(data.ctrlKey)))
-                ) {
-                    console.log(data, keys);
-                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-
-                    features[i]();
-
-                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
-                        return false;
-                    }
-                }
-            }
+        if (event.code === 'AltLeft' || event.code === 'AltRight') {
+            data.alt = true;
+        } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
+            data.ctrl = true;
+        } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+            data.shift = true;
+        } else {
+            data.keys[event.keyCode] = true;
         }
 
-        return true;
-    }
+        data.wheel = 0;
 
-
-    /*-------------------------------------------------------------------------
-    1.0 Keyboard
-    -------------------------------------------------------------------------*/
-
-    window.addEventListener('keydown', function(event) {
-        keys = {
-            key: event.key,
-            keyCode: event.keyCode,
-            shiftKey: event.shiftKey,
-            ctrlKey: event.ctrlKey,
-            altKey: event.altKey
-        };
-
-        start();
-
-        if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
-            return;
+        if (handler() === true) {
+            event.preventDefault();
         }
-
-        for (var i in features) {
-            if (isset(storage[i])) {
-                var data = JSON.parse(storage[i]);
-
-                if (!data) {
-                    if (i === 'next_shortcut') {
-                        data = {
-                            key: 'ArrowRight'
-                        };
-                    } else if (i === 'prev_shortcut') {
-                        data = {
-                            key: 'ArrowLeft'
-                        };
-                    } else if (i === 'hide_shortcut') {
-                        data = {
-                            key: 'i'
-                        };
-                    }
-                }
-
-                if (
-                    (data.key === keys.key || !isset(data.key)) &&
-                    (data.shiftKey === keys.shiftKey || !isset(data.shiftKey)) &&
-                    (data.ctrlKey === keys.ctrlKey || !isset(data.ctrlKey)) &&
-                    (data.altKey === keys.altKey || !isset(data.altKey)) &&
-                    ((data.wheel > 0) === (wheel > 0) || !isset(data.wheel)) &&
-                    ((hover === true && (data.wheel > 0) === (wheel > 0) && Object.keys(keys).length === 0 && keys.constructor === Object) || (isset(data.key) || isset(data.altKey) || isset(data.ctrlKey)))
-                ) {
-                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-
-                    features[i]();
-
-                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
-                        return false;
-                    }
-                }
-            }
-        }
-    }, {
-        passive: false,
-        capture: true
-    });
+    }, true);
 
     window.addEventListener('keyup', function(event) {
         if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
-            keys = {};
-
-            return true;
+            return false;
         }
 
-        for (var i in features) {
-            if (isset(storage[i])) {
-                var data = JSON.parse(storage[i]);
-
-                if (!data) {
-                    if (i === 'next_shortcut') {
-                        data = {
-                            key: 'ArrowRight'
-                        };
-                    } else if (i === 'prev_shortcut') {
-                        data = {
-                            key: 'ArrowLeft'
-                        };
-                    } else if (i === 'hide_shortcut') {
-                        data = {
-                            key: 'i'
-                        };
-                    }
-                }
-
-                if (
-                    (data.key === keys.key || !isset(data.key)) &&
-                    (data.shiftKey === keys.shiftKey || !isset(data.shiftKey)) &&
-                    (data.ctrlKey === keys.ctrlKey || !isset(data.ctrlKey)) &&
-                    (data.altKey === keys.altKey || !isset(data.altKey)) &&
-                    ((data.wheel > 0) === (wheel > 0) || !isset(data.wheel)) &&
-                    ((hover === true && (data.wheel > 0) === (wheel > 0) && Object.keys(keys).length === 0 && keys.constructor === Object) || (isset(data.key) || isset(data.altKey) || isset(data.ctrlKey)))
-                ) {
-                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-
-                    features[i]();
-
-                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
-                        keys = {};
-
-                        return false;
-                    }
-                }
-            }
+        if (event.code === 'AltLeft' || event.code === 'AltRight') {
+            data.alt = false;
+        } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
+            data.ctrl = false;
+        } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+            data.shift = false;
+        } else {
+            delete data.keys[event.keyCode];
         }
 
-        keys = {};
-    }, {
-        passive: false,
-        capture: true
-    });
-
-    window.addEventListener('keypress', function(event) {
-        if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
-            return true;
-        }
-
-        for (var i in features) {
-            if (isset(storage[i])) {
-                var data = JSON.parse(storage[i]);
-
-                if (!data) {
-                    if (i === 'next_shortcut') {
-                        data = {
-                            key: 'ArrowRight'
-                        };
-                    } else if (i === 'prev_shortcut') {
-                        data = {
-                            key: 'ArrowLeft'
-                        };
-                    } else if (i === 'hide_shortcut') {
-                        data = {
-                            key: 'i'
-                        };
-                    }
-                }
-
-                if (
-                    (data.key === keys.key || !isset(data.key)) &&
-                    (data.shiftKey === keys.shiftKey || !isset(data.shiftKey)) &&
-                    (data.ctrlKey === keys.ctrlKey || !isset(data.ctrlKey)) &&
-                    (data.altKey === keys.altKey || !isset(data.altKey)) &&
-                    ((data.wheel > 0) === (wheel > 0) || !isset(data.wheel)) &&
-                    ((hover === true && (data.wheel > 0) === (wheel > 0) && Object.keys(keys).length === 0 && keys.constructor === Object) || (isset(data.key) || isset(data.altKey) || isset(data.ctrlKey)))
-                ) {
-                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-
-                    features[i]();
-
-                    if (type === 'wheel' && isset(data.wheel) || type === 'keys') {
-                        keys = {};
-
-                        return false;
-                    }
-                }
-            }
-        }
-    }, {
-        passive: false,
-        capture: true
-    });
-
-
-    /*-------------------------------------------------------------------------
-    2.0 Mouse
-    -------------------------------------------------------------------------*/
-
-    window.addEventListener('mousemove', function(event) {
-        hover = false;
-
-        for (var i = 0, l = event.path.length; i < l; i++) {
-            if (event.path[i].classList && event.path[i].classList.contains('html5-video-player')) {
-                hover = true;
-            }
-        }
-    }, {
-        passive: false,
-        capture: true
-    });
+        data.wheel = 0;
+    }, true);
 
     window.addEventListener('wheel', function(event) {
-        wheel = event.deltaY;
+        if (event.deltaY > 0) {
+            data.wheel = 1;
+        } else {
+            data.wheel = -1;
+        }
 
-        start('wheel');
+        if (handler() === true) {
+            event.preventDefault();
+        }
     }, {
         passive: false,
         capture: true
@@ -682,6 +525,42 @@ window.addEventListener('DOMContentLoaded', function() {
             ui.info_panel.style.opacity = .85;
         }
 
+        if (items.hasOwnProperty('blur')) {
+            ui.info_panel.style.backdropFilter = 'blur(' + items.blur + 'px)';
+        } else {
+            ui.info_panel.style.backdropFilter = 'blur(4px)';
+        }
+
+        if (items.hasOwnProperty('next_shortcut') === false) {
+            items.next_shortcut = {
+                keys: {
+                    39: {
+                        key: 'ArrowRight'
+                    }
+                }
+            };
+        }
+
+        if (items.hasOwnProperty('prev_shortcut') === false) {
+            items.prev_shortcut = {
+                keys: {
+                    37: {
+                        key: 'ArrowLeft'
+                    }
+                }
+            };
+        }
+
+        if (items.hasOwnProperty('hide_shortcut') === false) {
+            items.hide_shortcut = {
+                keys: {
+                    72: {
+                        key: 'h'
+                    }
+                }
+            };
+        }
+
         setInterval(searchVideos, 2500);
         setInterval(calcPositions, 1000);
         setInterval(checkMouse, 100);
@@ -710,6 +589,8 @@ chrome.storage.onChanged.addListener(function(changes) {
             hide_in_fullscreen = value;
         } else if (key === 'opacity') {
             ui.info_panel.style.opacity = value;
+        }  else if (key === 'blur') {
+            ui.info_panel.style.backdropFilter = 'blur(' + value + 'px)';
         } else if (key === 'background_color') {
             if (value) {
                 ui.info_panel.style.backgroundColor = 'rgb(' + value.rgb.join(',') + ')';

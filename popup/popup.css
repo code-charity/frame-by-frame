@@ -19,17 +19,20 @@ body {
     --satus-header-text: #9595b2;
     --satus-layers-background: #0e0e1b;
     --satus-layers-text: #565676;
-    --satus-section-card-background: #171726;
+    --satus-section-card-background: #1b1b2d;
     --satus-section-card-text: #9595b2;
     --satus-switch-background: rgba(255, 255, 255, .12);
     --satus-modal-background: #2a2a51;
     --satus-modal-text: #9595b2;
+    --satus-pluviam-background: #fff;
 }
 
 .satus-header {
     font-size: 15px;
     font-weight: 600;
     justify-content: flex-start;
+    box-shadow: 0 1px 0 #37376c;
+    z-index: 1;
 }
 
 .satus-header .satus-button {
@@ -55,9 +58,9 @@ body {
 }
 
 .satus-switch--domain {
-    width: calc(100% - 16px);
+    width: calc(100% - 24px);
     height: 48px;
-    margin: 16px 8px 8px;
+    margin: 12px auto 0;
     padding: 0 16px;
     transition: 150ms;
     color: #7d95a1;
@@ -78,13 +81,17 @@ body {
 }
 
 .satus-alert {
-    width: calc(100% - 16px);
-    margin: 16px 8px 8px;
+    width: calc(100% - 24px);
+    margin: 12px auto 0;
 }
 
 .satus-section--label {
     font-size: 14px;
     font-weight: 600;
+}
+
+.satus-section--card {
+    border: 1px solid #222239;
 }
 
 
