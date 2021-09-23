@@ -1,12 +1,12 @@
 {
     "appearance": {
-        "message": "Appearance"
+        "message": "מראה"
     },
     "backgroundColor": {
-        "message": "Background color"
+        "message": "צבע רקע"
     },
     "blur": {
-        "message": "Blur"
+        "message": "טשטוש"
     },
     "cancel": {
         "message": "ביטול"
@@ -24,16 +24,16 @@
         "message": "הסתרה במסך מלא"
     },
     "hidePanel": {
-        "message": "Hide panel"
+        "message": "הסתרת פאנל"
     },
     "nextFrame": {
-        "message": "Next frame"
+        "message": "פריים הבא"
     },
     "opacity": {
-        "message": "Opacity"
+        "message": "שקיפות"
     },
     "previousFrame": {
-        "message": "Previous frame"
+        "message": "פריים קודם"
     },
     "reset": {
         "message": "איפוס"
@@ -45,10 +45,10 @@
         "message": "קיצורים"
     },
     "somethingWentWrongTryReloadingThePage": {
-        "message": "Something went wrong. Try reloading the page."
+        "message": "משהו השתבש. יש לנסות לטעון את העמוד מחדש."
     },
     "textColor": {
-        "message": "Text color"
+        "message": "צבע טקסט"
     },
     "time": {
         "message": "זמן"
