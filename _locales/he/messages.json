@@ -2,8 +2,17 @@
     "appearance": {
         "message": "מראה"
     },
+    "areYouSureYouWantToExportTheData": {
+        "message": "Are you sure you want to export the data?"
+    },
+    "areYouSureYouWantToImportTheData": {
+        "message": "Are you sure you want to import the data?"
+    },
     "backgroundColor": {
         "message": "צבע רקע"
+    },
+    "black": {
+        "message": "Black"
     },
     "blur": {
         "message": "טשטוש"
@@ -11,11 +20,17 @@
     "cancel": {
         "message": "ביטול"
     },
+    "dark": {
+        "message": "Dark"
+    },
     "description": {
         "message": "הכלי הטוב ביותר למעבר בין חלוניות (פריימים). עובד עם כל האתרים! יש להזיז את סמן העכבר על גבי סרטון ולהשתמש במקשי החיצים למעבר בין פריימים."
     },
     "duration": {
         "message": "משך"
+    },
+    "export": {
+        "message": "Export"
     },
     "frame": {
         "message": "פריים"
@@ -26,8 +41,20 @@
     "hidePanel": {
         "message": "הסתרת פאנל"
     },
+    "import": {
+        "message": "Import"
+    },
+    "language": {
+        "message": "Language"
+    },
+    "light": {
+        "message": "Light"
+    },
     "nextFrame": {
         "message": "פריים הבא"
+    },
+    "ok": {
+        "message": "Ok"
     },
     "opacity": {
         "message": "שקיפות"
@@ -49,6 +76,9 @@
     },
     "textColor": {
         "message": "צבע טקסט"
+    },
+    "theme": {
+        "message": "Theme"
     },
     "time": {
         "message": "זמן"

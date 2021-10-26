@@ -5,62 +5,51 @@
 # Made with love
 --------------------------------------------------------------*/
 
-
 /*--------------------------------------------------------------
 # BODY
 --------------------------------------------------------------*/
 
-body {
-    color: #565676;
-    background: #0e0e1b;
-    --satus-primary: #3d3d8f;
-    --satus-hover: rgba(255, 255, 255, .03);
-    --satus-header-background: #2a2a51;
-    --satus-header-text: #9595b2;
+body[theme=dark] {
+    --satus-primary: #6b6bb3;
+    --satus-switch-background: rgba(0,0,0,.08);
+    --satus-header-background: #37376c;
+    --satus-header-text: #acacc3;
     --satus-layers-background: #0e0e1b;
     --satus-layers-text: #565676;
-    --satus-section-card-background: #1b1b2d;
-    --satus-section-card-text: #9595b2;
-    --satus-switch-background: rgba(255, 255, 255, .12);
+    --satus-section-card-background: #282848;
+    --satus-section-card-text: #acacc3;
     --satus-modal-background: #2a2a51;
-    --satus-modal-text: #9595b2;
-    --satus-pluviam-background: #fff;
+    --satus-modal-text: #acacc3;
+    --satus-hover: rgba(255, 255, 255, .08);
+    --satus-text-field--background: #e8e8e3;
+    --satus-text-field--border: #d6d6cd;
+    --satus-text-field--text: #848471;
+    --satus-switch-track: rgba(255, 255, 255, .12);
+    --satus-switch-track--active: var(--satus-primary);
+    --satus-switch-thumb: #fff;
+    --satus-tabs: #fff;
+    --satus-tooltip: rgba(0,0,0,.4);
+    --satus-sortable-ghost: rgba(0, 0, 0, .80);
+    --satus-sortable-background: #f9cf9f;
+    --satus-sortable-text: #fff;
+    --satus-divider: #454587;
+    --satus-tabs-background: #1c1c36;
+    --satus-tabs-foreground: #37376c;
+    --satus-context-menu--border: #ccc;
+    --satus-checkbox--background: rgb(90, 90, 73, .08);
+    --satus-checkbox--border: rgb(90, 90, 73, .16);
+    --satus-checkbox--mark: #fff;
 }
 
 .satus-header {
     font-size: 15px;
     font-weight: 600;
-    justify-content: flex-start;
-    box-shadow: 0 1px 0 #37376c;
-    z-index: 1;
-}
-
-.satus-header .satus-button {
-    width: 40px;
-    min-width: 40px;
-    height: 40px;
-    margin: 0 8px 0 -8px;
-    padding: 8px;
-    color: inherit;
-    border-radius: 50%;
-}
-
-.satus-header .satus-button:hover {
-    cursor: pointer;
-    background: rgba(255, 255, 255, .04);
-}
-
-.satus-header .satus-button>svg {
-    stroke: currentcolor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
 }
 
 .satus-switch--domain {
-    width: calc(100% - 24px);
+    width: 100%;
+    margin: 8px 0 0;
     height: 48px;
-    margin: 12px auto 0;
     padding: 0 16px;
     transition: 150ms;
     color: #7d95a1;
@@ -81,17 +70,13 @@ body {
 }
 
 .satus-alert {
-    width: calc(100% - 24px);
-    margin: 12px auto 0;
+    width: 100%;
+    margin: 8px 0 0;
 }
 
 .satus-section--label {
     font-size: 14px;
     font-weight: 600;
-}
-
-.satus-section--card {
-    border: 1px solid #222239;
 }
 
 
@@ -114,13 +99,8 @@ body {
     transform: translateX(-50%);
     text-align: center;
     text-decoration: none;
-    opacity: .4;
-    color: #9595b2;
+    color: #8f8fb7;
     justify-content: center;
-}
-
-.made-with-love:hover {
-    opacity: 1;
 }
 
 .satus-base[data-hide-made-with-love=true] .made-with-love {

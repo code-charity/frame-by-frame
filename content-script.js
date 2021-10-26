@@ -12,7 +12,8 @@
 # GLOBAL VARIABLES
 --------------------------------------------------------------*/
 
-var storage = {},
+var tab_url = location.hostname,
+    storage = {},
     active = false,
     ui = {},
     media = [],
@@ -72,7 +73,7 @@ function createUserInterface() {
     show_hide_button.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/></svg>';
     drag_and_drop_button.innerHTML = '<svg viewBox="0 0 24 24"><path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"/></svg>';
 
-    show_hide_button.addEventListener('click', function() {
+    show_hide_button.addEventListener('click', function () {
         this.parentNode.classList.toggle('frame-by-frame__info-panel--collapsed');
 
         chrome.storage.local.set({
@@ -113,12 +114,12 @@ function createUserInterface() {
 
         chrome.storage.local.set({
             position: position
-        }, function() {
+        }, function () {
             changing = false;
         });
     }
 
-    drag_and_drop_button.addEventListener('mousedown', function(event) {
+    drag_and_drop_button.addEventListener('mousedown', function (event) {
         event.preventDefault();
 
         changing = true;
@@ -189,7 +190,7 @@ function updateSleepingMode() {
     }
 
     if (ui.container) {
-        sleeping_mode = setTimeout(function() {
+        sleeping_mode = setTimeout(function () {
             ui.container.classList.add('frame-by-frame--sleeping-mode');
 
             sleeping_mode = false;
@@ -281,7 +282,7 @@ function checkMouse() {
             resizeUserInterface();
             moveUserInterface();
 
-            setTimeout(function() {
+            setTimeout(function () {
                 ui.container.classList.add('frame-by-frame--visible');
             });
         } else {
@@ -290,7 +291,7 @@ function checkMouse() {
     }
 }
 
-window.addEventListener('mousemove', function(event) {
+window.addEventListener('mousemove', function (event) {
     mouse.x = event.clientX;
     mouse.y = event.clientY;
 
@@ -299,7 +300,7 @@ window.addEventListener('mousemove', function(event) {
     checkMouse();
 });
 
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
     scroll.x = this.scrollX;
     scroll.y = this.scrollY;
 
@@ -323,7 +324,7 @@ function keyboard() {
         },
         hover = false,
         features = {
-            next_shortcut: function() {
+            next_shortcut: function () {
                 console.log(0);
                 if (active) {
                     var video = active.element,
@@ -344,7 +345,7 @@ function keyboard() {
                     updateSleepingMode();
                 }
             },
-            prev_shortcut: function() {
+            prev_shortcut: function () {
                 if (active) {
                     var video = active.element,
                         frame = 1 / 60;
@@ -364,7 +365,7 @@ function keyboard() {
                     updateSleepingMode();
                 }
             },
-            hide_shortcut: function() {
+            hide_shortcut: function () {
                 if (active) {
                     chrome.storage.local.set({
                         hidden: ui.info_panel.classList.contains('frame-by-frame__info-panel--collapsed')
@@ -415,7 +416,7 @@ function keyboard() {
         return prevent;
     }
 
-    window.addEventListener('keydown', function(event) {
+    window.addEventListener('keydown', function (event) {
         if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
             return false;
         }
@@ -437,7 +438,7 @@ function keyboard() {
         }
     }, true);
 
-    window.addEventListener('keyup', function(event) {
+    window.addEventListener('keyup', function (event) {
         if (document.activeElement && ['EMBED', 'INPUT', 'OBJECT', 'TEXTAREA', 'IFRAME'].indexOf(document.activeElement.tagName) !== -1 || event.target.isContentEditable) {
             return false;
         }
@@ -455,7 +456,7 @@ function keyboard() {
         data.wheel = 0;
     }, true);
 
-    window.addEventListener('wheel', function(event) {
+    window.addEventListener('wheel', function (event) {
         if (event.deltaY > 0) {
             data.wheel = 1;
         } else {
@@ -476,17 +477,10 @@ function keyboard() {
 # INITIALIZATION
 --------------------------------------------------------------*/
 
-window.addEventListener('resize', function() {
-    setTimeout(function() {
-        calcPositions();
-        checkMouse();
-    }, 250);
-});
-
-window.addEventListener('DOMContentLoaded', function() {
+function init() {
     createUserInterface();
 
-    chrome.storage.local.get(function(items) {
+    chrome.storage.local.get(function (items) {
         storage = items;
 
         if (items.hidden === true) {
@@ -505,6 +499,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
         if (items.hasOwnProperty('hide_in_fullscreen')) {
             hide_in_fullscreen = items.hide_in_fullscreen;
+
+            document.documentElement.setAttribute('fbf-hide-in-fullscreen', hide_in_fullscreen);
         }
 
         if (items.background_color) {
@@ -567,9 +563,16 @@ window.addEventListener('DOMContentLoaded', function() {
 
         keyboard();
     });
-});
 
-chrome.storage.onChanged.addListener(function(changes) {
+    window.addEventListener('resize', function () {
+        setTimeout(function () {
+            calcPositions();
+            checkMouse();
+        }, 250);
+    });
+}
+
+chrome.storage.onChanged.addListener(function (changes) {
     for (var key in changes) {
         var value = changes[key].newValue;
 
@@ -587,9 +590,11 @@ chrome.storage.onChanged.addListener(function(changes) {
             moveUserInterface();
         } else if (key === 'hide_in_fullscreen') {
             hide_in_fullscreen = value;
+
+            document.documentElement.setAttribute('fbf-hide-in-fullscreen', hide_in_fullscreen);
         } else if (key === 'opacity') {
             ui.info_panel.style.opacity = value;
-        }  else if (key === 'blur') {
+        } else if (key === 'blur') {
             ui.info_panel.style.backdropFilter = 'blur(' + value + 'px)';
         } else if (key === 'background_color') {
             if (value) {
@@ -615,6 +620,30 @@ chrome.storage.onChanged.addListener(function(changes) {
     }
 });
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    sendResponse(location.hostname);
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.action === 'init') {
+        if (window === window.top) {
+            sendResponse(tab_url);
+        }
+    }
+});
+
+chrome.runtime.sendMessage({
+    action: 'get-tab-url'
+}, function (response) {
+    tab_url = response.url;
+
+    if (document.body) {
+        init();
+    } else {
+        window.addEventListener('DOMContentLoaded', init);
+    }
+});
+
+document.addEventListener('fullscreenchange', function () {
+    if (document.fullscreenElement) {
+        document.documentElement.setAttribute('fbf-fullscreen', 'true');
+    } else {
+        document.documentElement.setAttribute('fbf-fullscreen', 'false');
+    }
 });

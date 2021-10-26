@@ -10,7 +10,7 @@
     <a href="https://chrome.google.com/webstore/detail/frame-by-frame/cclnaabdfgnehogonpeddbgejclcjneh">Get Started »</a>
 </p>
 
-## :earth_americas: Translations
+## :earth_africa: Translations
 - [ ] [Arabic](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/ar/messages.json) `/ar/`
 - [ ] [Amharic](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/am/messages.json) `/am/`
 - [ ] [Bulgarian](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/bg/messages.json) `/bg/`

@@ -2,8 +2,17 @@
     "appearance": {
         "message": "Appearance"
     },
+    "areYouSureYouWantToExportTheData": {
+        "message": "Are you sure you want to export the data?"
+    },
+    "areYouSureYouWantToImportTheData": {
+        "message": "Are you sure you want to import the data?"
+    },
     "backgroundColor": {
         "message": "Background color"
+    },
+    "black": {
+        "message": "Black"
     },
     "blur": {
         "message": "Blur"
@@ -11,11 +20,17 @@
     "cancel": {
         "message": "Cancel"
     },
+    "dark": {
+        "message": "Dark"
+    },
     "description": {
         "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
     },
     "duration": {
         "message": "Duration"
+    },
+    "export": {
+        "message": "Export"
     },
     "frame": {
         "message": "Frame"
@@ -26,8 +41,20 @@
     "hidePanel": {
         "message": "Hide panel"
     },
+    "import": {
+        "message": "Import"
+    },
+    "language": {
+        "message": "Language"
+    },
+    "light": {
+        "message": "Light"
+    },
     "nextFrame": {
         "message": "Next frame"
+    },
+    "ok": {
+        "message": "Ok"
     },
     "opacity": {
         "message": "Opacity"
@@ -49,6 +76,9 @@
     },
     "textColor": {
         "message": "Text color"
+    },
+    "theme": {
+        "message": "Theme"
     },
     "time": {
         "message": "Time"

@@ -7,13 +7,15 @@
 # 4.0 Add item
 # 5.0 Remove item
 # 6.0 Decode
-# 7.0 Initialization
+# 7.0 Add locales
+# 8.0 Initialization
 #---------------------------------------------------------------
 
 #---------------------------------------------------------------
 # 1.0 IMPORT MODULES
 #---------------------------------------------------------------
 
+import io
 import json
 import os
 import pathlib
@@ -59,14 +61,16 @@ def getListOfFiles(dirName):
 
 def addItem(allFiles):
     message = input("Enter your message: ")
+    camelized_message = lowerCamelCase(message)
     
     for keyFile in allFiles:
         with open(keyFile, "r+") as json_file:
             data = json.load(json_file)
             
-            data[lowerCamelCase(message)] = {
-                "message": message
-            }
+            if ((camelized_message in data) == False) :
+                data[camelized_message] = {
+                    "message": message
+                }
             
             json_file.seek(0)
             json.dump(data, json_file, ensure_ascii=False, indent=4, sort_keys=True)
@@ -107,7 +111,51 @@ def decodeCharacters(allFiles):
 
 
 #---------------------------------------------------------------
-# 7.0 INITIALIZATION
+# 7.0 ADD LOCALES
+#---------------------------------------------------------------
+
+def addLocales():
+    locales = [
+        "ar",
+        "bn",
+        "de",
+        "el",
+        "en",
+        "es",
+        "fr",
+        "hin",
+        "hr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "nb_NO",
+        "nl",
+        "no",
+        "pl",
+        "pt_BR",
+        "pt_PT",
+        "ro",
+        "ru",
+        "sk",
+        "tr",
+        "zh_CN",
+        "zh_TW"
+    ]
+
+    for locale in locales:
+        if not os.path.exists("../_locales/" + locale):
+            pathlib.Path("../_locales/" + locale).mkdir(parents=True, exist_ok=True)
+
+            file = io.open("../_locales/" + locale + '/messages.json', mode='w', encoding='utf-8')
+
+            file.write("{}")
+
+            file.close()
+
+
+#---------------------------------------------------------------
+# 8.0 INITIALIZATION
 #---------------------------------------------------------------
 
 allFiles = getListOfFiles("../_locales/")
@@ -117,6 +165,7 @@ operation = input("""
 Add item: 1
 Remove item: 2
 Decode: 3
+Add locales: 4
 --------------------------------
 
 Enter number: """)
@@ -127,3 +176,5 @@ elif operation == "2" :
     removeItem(allFiles)
 elif operation == "3" :
     decodeCharacters(allFiles)
+elif operation == "4" :
+    addLocales()

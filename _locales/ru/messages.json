@@ -1,15 +1,27 @@
 {
     "appearance": {
-        "message": "Appearance"
+        "message": "Внешний вид"
+    },
+    "areYouSureYouWantToExportTheData": {
+        "message": "Вы действительно хотите экспортировать данные?"
+    },
+    "areYouSureYouWantToImportTheData": {
+        "message": "Вы действительно хотите испортировать данные?"
     },
     "backgroundColor": {
-        "message": "Background color"
+        "message": "Цвет фона"
+    },
+    "black": {
+        "message": "Черная"
     },
     "blur": {
-        "message": "Blur"
+        "message": "Размытие"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Отмена"
+    },
+    "dark": {
+        "message": "Темная"
     },
     "description": {
         "message": "Лучшее Frame By Frame расширение. Работает со всеми веб-сайтами! Наведите курсор на видео, затем используйте клавиатуру, чтобы выбрать нужный кадр."
@@ -17,38 +29,56 @@
     "duration": {
         "message": "Продолжительность"
     },
+    "export": {
+        "message": "Экспорт"
+    },
     "frame": {
         "message": "Кадр"
     },
     "hideInFullscreen": {
-        "message": "Hide in fullscreen"
+        "message": "Скрыть в полном экране"
     },
     "hidePanel": {
-        "message": "Hide panel"
+        "message": "Скрыть панель"
+    },
+    "import": {
+        "message": "Импортировать"
+    },
+    "language": {
+        "message": "Язык"
+    },
+    "light": {
+        "message": "Светлая"
     },
     "nextFrame": {
-        "message": "Next frame"
+        "message": "Следующий кадр"
+    },
+    "ok": {
+        "message": "Ок"
     },
     "opacity": {
-        "message": "Opacity"
+        "message": "Прозрачность"
     },
     "previousFrame": {
-        "message": "Previous frame"
+        "message": "Предыдущий кадр"
     },
     "reset": {
-        "message": "Reset"
+        "message": "Сброс"
     },
     "save": {
-        "message": "Save"
+        "message": "Сохранить"
     },
     "shortcuts": {
-        "message": "Shortcuts"
+        "message": "Горячие клавиши"
     },
     "somethingWentWrongTryReloadingThePage": {
-        "message": "Something went wrong. Try reloading the page."
+        "message": "Что-то пошло не так. Попробуйте перезагрузить страницу."
     },
     "textColor": {
-        "message": "Text color"
+        "message": "Цвет текста"
+    },
+    "theme": {
+        "message": "Тема"
     },
     "time": {
         "message": "Время"
