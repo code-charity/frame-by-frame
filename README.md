@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/victor-savinov/frame-by-frame">
-        <img src="https://github.com/victor-savinov/previews/blob/master/frame-by-frame/screenshot-01.png">
+        <img src="https://github.com/victor-savinov/graphics/blob/master/previews/frame-by-frame/screenshot-01.png">
     </a>
 </p>
 
