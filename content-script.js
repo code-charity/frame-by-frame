@@ -3,6 +3,7 @@
 ----------------------------------------------------------------
 # Global variable
 # User interface
+# Observer
 # Keyboard
 # Mouse
 # Initialization
@@ -12,9 +13,17 @@
 # GLOBAL VARIABLES
 --------------------------------------------------------------*/
 
-var tab_url = location.hostname,
+var extension = {
+        handlers: {},
+        videos: [],
+        rects: [],
+        mouse: {
+            x: 0,
+            y: 0
+        },
+    },
+    tab_url = location.hostname,
     storage = {},
-    active = false,
     ui = {},
     media = [],
     mouse = {
@@ -30,8 +39,8 @@ var tab_url = location.hostname,
         y: 0
     },
     changing = false,
-    sleeping_mode = false,
-    hide_in_fullscreen = false;
+    sleeping_mode = false;
+
 
 function isset(variable) {
     return !(typeof variable === 'undefined' || variable === null);
@@ -112,6 +121,8 @@ function createUserInterface() {
         window.removeEventListener('mousemove', mousemove);
         window.removeEventListener('mouseup', mouseup);
 
+        ui.container.classList.remove('frame-by-frame--dragging');
+
         chrome.storage.local.set({
             position: position
         }, function () {
@@ -122,6 +133,7 @@ function createUserInterface() {
     drag_and_drop_button.addEventListener('mousedown', function (event) {
         event.preventDefault();
 
+        ui.container.classList.add('frame-by-frame--dragging');
         changing = true;
 
         window.addEventListener('mousemove', mousemove);
@@ -161,19 +173,10 @@ function moveUserInterface() {
     ui.info_panel.style.top = y + 'px';
 }
 
-function resizeUserInterface() {
-    var container = ui.container;
-
-    container.style.left = active.left - scroll.x + 'px';
-    container.style.top = active.top - scroll.y + 'px';
-    container.style.width = active.width + 'px';
-    container.style.height = active.height + 'px';
-}
-
 function updateUserInterface() {
-    if (active) {
-        var duration = active.element.duration,
-            currentTime = active.element.currentTime,
+    if (extension.video) {
+        var duration = extension.video.duration,
+            currentTime = extension.video.currentTime,
             frame = 1 / 60;
 
         ui.time.innerText = currentTime.toFixed(2);
@@ -200,114 +203,83 @@ function updateSleepingMode() {
 
 
 /*--------------------------------------------------------------
-# SEARCH VIDEOS
+# OBSERVER
 --------------------------------------------------------------*/
 
-function searchVideos() {
-    var elements = document.querySelectorAll('video');
+extension.observer = function () {
+    this.observer = new MutationObserver(function (mutationList) {
+        for (var i = 0, l = mutationList.length; i < l; i++) {
+            var mutation = mutationList[i];
 
-    for (var i = 0, l = elements.length; i < l; i++) {
-        var founded = false;
+            if (mutation.type === 'childList') {
+                for (var j = 0, k = mutation.addedNodes.length; j < k; j++) {
+                    extension.handlers.child('added', mutation.addedNodes[j]);
+                }
 
-        for (var j = 0, k = media.length; j < k; j++) {
-            if (media[j] && elements[i] === media[j].element) {
-                founded = true;
+                for (var j = 0, k = mutation.removedNodes.length; j < k; j++) {
+                    extension.handlers.child('removed', mutation.removedNodes[j]);
+                }
             }
         }
+    })
 
-        if (founded === false) {
-            var data = elements[i].getBoundingClientRect();
-
-            elements[i].addEventListener('timeupdate', updateUserInterface);
-
-            media.push({
-                element: elements[i],
-                left: data.left,
-                top: data.top,
-                width: data.width,
-                height: data.height
-            });
-        }
-    }
-}
+    this.observer.observe(document, {
+        childList: true,
+        subtree: true
+    });
+};
 
 
 /*--------------------------------------------------------------
-# CALC POSITIONS
+# HANDLERS
 --------------------------------------------------------------*/
 
-function calcPositions() {
-    for (var i = 0, l = media.length; i < l; i++) {
-        var object = media[i];
+/*--------------------------------------------------------------
+# CHILD
+--------------------------------------------------------------*/
 
-        if (object) {
-            var data = object.element.getBoundingClientRect();
+extension.handlers.child = function (type, element) {
+    var children = element.children;
 
-            if (data.width !== 0 && data.height !== 0) {
-                object.left = data.left + scroll.x;
-                object.top = data.top + scroll.y;
-                object.width = data.width;
-                object.height = data.height;
-            } else {
-                delete media[i];
-            }
+    extension.handlers.video(type, element);
+
+    if (children) {
+        for (var i = 0, l = children.length; i < l; i++) {
+            var child = children[i];
+
+            extension.handlers.child(type, child);
         }
     }
-}
+};
 
 
 /*--------------------------------------------------------------
-# MOUSE
+# VIDEO
 --------------------------------------------------------------*/
 
-function checkMouse() {
-    active = false;
+extension.handlers.video = function (type, element) {
+    if (element.nodeName === 'VIDEO') {
+        var index = extension.videos.indexOf(element);
 
-    for (var i = 0, l = media.length; i < l; i++) {
-        var rect = media[i];
+        if (type === 'added') {
+            if (index === -1) {
+                extension.videos.push(element);
+                extension.rects.push(element.getBoundingClientRect());
 
-        if (
-            rect &&
-            mouse.x + scroll.x > rect.left &&
-            mouse.y + scroll.y > rect.top &&
-            mouse.x + scroll.x < rect.left + rect.width &&
-            mouse.y + scroll.y < rect.top + rect.height
-        ) {
-            active = rect;
+                element.addEventListener('timeupdate', updateUserInterface);
+
+                element.addEventListener('resize', function () {
+                    extension.rects[extension.videos.indexOf(this)] = element.getBoundingClientRect();
+                });
+            }
+        } else if (type === 'removed') {
+            if (index !== -1) {
+                extension.videos.splice(index, 1);
+                extension.rects.splice(index, 1);
+            }
         }
     }
-
-    if (ui.container && changing === false) {
-        if (active) {
-            resizeUserInterface();
-            moveUserInterface();
-
-            setTimeout(function () {
-                ui.container.classList.add('frame-by-frame--visible');
-            });
-        } else {
-            ui.container.classList.remove('frame-by-frame--visible');
-        }
-    }
-}
-
-window.addEventListener('mousemove', function (event) {
-    mouse.x = event.clientX;
-    mouse.y = event.clientY;
-
-    updateSleepingMode();
-
-    checkMouse();
-});
-
-window.addEventListener('scroll', function () {
-    scroll.x = this.scrollX;
-    scroll.y = this.scrollY;
-
-    calcPositions();
-    updateSleepingMode();
-    checkMouse();
-});
+};
 
 
 /*------------------------------------------------------------------------------
@@ -326,8 +298,8 @@ function keyboard() {
         features = {
             next_shortcut: function () {
                 console.log(0);
-                if (active) {
-                    var video = active.element,
+                if (extension.video) {
+                    var video = extension.video,
                         frame = 1 / 60;
 
                     if (event.shiftKey) {
@@ -346,8 +318,8 @@ function keyboard() {
                 }
             },
             prev_shortcut: function () {
-                if (active) {
-                    var video = active.element,
+                if (extension.video) {
+                    var video = extension.video,
                         frame = 1 / 60;
 
                     if (event.shiftKey) {
@@ -366,7 +338,7 @@ function keyboard() {
                 }
             },
             hide_shortcut: function () {
-                if (active) {
+                if (extension.video) {
                     chrome.storage.local.set({
                         hidden: ui.info_panel.classList.contains('frame-by-frame__info-panel--collapsed')
                     });
@@ -474,8 +446,67 @@ function keyboard() {
 
 
 /*--------------------------------------------------------------
+# CONTROLS
+--------------------------------------------------------------*/
+
+extension.cursor = function () {
+    var x = extension.mouse.x,
+        y = extension.mouse.y;
+
+    extension.collised = false;
+    extension.video = false;
+
+    for (var i = 0, l = extension.rects.length; i < l; i++) {
+        var rect = extension.rects[i];
+
+        if (x > rect.left && y > rect.top) {
+            if (x < rect.left + rect.width && y < rect.top + rect.height) {
+                extension.collised = rect;
+
+                extension.video = extension.videos[i];
+            }
+        }
+    }
+
+    if (ui.container) {
+        if (extension.collised) {
+            ui.container.style.display = 'block';
+            ui.container.style.left = extension.collised.left + 'px';
+            ui.container.style.top = extension.collised.top + 'px';
+            ui.container.style.width = extension.collised.width + 'px';
+            ui.container.style.height = extension.collised.height + 'px';
+            moveUserInterface();
+        } else {
+            ui.container.style.display = '';
+        }
+    }
+};
+
+extension.update = function () {
+    for (var i = 0, l = extension.rects.length; i < l; i++) {
+        extension.rects[i] = extension.videos[i].getBoundingClientRect();
+    }
+};
+
+window.addEventListener('mousemove', function (event) {
+    extension.mouse.x = event.clientX;
+    extension.mouse.y = event.clientY;
+
+    extension.cursor();
+    updateSleepingMode();
+});
+
+window.addEventListener('scroll', function (event) {
+    extension.update();
+    extension.cursor();
+});
+
+
+/*--------------------------------------------------------------
 # INITIALIZATION
 --------------------------------------------------------------*/
+
+extension.observer();
 
 function init() {
     createUserInterface();
@@ -497,20 +528,14 @@ function init() {
             ui.container.style.display = 'none';
         }
 
-        if (items.hasOwnProperty('hide_in_fullscreen')) {
-            hide_in_fullscreen = items.hide_in_fullscreen;
-
-            document.documentElement.setAttribute('fbf-hide-in-fullscreen', hide_in_fullscreen);
-        }
-
         if (items.background_color) {
-            ui.info_panel.style.backgroundColor = 'rgb(' + items.background_color.rgb.join(',') + ')';
+            ui.info_panel.style.backgroundColor = 'rgb(' + items.background_color.join(',') + ')';
         } else {
             ui.info_panel.style.backgroundColor = '#000';
         }
 
         if (items.text_color) {
-            ui.info_panel.style.color = 'rgb(' + items.text_color.rgb.join(',') + ')';
+            ui.info_panel.style.color = 'rgb(' + items.text_color.join(',') + ')';
         } else {
             ui.info_panel.style.color = '#fff';
         }
@@ -557,19 +582,13 @@ function init() {
             };
         }
 
-        setInterval(searchVideos, 2500);
-        setInterval(calcPositions, 1000);
-        setInterval(checkMouse, 100);
-
         keyboard();
     });
 
-    window.addEventListener('resize', function () {
-        setTimeout(function () {
-            calcPositions();
-            checkMouse();
-        }, 250);
-    });
+    extension.interval = setInterval(function () {
+        extension.update();
+        extension.cursor();
+    }, 100);
 }
 
 chrome.storage.onChanged.addListener(function (changes) {
@@ -588,23 +607,19 @@ chrome.storage.onChanged.addListener(function (changes) {
             position = value;
 
             moveUserInterface();
-        } else if (key === 'hide_in_fullscreen') {
-            hide_in_fullscreen = value;
-
-            document.documentElement.setAttribute('fbf-hide-in-fullscreen', hide_in_fullscreen);
         } else if (key === 'opacity') {
             ui.info_panel.style.opacity = value;
         } else if (key === 'blur') {
             ui.info_panel.style.backdropFilter = 'blur(' + value + 'px)';
         } else if (key === 'background_color') {
             if (value) {
-                ui.info_panel.style.backgroundColor = 'rgb(' + value.rgb.join(',') + ')';
+                ui.info_panel.style.backgroundColor = 'rgb(' + value.join(',') + ')';
             } else {
                 ui.info_panel.style.backgroundColor = '#000';
             }
         } else if (key === 'text_color') {
             if (value) {
-                ui.info_panel.style.backgroundColor = 'rgb(' + value.rgb.join(',') + ')';
+                ui.info_panel.style.backgroundColor = 'rgb(' + value.join(',') + ')';
             } else {
                 ui.info_panel.style.backgroundColor = '#fff';
             }
@@ -641,9 +656,9 @@ chrome.runtime.sendMessage({
 });
 
 document.addEventListener('fullscreenchange', function () {
-    if (document.fullscreenElement) {
-        document.documentElement.setAttribute('fbf-fullscreen', 'true');
+    if (document.fullscreenElement && storage.hide_in_fullscreen === true) {
+        ui.info_panel.style.display = 'none';
     } else {
-        document.documentElement.setAttribute('fbf-fullscreen', 'false');
+        ui.info_panel.style.display = '';
     }
 });

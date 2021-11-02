@@ -11,26 +11,24 @@
 --------------------------------------------------------------*/
 
 .frame-by-frame {
+    display: none;
     position: fixed;
     z-index: 2147483647;
-    visibility: hidden;
     box-sizing: border-box;
     transition-delay: 200ms;
     transition-duration: 200ms;
     transition-property: opacity, visibility;
     pointer-events: none;
-    opacity: 0;
     border: 1px solid rgba(255, 255, 255, .2);
 }
 
-.frame-by-frame--visible {
-    visibility: visible;
-    transition-delay: 0ms;
-    opacity: 1;
+.frame-by-frame--visible,
+.frame-by-frame--dragging {
+    display: block;
 }
 
 .frame-by-frame--sleeping-mode {
-    opacity: 0;
+    display: none;
 }
 
 
