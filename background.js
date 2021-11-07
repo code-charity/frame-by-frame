@@ -32,9 +32,14 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
     }
 
     if (message.action === 'get-tab-url') {
-        sendResponse({
-            url: new URL(sender.tab.url).hostname,
-            id: sender.tab.id
-        });
+        var response = {
+                url: new URL(sender.url || sender.tab.url).hostname,
+                id: sender.tab.id
+            };
+
+        sendResponse(response);
+        
+        return response;
     }
+
 });
