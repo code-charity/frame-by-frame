@@ -1,8 +1,26 @@
 /*---------------------------------------------------------------
 >>> BACKGROUND
 -----------------------------------------------------------------
+# Storage
 # Message listener
 ---------------------------------------------------------------*/
+
+/*---------------------------------------------------------------
+# STORAGE
+---------------------------------------------------------------*/
+
+chrome.storage.local.get(function (items) {
+    if (items.background_color && items.background_color.rgb) {
+        items.background_color = items.background_color.rgb;
+    }
+
+    if (items.text_color && items.text_color.rgb) {
+        items.text_color = items.text_color.rgb;
+    }
+
+    chrome.storage.local.set(items);
+});
+
 
 /*---------------------------------------------------------------
 # MESSAGE LISTENER
