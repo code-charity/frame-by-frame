@@ -4,10 +4,14 @@
     </a>
 </p>
 
+<h3 align="center">Frame By Frame</h3>
+
 <p align="center">
     Move your mouse cursor over any video and use keyboard arrows to switch frames.
     <br>
-    <a href="https://chrome.google.com/webstore/detail/frame-by-frame/cclnaabdfgnehogonpeddbgejclcjneh">Get Started »</a>
+    <br>
+    <a href="https://chrome.google.com/webstore/detail/frame-by-frame/cclnaabdfgnehogonpeddbgejclcjneh">Chrome</a>  ·
+    <a href="https://addons.mozilla.org/firefox/addon/frame-by-frame/">Firefox</a>
 </p>
 
 ## :earth_africa: Translations
