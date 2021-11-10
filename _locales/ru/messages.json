@@ -50,6 +50,9 @@
     "light": {
         "message": "Светлая"
     },
+    "mode": {
+        "message": "Mode"
+    },
     "nextFrame": {
         "message": "Следующий кадр"
     },

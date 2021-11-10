@@ -50,6 +50,9 @@
     "light": {
         "message": "Light"
     },
+    "mode": {
+        "message": "Mode"
+    },
     "nextFrame": {
         "message": "Next frame"
     },

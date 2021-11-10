@@ -11,9 +11,9 @@
 --------------------------------------------------------------*/
 
 .frame-by-frame {
-    display: none;
     position: fixed;
     z-index: 2147483647;
+    display: none;
     box-sizing: border-box;
     transition-delay: 200ms;
     transition-duration: 200ms;
@@ -54,8 +54,8 @@
 }
 
 .frame-by-frame__info-panel--collapsed {
-    visibility: hidden;
-    backdrop-filter: none;
+    visibility: hidden !important;
+    backdrop-filter: none !important;
 }
 
 .frame-by-frame__info-panel>div {
@@ -69,7 +69,9 @@
 }
 
 .frame-by-frame__info-panel>div>div:first-child {
+    overflow: hidden;
     text-transform: uppercase;
+    text-overflow: ellipsis;
 }
 
 .frame-by-frame__info-panel>div>div:last-child {
@@ -148,6 +150,6 @@
     opacity: 1;
 }
 
-html[fbf-hide-in-fullscreen='true'][fbf-fullscreen='true'] > body > .frame-by-frame {
-    display: none !important
+html[fbf-hide-in-fullscreen='true'][fbf-fullscreen='true']>body>.frame-by-frame {
+    display: none !important;
 }

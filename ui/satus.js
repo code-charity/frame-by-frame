@@ -146,9 +146,13 @@ satus.class = function (element, string) {
 # EMPTY
 --------------------------------------------------------------*/
 
-satus.empty = function (element) {
+satus.empty = function (element, exclude = []) {
     for (var i = element.childNodes.length - 1; i > -1; i--) {
-        element.childNodes[i].remove();
+        var child = element.childNodes[i];
+
+        if (exclude.indexOf(child) === -1) {
+            child.remove();
+        }
     }
 };
 
@@ -290,6 +294,17 @@ satus.storage.set = function (name, value) {
     }
 
     chrome.storage.local.set(items);
+};
+
+
+/*--------------------------------------------------------------
+# REMOVE
+--------------------------------------------------------------*/
+
+satus.storage.remove = function (name) {
+    delete this.data[name];
+
+    chrome.storage.local.remove(name);
 };
 
 
@@ -718,7 +733,7 @@ satus.render = function (skeleton, container, skip, property) {
         this.on(component, skeleton.on);
         this.text(container, skeleton.text);
 
-        if (component.hasOwnProperty('storage') === false) {
+        if (component.hasOwnProperty('storage') === false && skeleton.storage !== false) {
             component.storage = skeleton.storage || property || false;
         }
 
@@ -1347,6 +1362,7 @@ satus.components.slider = function (skeleton) {
 					component.values[handle_index] = value;
 
 					component.storageValue = component.values.length === 1 ? component.values[0] : component.values;
+					component.value = component.storageValue;
 
 					component.storageChange();
 				}
@@ -1388,49 +1404,19 @@ satus.components.shortcut = function (skeleton) {
     component.className = 'satus-button';
     value.className = 'satus-shortcut__value';
 
-    component.update = function () {
-        var object = satus.storage.get(this.skeleton.storage) || this.skeleton.value || {},
-            array = [];
-
-        if (object.shift) {
-            array.push('Shift');
-        }
-
-        if (object.ctrl) {
-            array.push('Ctrl');
-        }
-
-        if (object.alt) {
-            array.push('Alt');
-        }
-
-        if (typeof object.keys === 'object') {
-            for (var key in object.keys) {
-                var char = object.keys[key].key || object.keys[key].code;
-
-                if (key === 32) {
-                    char = 'space';
-                }
-
-                array.push(char);
-            }
-        }
-
-        this.valueElement.textContent = array.join(' + ');
-    };
-
-    component.render = function () {
+    component.render = function (parent) {
         var self = this,
-            children = this.primary.children;
+            parent = parent || self.primary,
+            children = parent.children;
 
-        satus.empty(this.primary);
+        satus.empty(parent);
 
         function createElement(name) {
             var element = document.createElement('div');
 
             element.className = 'satus-shortcut__' + name;
 
-            self.primary.appendChild(element);
+            parent.appendChild(element);
 
             return element;
         }
@@ -1456,11 +1442,21 @@ satus.components.shortcut = function (skeleton) {
         }
 
         for (var code in this.data.keys) {
+            var key = this.data.keys[code].key,
+                arrows = ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'],
+                index = arrows.indexOf(key);
+
             if (children.length && children[children.length - 1].className.indexOf('key') !== -1) {
                 createElement('plus');
             }
 
-            createElement('key').textContent = this.data.keys[code].key.toUpperCase();
+            if (index !== -1) {
+                createElement('key').textContent = ['↑', '→', '↓', '←'][index];
+            } else if (key === ' ') {
+                createElement('key').textContent = '␣';
+            } else {
+                createElement('key').textContent = key.toUpperCase();
+            }
         }
 
         if (this.data.wheel) {
@@ -1474,6 +1470,32 @@ satus.components.shortcut = function (skeleton) {
             mouse.appendChild(div);
 
             mouse.className += ' ' + (this.data.wheel > 0);
+        }
+
+        if (this.data.click) {
+            if (children.length && children[children.length - 1].className.indexOf('key') !== -1) {
+                createElement('plus');
+            }
+
+            var mouse = createElement('mouse'),
+                div = document.createElement('div');
+
+            mouse.appendChild(div);
+
+            mouse.className += ' click';
+        }
+
+        if (this.data.context) {
+            if (children.length && children[children.length - 1].className.indexOf('key') !== -1) {
+                createElement('plus');
+            }
+
+            var mouse = createElement('mouse'),
+                div = document.createElement('div');
+
+            mouse.appendChild(div);
+
+            mouse.className += ' context';
         }
     };
 
@@ -1512,13 +1534,13 @@ satus.components.shortcut = function (skeleton) {
 
         if (
             (
-                component.data.wheel === 0 && 
-                    (
-                        Object.keys(component.data.keys).length === 0 &&
-                        component.data.alt === false &&
-                        component.data.ctrl === false &&
-                        component.data.shift === false
-                    )
+                component.data.wheel === 0 &&
+                (
+                    Object.keys(component.data.keys).length === 0 &&
+                    component.data.alt === false &&
+                    component.data.ctrl === false &&
+                    component.data.shift === false
+                )
             ) ||
             component.data.wheel < 0 && event.deltaY > 0 ||
             component.data.wheel > 0 && event.deltaY < 0) {
@@ -1546,7 +1568,7 @@ satus.components.shortcut = function (skeleton) {
             wheel: 0
         };
 
-        this.update();
+        this.render(this.valueElement);
     });
 
     component.addEventListener('click', function () {
@@ -1566,6 +1588,27 @@ satus.components.shortcut = function (skeleton) {
                     render: function () {
                         component.primary = this;
 
+                        if (component.skeleton.mouseButtons === true) {
+                            this.addEventListener('click', function () {
+                                component.data.context = false;
+                                component.data.click = true;
+
+                                component.render();
+                            });
+
+                            this.addEventListener('contextmenu', function (event) {
+                                event.preventDefault();
+                                event.stopPropagation();
+
+                                component.data.context = true;
+                                component.data.click = false;
+
+                                component.render();
+
+                                return false;
+                            });
+                        }
+
                         component.render();
                     }
                 }
@@ -1581,7 +1624,7 @@ satus.components.shortcut = function (skeleton) {
                         click: function () {
                             component.data = component.skeleton.value;
 
-                            component.update();
+                            component.render(component.valueElement);
 
                             satus.storage.set(skeleton.storage, false);
 
@@ -1599,7 +1642,7 @@ satus.components.shortcut = function (skeleton) {
                         click: function () {
                             component.data = satus.storage.get(component.storage) || component.skeleton.value;
 
-                            component.update();
+                            component.render(component.valueElement);
 
                             this.parentNode.parentNode.parentNode.close();
 
@@ -1614,10 +1657,10 @@ satus.components.shortcut = function (skeleton) {
                     on: {
                         click: function () {
                             component.storageValue = component.data;
-                            
+
                             component.storageChange();
 
-                            component.update();
+                            component.render(component.valueElement);
 
                             this.parentNode.parentNode.parentNode.close();
 

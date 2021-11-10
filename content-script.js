@@ -14,6 +14,7 @@
 --------------------------------------------------------------*/
 
 var extension = {
+        locale: {},
         handlers: {},
         videos: [],
         rects: [],
@@ -21,6 +22,7 @@ var extension = {
             x: 0,
             y: 0
         },
+        mode: 60
     },
     tab_url = location.hostname,
     storage = {},
@@ -58,7 +60,7 @@ function createUserInterfaceItem(name, container) {
 
     element.className = 'frame-by-frame__' + name;
 
-    element_name.innerText = chrome.i18n.getMessage(name);
+    element_name.innerText = extension.locale[name];
 
     ui[name] = element_value;
 
@@ -143,12 +145,43 @@ function createUserInterface() {
     ui.container = container;
     ui.info_panel = info_panel;
 
+    info_panel.appendChild(show_hide_button);
+    info_panel.appendChild(drag_and_drop_button);
+
     createUserInterfaceItem('time', info_panel);
     createUserInterfaceItem('duration', info_panel);
     createUserInterfaceItem('frame', info_panel);
+    createUserInterfaceItem('mode', info_panel);
 
-    info_panel.appendChild(show_hide_button);
-    info_panel.appendChild(drag_and_drop_button);
+    var select = document.createElement('select'),
+        option_30 = document.createElement('option'),
+        option_60 = document.createElement('option');
+
+    option_30.textContent = '30 fps';
+    option_30.value = '30';
+
+    option_60.textContent = '60 fps';
+    option_60.value = '60';
+
+    select.appendChild(option_30);
+    select.appendChild(option_60);
+
+    select.value = storage.mode || extension.mode;
+
+    select.onchange = function () {
+        var value = Number(this.value);
+
+        storage.mode = value;
+        extension.mode = value;
+
+        chrome.storage.local.set({
+            mode: value
+        });
+
+        updateUserInterface();
+    };
+
+    ui.mode.appendChild(select);
     container.appendChild(info_panel);
     document.body.appendChild(container);
 }
@@ -177,11 +210,13 @@ function updateUserInterface() {
     if (extension.video) {
         var duration = extension.video.duration,
             currentTime = extension.video.currentTime,
-            frame = 1 / 60;
+            frame = 1 / extension.mode;
 
-        ui.time.innerText = currentTime.toFixed(2);
-        ui.duration.innerText = duration.toFixed(2);
-        ui.frame.innerText = Math.floor(currentTime / frame) + '/' + Math.floor(duration / frame);
+        if (ui.time) {
+            ui.time.innerText = currentTime.toFixed(2);
+            ui.duration.innerText = duration.toFixed(2);
+            ui.frame.innerText = Math.floor(currentTime / frame) + '/' + Math.floor(duration / frame);
+        }
     }
 }
 
@@ -297,10 +332,9 @@ function keyboard() {
         hover = false,
         features = {
             next_shortcut: function () {
-                console.log(0);
                 if (extension.video) {
                     var video = extension.video,
-                        frame = 1 / 60;
+                        frame = 1 / extension.mode;
 
                     if (event.shiftKey) {
                         frame *= 10;
@@ -320,7 +354,7 @@ function keyboard() {
             prev_shortcut: function () {
                 if (extension.video) {
                     var video = extension.video,
-                        frame = 1 / 60;
+                        frame = 1 / extension.mode;
 
                     if (event.shiftKey) {
                         frame *= 10;
@@ -339,6 +373,8 @@ function keyboard() {
             },
             hide_shortcut: function () {
                 if (extension.video) {
+                    ui.info_panel.classList.toggle('frame-by-frame__info-panel--collapsed');
+
                     chrome.storage.local.set({
                         hidden: ui.info_panel.classList.contains('frame-by-frame__info-panel--collapsed')
                     });
@@ -509,13 +545,15 @@ window.addEventListener('scroll', function (event) {
 extension.observer();
 
 function init() {
-    createUserInterface();
-
     chrome.storage.local.get(function (items) {
         storage = items;
 
+        extension.mode = storage.mode || extension.mode;
+
+        createUserInterface();
+
         if (items.hidden === true) {
-            ui.info_panel.classList.add('frame-by-frame__info-panel--collapsed')
+            ui.info_panel.classList.add('frame-by-frame__info-panel--collapsed');
         }
 
         if (typeof items.position === 'object') {
@@ -648,11 +686,17 @@ chrome.runtime.sendMessage({
 }, function (response) {
     tab_url = response.url;
 
-    if (document.body) {
-        init();
-    } else {
-        window.addEventListener('DOMContentLoaded', init);
-    }
+    chrome.runtime.sendMessage({
+        action: 'get-localization'
+    }, function (response) {
+        extension.locale = response;
+
+        if (document.body) {
+            init();
+        } else {
+            window.addEventListener('DOMContentLoaded', init);
+        }
+    });
 });
 
 document.addEventListener('fullscreenchange', function () {

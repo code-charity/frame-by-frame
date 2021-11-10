@@ -26,6 +26,9 @@
     "light": {
         "message": "Light"
     },
+    "mode": {
+        "message": "Mode"
+    },
     "ok": {
         "message": "Ok"
     },
