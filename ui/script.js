@@ -100,6 +100,10 @@ var skeleton = {
 							options: [{
 								value: 'en',
 								text: 'English'
+							},
+							{
+								value: 'he',
+								text: 'עברית'
 							}, {
 								value: 'ru',
 								text: 'Русский'
