@@ -11,8 +11,11 @@
     "cancel": {
         "message": "Cancel"
     },
-    "dark": {
-        "message": "Dark"
+    "decreaseFramerate": {
+        "message": "Decrease framerate"
+    },
+    "default": {
+        "message": "Default"
     },
     "export": {
         "message": "Export"
@@ -20,14 +23,14 @@
     "import": {
         "message": "Import"
     },
+    "increaseFramerate": {
+        "message": "Increase framerate"
+    },
     "language": {
         "message": "Language"
     },
     "light": {
         "message": "Light"
-    },
-    "mode": {
-        "message": "Mode"
     },
     "ok": {
         "message": "Ok"

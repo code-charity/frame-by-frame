@@ -20,8 +20,11 @@
     "cancel": {
         "message": "إلغاء"
     },
-    "dark": {
-        "message": "Dark"
+    "decreaseFramerate": {
+        "message": "Decrease framerate"
+    },
+    "default": {
+        "message": "Default"
     },
     "description": {
         "message": "أفضل أداة إطار حسب بإطار. تعمل على جميع المواقع! حرك مؤشر الفأرة على الفيديو و إستعمل مفاتيح الأسهم لتبديل بين الإطارات."
@@ -44,14 +47,14 @@
     "import": {
         "message": "Import"
     },
+    "increaseFramerate": {
+        "message": "Increase framerate"
+    },
     "language": {
         "message": "Language"
     },
     "light": {
         "message": "Light"
-    },
-    "mode": {
-        "message": "Mode"
     },
     "nextFrame": {
         "message": "Next frame"

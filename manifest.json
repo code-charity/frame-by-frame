@@ -1,8 +1,8 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Frame By Frame",
     "description": "__MSG_description__",
-    "version": "2.4.0",
+    "version": "3.0.0",
     "default_locale": "en",
     "icons": {
         "16": "icons/16.png",
@@ -11,14 +11,12 @@
         "128": "icons/128.png"
     },
     "background": {
-        "scripts": [
-            "background.js"
-        ]
-    },
-    "browser_action": {
-        "default_popup": "ui/popup.html"
+        "service_worker": "background.js"
     },
     "options_page": "ui/options.html",
+    "action": {
+        "default_popup": "ui/popup.html"
+    },
     "content_scripts": [
         {
             "all_frames": true,
@@ -26,7 +24,6 @@
                 "content-styles.css"
             ],
             "js": [
-                "ui/satus.js",
                 "content-script.js"
             ],
             "matches": [
@@ -35,11 +32,11 @@
             "run_at": "document_start"
         }
     ],
-    "offline_enabled": true,
     "optional_permissions": [
         "downloads"
     ],
     "permissions": [
         "storage"
-    ]
+    ],
+    "offline_enabled": true
 }

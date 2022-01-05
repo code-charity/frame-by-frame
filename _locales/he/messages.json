@@ -20,8 +20,16 @@
     "cancel": {
         "message": "ביטול"
     },
+<<<<<<< HEAD
+    "decreaseFramerate": {
+        "message": "Decrease framerate"
+    },
+    "default": {
+        "message": "Default"
+=======
     "dark": {
         "message": "כהה"
+>>>>>>> 0550616aa90626ea321a3811e5fe51a1555ef215
     },
     "description": {
         "message": "הכלי הטוב ביותר למעבר בין חלוניות (פריימים). עובד עם כל האתרים! יש להזיז את סמן העכבר על גבי סרטון ולהשתמש במקשי החיצים למעבר בין פריימים."
@@ -44,15 +52,21 @@
     "import": {
         "message": "ייבוא"
     },
+    "increaseFramerate": {
+        "message": "Increase framerate"
+    },
     "language": {
         "message": "שפה"
     },
     "light": {
         "message": "בהיר"
     },
+<<<<<<< HEAD
+=======
     "mode": {
         "message": "מצב"
     },
+>>>>>>> 0550616aa90626ea321a3811e5fe51a1555ef215
     "nextFrame": {
         "message": "פריים הבא"
     },

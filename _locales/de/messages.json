@@ -20,8 +20,11 @@
     "cancel": {
         "message": "Cancel"
     },
-    "dark": {
-        "message": "Dark"
+    "decreaseFramerate": {
+        "message": "Decrease framerate"
+    },
+    "default": {
+        "message": "Default"
     },
     "description": {
         "message": "Das beste Frame-by-Frame-Tool. Funktioniert mit allen Websites! Bewegen Sie den Mauszeiger über das Video und verwenden Sie die Pfeiltasten der Tastatur, um die Frames zu wechseln."
@@ -44,14 +47,14 @@
     "import": {
         "message": "Import"
     },
+    "increaseFramerate": {
+        "message": "Increase framerate"
+    },
     "language": {
         "message": "Language"
     },
     "light": {
         "message": "Light"
-    },
-    "mode": {
-        "message": "Mode"
     },
     "nextFrame": {
         "message": "Next frame"

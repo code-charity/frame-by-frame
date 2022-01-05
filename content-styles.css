@@ -1,155 +1,259 @@
 /*--------------------------------------------------------------
->>> TABLE OF CONTENTS:
+>>> FRAME BY FRAME
 ----------------------------------------------------------------
-# Outline
-# Info panel
+# Document
+# Container
+# Surface
+# Buttons
+	# Toggle
+	# Drag & Drop
+	# Resize
 --------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# DOCUMENT
+--------------------------------------------------------------*/
+
+html.frame-by-frame--pointer,
+html.frame-by-frame--pointer * {
+	cursor: pointer !important;
+}
+
+html.frame-by-frame--grab,
+html.frame-by-frame--grab * {
+	cursor: grab !important;
+}
+
+html.frame-by-frame--grabbing,
+html.frame-by-frame--grabbing * {
+	cursor: grabbing !important;
+}
+
+html.frame-by-frame--resize,
+html.frame-by-frame--resize * {
+	cursor: se-resize !important;
+}
 
 
 /*--------------------------------------------------------------
-# OUTLINE
+# CONTAINER
 --------------------------------------------------------------*/
 
 .frame-by-frame {
-    position: fixed;
-    z-index: 2147483647;
-    display: none;
-    box-sizing: border-box;
-    transition-delay: 200ms;
-    transition-duration: 200ms;
-    transition-property: opacity, visibility;
-    pointer-events: none;
-    border: 1px solid rgba(255, 255, 255, .2);
+	position: fixed !important;
+	z-index: 2147483647 !important;
+	visibility: hidden !important;
+	box-sizing: border-box !important;
+	pointer-events: none !important;
+	opacity: 0 !important;
+	border: 1px solid rgba(0, 0, 0, .8) !important;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .8) !important;
 }
 
 .frame-by-frame--visible,
-.frame-by-frame--dragging {
-    display: block;
+.frame-by-frame--busy {
+	visibility: visible !important;
+	opacity: 1 !important;
+	transition: visibility 175ms, opacity 175ms !important;
 }
 
 .frame-by-frame--sleeping-mode {
-    display: none;
+	visibility: hidden !important;
+	opacity: 0 !important;
 }
 
 
 /*--------------------------------------------------------------
-# INFO PANEL
+# SURFACE
 --------------------------------------------------------------*/
 
-.frame-by-frame__info-panel {
-    font: 400 16px monospace;
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    width: 192px;
-    padding: 16px;
-    pointer-events: all;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, .2);
+.frame-by-frame__surface {
+	font-family: monospace !important;
+	font-size: 16px !important;
+	position: absolute !important;
+	top: 8px !important;
+	left: 8px !important;
+	box-sizing: border-box !important;
+	padding: 16px 24px !important;
+	color: #fff !important;
+	border: 1px solid rgba(82, 82, 82, .9) !important;
+	border-radius: 8px !important;
+	background: rgba(41, 41, 41, .8) !important;
+	overflow: hidden !important;
 }
 
-.frame-by-frame__info-panel svg {
-    width: 24px;
-    height: 24px;
+.frame-by-frame__surface--collapsed {
+	visibility: hidden !important;
 }
 
-.frame-by-frame__info-panel--collapsed {
-    visibility: hidden !important;
-    backdrop-filter: none !important;
+.frame-by-frame__container {
+	display: flex !important;
+	justify-content: space-between !important;
+	align-items: center !important;
+	 text-overflow: ellipsis !important;
+	  overflow: hidden !important; 
+	  white-space: nowrap !important;
 }
 
-.frame-by-frame__info-panel>div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.frame-by-frame__value {
+	margin: 0 0 0 16px !important;
+	opacity: .75 !important;
+	 text-overflow: ellipsis !important;
+	  overflow: hidden !important; 
+	  white-space: nowrap !important;
 }
 
-.frame-by-frame__info-panel>div:not(:last-child) {
-    margin: 0 0 8px;
+
+/*--------------------------------------------------------------
+# BUTTONS
+--------------------------------------------------------------*/
+
+.frame-by-frame__button {
+	position: absolute !important;
+	visibility: hidden !important;
+	width: 24px !important;
+	height: 24px !important;
+	transition: visibility 225ms, opacity 225ms, border-radius 225ms !important;
+	opacity: 0 !important;
+	color: #999 !important;
+	background: rgb(128, 128, 128, .32) !important;
 }
 
-.frame-by-frame__info-panel>div>div:first-child {
-    overflow: hidden;
-    text-transform: uppercase;
-    text-overflow: ellipsis;
+.frame-by-frame__button--hover {
+	color: #fff !important;
 }
 
-.frame-by-frame__info-panel>div>div:last-child {
-    opacity: .8;
+.frame-by-frame__surface--hover .frame-by-frame__button {
+	visibility: visible !important;
+	opacity: 1 !important;
 }
 
-.frame-by-frame__frame {
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, .2);
+.frame-by-frame__surface--collapsed .frame-by-frame__button {
+	visibility: hidden !important;
+	opacity: 0 !important;
 }
 
-.frame-by-frame__info-panel>.frame-by-frame__prev>div:first-child,
-.frame-by-frame__info-panel>.frame-by-frame__next>div:first-child,
-.frame-by-frame__info-panel>.frame-by-frame__hide>div:first-child {
-    font-size: 14px;
+
+/*--------------------------------------------------------------
+# TOGGLE
+--------------------------------------------------------------*/
+
+.frame-by-frame__toggle {
+	top: 0 !important;
+	left: 0 !important;
+	border-top-left-radius: 8px !important;
+	border-bottom-right-radius: 24px !important;
 }
 
-.frame-by-frame__info-panel>.frame-by-frame__prev>div:last-child,
-.frame-by-frame__info-panel>.frame-by-frame__next>div:last-child,
-.frame-by-frame__info-panel>.frame-by-frame__hide>div:last-child {
-    font-size: 14px;
-    display: flex;
-    box-sizing: border-box;
-    width: 22px;
-    height: 22px;
-    color: #171717;
-    border: 1px solid #a7a7a7;
-    border-bottom-width: 3px;
-    border-radius: 6px;
-    background: #d2d2d2;
-    align-items: center;
-    justify-content: center;
+.frame-by-frame__surface--collapsed .frame-by-frame__toggle {
+	visibility: visible !important;
+	opacity: 1 !important;
 }
 
-.frame-by-frame__show-hide {
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    transition: 100ms 1000ms;
-    opacity: 0;
-    border-radius: 50%;
-    background: #e6e6e6;
-    box-shadow: 0 0 1px 2px rgb(0, 0, 0, .1);
+.frame-by-frame__toggle::before,
+.frame-by-frame__toggle::after {
+	position: absolute !important;
+	content: '' !important;
+	color: inherit !important;
+	background: currentColor !important;
 }
 
-.frame-by-frame__info-panel--collapsed .frame-by-frame__show-hide {
-    visibility: visible;
-    transition: 100ms 0ms;
-    opacity: 1;
+.frame-by-frame__toggle::before {
+	top: 7px !important;
+	left: 7px !important;
+	width: 8px !important;
+	height: 2px !important;
+	transition: transform 175ms !important;
 }
 
-.frame-by-frame__info-panel--collapsed .frame-by-frame__show-hide>svg {
-    transform: rotate(180deg);
+.frame-by-frame__toggle::after {
+	top: 7px !important;
+	left: 7px !important;
+	width: 2px !important;
+	height: 8px !important;
+	transition: transform 175ms !important;
 }
+
+.frame-by-frame__surface--collapsed .frame-by-frame__toggle {
+	border-radius: 50% !important;
+}
+
+.frame-by-frame__surface--collapsed .frame-by-frame__toggle::before {
+	transform: translate(3px, 3px) rotate(-90deg) !important;
+}
+
+.frame-by-frame__surface--collapsed .frame-by-frame__toggle::after {
+	transform: translate(3px, 3px) rotate(90deg) !important;
+}
+
+
+/*--------------------------------------------------------------
+# DRAG & DROP
+--------------------------------------------------------------*/
 
 .frame-by-frame__drag-and-drop {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    transition: 100ms 1000ms;
-    opacity: 0;
-    border-radius: 50%;
-    background: #e6e6e6;
-    box-shadow: 0 0 1px 2px rgb(0, 0, 0, .1);
+	top: 0 !important;
+	right: 0 !important;
+	border-top-right-radius: 8px !important;
+	border-bottom-left-radius: 24px !important;
 }
 
-.frame-by-frame__info-panel:hover .frame-by-frame__show-hide,
-.frame-by-frame__info-panel:hover .frame-by-frame__drag-and-drop {
-    transition: 100ms 0ms;
-    opacity: 1;
+.frame-by-frame__drag-and-drop::before,
+.frame-by-frame__drag-and-drop::after {
+	position: absolute !important;
+	content: '' !important;
+	color: inherit !important;
+	background: currentColor !important;
 }
 
-html[fbf-hide-in-fullscreen='true'][fbf-fullscreen='true']>body>.frame-by-frame {
-    display: none !important;
+.frame-by-frame__drag-and-drop::before {
+	top: 9px !important;
+	right: 5px !important;
+	width: 10px !important;
+	height: 2px !important;
+}
+
+.frame-by-frame__drag-and-drop::after {
+	top: 5px !important;
+	right: 9px !important;
+	width: 2px !important;
+	height: 10px !important;
+}
+
+
+/*--------------------------------------------------------------
+# RESIZE
+--------------------------------------------------------------*/
+
+.frame-by-frame__resize {
+	right: 0 !important;
+	bottom: 0 !important;
+	border-top-left-radius: 24px !important;
+	border-bottom-right-radius: 8px !important;
+}
+
+.frame-by-frame__resize::before,
+.frame-by-frame__resize::after {
+	position: absolute !important;
+	content: '' !important;
+	color: inherit !important;
+	background: currentColor !important;
+}
+
+.frame-by-frame__resize::before {
+	top: 9px !important;
+	right: 7px !important;
+	width: 10px !important;
+	height: 2px !important;
+	transform: rotate(-45deg) !important;
+	transform-origin: center right !important;
+}
+
+.frame-by-frame__resize::after {
+	top: 14px !important;
+	right: 6px !important;
+	width: 5px !important;
+	height: 2px !important;
+	transform: rotate(-45deg) !important;
+	transform-origin: center right !important;
 }

@@ -4,7 +4,6 @@
 # Global variable
 # Localization
 # Listeners
-    # Install
     # Storage change
     # Message
 ---------------------------------------------------------------*/
@@ -24,58 +23,41 @@ var extension = {
 --------------------------------------------------------------*/
 
 function getLocalization(code) {
-    var language = code || window.navigator.language,
-        xhr = new XMLHttpRequest();
+    var language = code || navigator.language;
 
     if (language.indexOf('en') === 0) {
         language = 'en';
     }
 
-    xhr.onload = function () {
-        try {
-            var response = JSON.parse(this.response),
-                result = {};
+   fetch(chrome.runtime.getURL('_locales/' + language + '/messages.json')).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (response) {
+                extension.locale = {};
 
-            for (var key in response) {
-                result[key] = response[key].message;
-            }
+                for (var key in response) {
+                    extension.locale[key] = response[key].message;
+                }
+            });
+        } else {
+            fetch(chrome.runtime.getURL('_locales/en/messages.json')).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (response) {
+                        extension.locale = {};
 
-            extension.locale = result;
-        } catch (error) {
-            console.error(error);
+                        for (var key in response) {
+                            extension.locale[key] = response[key].message;
+                        }
+                    });
+                }
+            });
         }
-    };
-
-    xhr.onerror = function () {
-        xhr.open('GET', '_locales/en/messages.json', true);
-        xhr.send();
-    };
-
-    xhr.open('GET', '_locales/' + language + '/messages.json', true);
-    xhr.send();
+    });
 }
 
 
 /*---------------------------------------------------------------
 # LISTENERS
 ---------------------------------------------------------------*/
-
-/*---------------------------------------------------------------
-# INSTALL
----------------------------------------------------------------*/
-
-chrome.runtime.onInstalled.addListener(function (details) {
-    if (extension.storage.background_color && extension.storage.background_color.rgb) {
-        items.background_color = extension.storage.background_color.rgb;
-    }
-
-    if (extension.storage.text_color && extension.storage.text_color.rgb) {
-        extension.storage.text_color = extension.storage.text_color.rgb;
-    }
-
-    chrome.storage.local.set(extension.storage);
-});
-
 
 /*--------------------------------------------------------------
 # STORAGE CHANGE
@@ -95,15 +77,15 @@ chrome.storage.onChanged.addListener(function (changes) {
 ---------------------------------------------------------------*/
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.action === 'get-localization') {
+    if (message === 'get-locale') {
         var response = extension.locale;
 
         sendResponse(response);
 
         return response;
-    } else if (message.action === 'get-tab-url') {
+    } else if (message === 'get-tab-url') {
         var response = {
-            url: new URL(sender.url || sender.tab.url).hostname,
+            url: new URL(sender.tab.url).hostname,
             id: sender.tab.id
         };
 

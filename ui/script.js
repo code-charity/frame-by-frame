@@ -70,10 +70,10 @@ var skeleton = {
                         	component: 'tabs',
                         	items: [
                         		'light',
-                        		'dark',
+                        		'default',
                         		'black'
                         	],
-                        	value: 'dark'
+                        	value: 'default'
                         },
                         divider: {
                         	component: 'divider'
@@ -341,6 +341,28 @@ var skeleton = {
 						class: 'satus-section--card',
 						title: 'shortcuts',
 
+						increase_framerate: {
+							component: 'shortcut',
+							text: 'increaseFramerate',
+							value: {
+								keys: {
+									38: {
+										key: 'ArrowUp'
+									}
+								}
+							}
+						},
+						decrease_framerate: {
+							component: 'shortcut',
+							text: 'decreaseFramerate',
+							value: {
+								keys: {
+									40: {
+										key: 'ArrowDown'
+									}
+								}
+							}
+						},
 						prev_shortcut: {
 							component: 'shortcut',
 							text: 'previousFrame',
@@ -556,9 +578,7 @@ satus.storage.import(function (items) {
 			active: true,
 			currentWindow: true
 		}, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				action: 'init'
-			}, function (response) {
+			chrome.tabs.sendMessage(tabs[0].id, 'init', function (response) {
 				if (!response) {
 					skeleton.layers.toolbar = {
 						component: 'alert',
