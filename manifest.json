@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Frame By Frame",
     "description": "__MSG_description__",
-    "version": "3.0.0",
+    "version": "3.1",
     "default_locale": "en",
     "icons": {
         "16": "icons/16.png",
@@ -24,7 +24,8 @@
                 "content-styles.css"
             ],
             "js": [
-                "content-script.js"
+                "extension-core.js",
+                "extension-features.js"
             ],
             "matches": [
                 "<all_urls>"

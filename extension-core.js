@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------
->>> FRAME BY FRAME
+>>> EXTENSION CORE
 ----------------------------------------------------------------
 # Global variable
 # Message
@@ -39,8 +39,7 @@
 
 var extension = {
     hostname: location.hostname,
-    action: 0,
-    framerate: 60
+    action: 0
 };
 
 
@@ -128,61 +127,10 @@ extension.storage.import = function (callback) {
     chrome.storage.local.get(function (items) {
         extension.storage.items = items;
 
-        if (items.hasOwnProperty('increase_framerate') === false) {
-            items.increase_framerate = {
-                keys: {
-                    38: {
-                        key: 'ArrowUp'
-                    }
-                }
-            };
-        }
+        document.removeEventListener('storage-import', callback);
+        document.addEventListener('storage-import', callback);
 
-        if (items.hasOwnProperty('decrease_framerate') === false) {
-            items.decrease_framerate = {
-                keys: {
-                    40: {
-                        key: 'ArrowDown'
-                    }
-                }
-            };
-        }
-
-        if (items.hasOwnProperty('next_shortcut') === false) {
-            items.next_shortcut = {
-                keys: {
-                    39: {
-                        key: 'ArrowRight'
-                    }
-                }
-            };
-        }
-
-        if (items.hasOwnProperty('prev_shortcut') === false) {
-            items.prev_shortcut = {
-                keys: {
-                    37: {
-                        key: 'ArrowLeft'
-                    }
-                }
-            };
-        }
-
-        if (items.hasOwnProperty('hide_shortcut') === false) {
-            items.hide_shortcut = {
-                keys: {
-                    72: {
-                        key: 'h'
-                    }
-                }
-            };
-        }
-
-        if (items.hasOwnProperty('framerate')) {
-            extension.framerate = items.framerate;
-        }
-
-        callback(items);
+        document.dispatchEvent(new CustomEvent('storage-import'));
     });
 };
 
@@ -198,11 +146,15 @@ extension.storage.onchanged = function (callback) {
 
             extension.storage.items[key] = value;
 
-            if (key === 'framerate') {
-                extension.framerate = value;
-            }
+            document.removeEventListener('storage-change', callback);
+            document.addEventListener('storage-change', callback);
 
-            callback(key, value);
+            document.dispatchEvent(new CustomEvent('storage-import'), {
+                detail: {
+                    key,
+                    value
+                }
+            });
         }
     });
 };
@@ -261,15 +213,7 @@ extension.events = {
         keys: {}
     },
     keyboard: {},
-    mouse: {},
-    clickDrag: {
-        x: 0,
-        y: 0
-    },
-    clickResize: {
-        x: 0,
-        y: 0
-    }
+    mouse: {}
 };
 
 
@@ -279,7 +223,11 @@ extension.events = {
 
 extension.events.create = function (target) {
     for (var type in this[target]) {
-        document.addEventListener(type, this[target][type], true);
+        if (type !== 'mouseleave') {
+            document.addEventListener(type, this[target][type], true);
+        } else {
+            window.addEventListener(type, this[target][type], true);
+        }
     }
 };
 
@@ -319,87 +267,7 @@ extension.events.checkActiveElement = function () {
 # FEATURES
 --------------------------------------------------------------*/
 
-extension.events.features = {
-    increase_framerate: function () {
-        if (extension.videos.active) {
-            if (event.shiftKey) {
-                extension.framerate += 10;
-            } else {
-                extension.framerate += 1;
-            }
-
-            chrome.storage.local.set({
-                framerate: extension.framerate
-            });
-
-            extension.ui.update();
-            extension.ui.sleep();
-        }
-    },
-    decrease_framerate: function () {
-        if (extension.videos.active) {
-            if (event.shiftKey) {
-                extension.framerate -= 10;
-            } else {
-                extension.framerate -= 1;
-            }
-
-            chrome.storage.local.set({
-                framerate: extension.framerate
-            });
-
-            extension.ui.update();
-            extension.ui.sleep();
-        }
-    },
-    next_shortcut: function () {
-        if (extension.videos.active) {
-            var video = extension.videos.active,
-                frame = 1 / extension.framerate;
-
-            if (event.shiftKey) {
-                frame *= 10;
-            }
-
-            if (video.paused === false) {
-                video.pause();
-
-                is_autoplay = true;
-            }
-
-            video.currentTime = Math.min(video.duration, video.currentTime + frame);
-
-            extension.ui.sleep();
-        }
-    },
-    prev_shortcut: function () {
-        if (extension.videos.active) {
-            var video = extension.videos.active,
-                frame = 1 / extension.framerate;
-
-            if (event.shiftKey) {
-                frame *= 10;
-            }
-
-            if (video.paused === false) {
-                video.pause();
-
-                is_autoplay = true;
-            }
-
-            video.currentTime = Math.min(video.duration, video.currentTime - frame);
-
-            extension.ui.sleep();
-        }
-    },
-    hide_shortcut: function () {
-        if (extension.videos.active) {
-            extension.ui.actions.toggle();
-
-            extension.ui.sleep();
-        }
-    }
-};
+extension.events.features = {};
 
 
 /*--------------------------------------------------------------
@@ -409,7 +277,7 @@ extension.events.features = {
 extension.events.handler = function () {
     var prevent = false;
 
-    if (extension.ui.classList.contains('frame-by-frame--visible')) {
+    if (extension.ui.classList.contains(extension.prefix + '--visible')) {
         for (var key in extension.events.features) {
             var shortcut = extension.storage.items[key];
 
@@ -540,7 +408,7 @@ extension.events.mouse.mousedown = function (event) {
             extension.events.clickDrag.x = event.clientX - extension.ui.offsetLeft - extension.ui.surface.offsetLeft - extension.ui.surface.offsetWidth;
             extension.events.clickDrag.y = event.clientY - extension.ui.offsetTop - extension.ui.surface.offsetTop;
 
-            extension.ui.classList.add('frame-by-frame--busy');
+            extension.ui.classList.add(extension.prefix + '--busy');
 
             extension.cursor.style.set('grabbing');
 
@@ -558,7 +426,7 @@ extension.events.mouse.mousedown = function (event) {
             extension.events.clickResize.x = event.clientX - extension.ui.offsetLeft - extension.ui.surface.offsetLeft - extension.ui.surface.offsetWidth;
             extension.events.clickResize.y = event.clientY - extension.ui.offsetTop - extension.ui.surface.offsetTop - extension.ui.surface.offsetHeight;
 
-            extension.ui.classList.add('frame-by-frame--busy');
+            extension.ui.classList.add(extension.prefix + '--busy');
 
             window.addEventListener('mousemove', extension.ui.actions.resize);
 
@@ -586,7 +454,7 @@ extension.events.mouse.mouseup = function (event) {
 
     extension.action = 0;
 
-    extension.ui.classList.remove('frame-by-frame--busy');
+    extension.ui.classList.remove(extension.prefix + '--busy');
 
     window.removeEventListener('mousemove', extension.ui.actions.dragAndDrop);
     window.removeEventListener('mousemove', extension.ui.actions.resize);
@@ -680,23 +548,21 @@ extension.cursor.check = function (video) {
 
         return true;
     }
-
-    extension.ui.hide();
 };
 
 extension.cursor.style.set = function (type) {
-    document.documentElement.classList.add('frame-by-frame--' + type);
+    document.documentElement.classList.add(extension.prefix + '--' + type);
 };
 
 extension.cursor.style.remove = function (type) {
-    document.documentElement.classList.remove('frame-by-frame--' + type);
+    document.documentElement.classList.remove(extension.prefix + '--' + type);
 };
 
 extension.cursor.style.reset = function () {
-    document.documentElement.classList.remove('frame-by-frame--pointer');
-    document.documentElement.classList.remove('frame-by-frame--grab');
-    document.documentElement.classList.remove('frame-by-frame--grabbing');
-    document.documentElement.classList.remove('frame-by-frame--resize');
+    document.documentElement.classList.remove(extension.prefix + '--pointer');
+    document.documentElement.classList.remove(extension.prefix + '--grab');
+    document.documentElement.classList.remove(extension.prefix + '--grabbing');
+    document.documentElement.classList.remove(extension.prefix + '--resize');
 };
 
 
@@ -862,10 +728,10 @@ extension.ui.actions = {};
 --------------------------------------------------------------*/
 
 extension.ui.actions.toggle = function () {
-    extension.ui.surface.classList.toggle('frame-by-frame__surface--collapsed');
+    extension.ui.surface.classList.toggle(extension.prefix + '__surface--collapsed');
 
     chrome.storage.local.set({
-        hidden: extension.ui.surface.classList.contains('frame-by-frame__surface--collapsed')
+        hidden: extension.ui.surface.classList.contains(extension.prefix + '__surface--collapsed')
     });
 };
 
@@ -913,34 +779,16 @@ extension.ui.actions.resize = function (event) {
 --------------------------------------------------------------*/
 
 extension.ui.create = function () {
-    var time_container = document.createElement('div'),
-        duration_container = document.createElement('div'),
-        frame_container = document.createElement('div'),
-        framerate_container = document.createElement('div');
-
     this.surface = document.createElement('div');
     this.toggle = document.createElement('div');
     this.drag = document.createElement('div');
     this.resize = document.createElement('div');
-    this.time = document.createElement('div');
-    this.duration = document.createElement('div');
-    this.frame = document.createElement('div');
-    this.framerate = document.createElement('div');
 
-    time_container.className = 'frame-by-frame__container';
-    duration_container.className = 'frame-by-frame__container';
-    frame_container.className = 'frame-by-frame__container';
-    framerate_container.className = 'frame-by-frame__container';
-
-    this.className = 'frame-by-frame';
-    this.surface.className = 'frame-by-frame__surface';
-    this.toggle.className = 'frame-by-frame__button frame-by-frame__toggle';
-    this.drag.className = 'frame-by-frame__button frame-by-frame__drag-and-drop';
-    this.resize.className = 'frame-by-frame__button frame-by-frame__resize';
-    this.time.className = 'frame-by-frame__value';
-    this.duration.className = 'frame-by-frame__value';
-    this.frame.className = 'frame-by-frame__value';
-    this.framerate.className = 'frame-by-frame__value';
+    this.className = extension.prefix;
+    this.surface.className = extension.prefix + '__surface';
+    this.toggle.className = extension.prefix + '__button ' + extension.prefix + '__toggle';
+    this.drag.className = extension.prefix + '__button ' + extension.prefix + '__drag-and-drop';
+    this.resize.className = extension.prefix + '__button ' + extension.prefix + '__resize';
 
     this.DOMRect = {
         left: 0,
@@ -951,9 +799,9 @@ extension.ui.create = function () {
 
     this.surface.update = function () {
         if (extension.storage.items.hidden === true) {
-            this.classList.add('frame-by-frame__surface--collapsed');
+            this.classList.add(extension.prefix + '__surface--collapsed');
         } else {
-            this.classList.remove('frame-by-frame__surface--collapsed');
+            this.classList.remove(extension.prefix + '__surface--collapsed');
         }
 
         if (extension.storage.items.position) {
@@ -985,23 +833,12 @@ extension.ui.create = function () {
         }
     };
 
-    time_container.appendChild(document.createTextNode(extension.locale.get('time')));
-    duration_container.appendChild(document.createTextNode(extension.locale.get('duration')));
-    frame_container.appendChild(document.createTextNode(extension.locale.get('frame')));
-    framerate_container.appendChild(document.createTextNode(extension.locale.get('framerate')));
-    time_container.appendChild(this.time);
-    duration_container.appendChild(this.duration);
-    frame_container.appendChild(this.frame);
-    framerate_container.appendChild(this.framerate);
-
     this.appendChild(this.surface);
     this.surface.appendChild(this.toggle);
     this.surface.appendChild(this.drag);
     this.surface.appendChild(this.resize);
-    this.surface.appendChild(time_container);
-    this.surface.appendChild(duration_container);
-    this.surface.appendChild(frame_container);
-    this.surface.appendChild(framerate_container);
+
+    document.dispatchEvent(new CustomEvent('ui-create'));
 };
 
 
@@ -1013,59 +850,50 @@ extension.ui.update = function () {
     var video = extension.videos.active;
 
     if (video) {
-        if (this.classList.contains('frame-by-frame--busy') === false) {
+        if (this.classList.contains(extension.prefix + '--busy') === false) {
             if (extension.ui.hover(this.surface.getBoundingClientRect())) {
-                this.surface.classList.add('frame-by-frame__surface--hover');
+                this.surface.classList.add(extension.prefix + '__surface--hover');
 
                 if (extension.ui.hover(this.toggle.getBoundingClientRect())) {
-                    this.toggle.classList.add('frame-by-frame__button--hover');
+                    this.toggle.classList.add(extension.prefix + '__button--hover');
 
                     extension.cursor.style.set('pointer');
                 } else {
-                    this.toggle.classList.remove('frame-by-frame__button--hover');
+                    this.toggle.classList.remove(extension.prefix + '__button--hover');
                     
                     extension.cursor.style.remove('pointer');
                 }
 
                 if (extension.storage.items.hidden !== true && extension.ui.hover(this.drag.getBoundingClientRect())) {
-                    this.drag.classList.add('frame-by-frame__button--hover');
+                    this.drag.classList.add(extension.prefix + '__button--hover');
 
                     extension.cursor.style.set('grab');
                 } else {
-                    this.drag.classList.remove('frame-by-frame__button--hover');
+                    this.drag.classList.remove(extension.prefix + '__button--hover');
                     
                     extension.cursor.style.remove('grab');
                 }
 
                 if (extension.storage.items.hidden !== true && extension.ui.hover(this.resize.getBoundingClientRect())) {
-                    this.resize.classList.add('frame-by-frame__button--hover');
+                    this.resize.classList.add(extension.prefix + '__button--hover');
 
                     extension.cursor.style.set('resize');
                 } else {
-                    this.resize.classList.remove('frame-by-frame__button--hover');
+                    this.resize.classList.remove(extension.prefix + '__button--hover');
                     
                     extension.cursor.style.remove('resize');
                 }
             } else {
-                this.surface.classList.remove('frame-by-frame__surface--hover');
-                this.toggle.classList.remove('frame-by-frame__button--hover');
-                this.drag.classList.remove('frame-by-frame__button--hover');
-                this.resize.classList.remove('frame-by-frame__button--hover');
+                this.surface.classList.remove(extension.prefix + '__surface--hover');
+                this.toggle.classList.remove(extension.prefix + '__button--hover');
+                this.drag.classList.remove(extension.prefix + '__button--hover');
+                this.resize.classList.remove(extension.prefix + '__button--hover');
 
                 extension.cursor.style.reset();
             }
         }
 
-        var framerate = 60;
-
-        if (extension.storage.items.hasOwnProperty('framerate') === true) {
-            framerate = extension.storage.get('framerate');
-        }
-
-        extension.ui.time.textContent = video.currentTime.toFixed(2);
-        extension.ui.duration.textContent = video.duration.toFixed(2);
-        extension.ui.frame.textContent = Math.floor(video.currentTime * framerate);
-        extension.ui.framerate.textContent = framerate;
+        document.dispatchEvent(new CustomEvent('ui-update'));
     }
 };
 
@@ -1094,14 +922,14 @@ extension.ui.hover = function (DOMRect) {
 
 extension.ui.sleep = function () {
     if (extension.ui.sleepTimeout) {
-        extension.ui.classList.remove('frame-by-frame--sleeping-mode');
+        extension.ui.classList.remove(extension.prefix + '--sleeping-mode');
 
         clearTimeout(extension.ui.sleepTimeout);
     }
 
     if (extension.ui) {
         extension.ui.sleepTimeout = setTimeout(function () {
-            extension.ui.classList.add('frame-by-frame--sleeping-mode');
+            extension.ui.classList.add(extension.prefix + '--sleeping-mode');
 
             extension.ui.sleepTimeout = false;
         }, 3000);
@@ -1146,23 +974,7 @@ extension.ui.append = function () {
 --------------------------------------------------------------*/
 
 extension.ui.styles = function () {
-    var storage = extension.storage.items;
-
-    if (storage.background_color) {
-        if (storage.hasOwnProperty('opacity')) {
-            this.surface.style.setProperty('background-color', 'rgba(' + storage.background_color.join(',') + ',' + storage.opacity + ')', 'important');
-        } else {
-            this.surface.style.setProperty('background-color', 'rgba(' + storage.background_color.join(',') + ',0.8)', 'important');
-        }
-    }
-
-    if (storage.text_color) {
-        this.surface.style.setProperty('color', 'rgb(' + storage.text_color.join(',') + ')', 'important');
-    }
-
-    if (storage.blur) {
-        this.surface.style.setProperty('backdrop-filter', 'blur(' + storage.blur + 'px)', 'important');
-    }
+    document.dispatchEvent(new CustomEvent('ui-styles'));
 };
 
 
@@ -1171,7 +983,7 @@ extension.ui.styles = function () {
 --------------------------------------------------------------*/
 
 extension.ui.hide = function () {
-    this.classList.remove('frame-by-frame--visible');
+    this.classList.remove(extension.prefix + '--visible');
 };
 
 
@@ -1196,7 +1008,7 @@ extension.ui.show = function (DOMRect) {
         this.surface.update();
     }
     
-    this.classList.add('frame-by-frame--visible');
+    this.classList.add(extension.prefix + '--visible');
 };
 
 
@@ -1235,14 +1047,14 @@ extension.enable = function () {
 # INITIALIZATION
 --------------------------------------------------------------*/
 
-extension.message.listener();
-extension.ui.create();
-
 extension.message.sent('get-tab-url', function (response) {
     extension.hostname = response.url;
 
-    extension.storage.import(function (items) {
-        if (!items.domains || items.domains[extension.hostname] !== false) {
+    extension.message.listener();
+    extension.ui.create();
+
+    extension.storage.import(function () {
+        if (!extension.storage.items.domains || extension.storage.items.domains[extension.hostname] !== false) {
             extension.enable();
         }
     });
