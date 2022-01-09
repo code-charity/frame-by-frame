@@ -296,17 +296,17 @@ document.addEventListener('ui-styles', function () {
 
     if (storage.background_color) {
         if (storage.hasOwnProperty('opacity')) {
-            this.surface.style.setProperty('background-color', 'rgba(' + storage.background_color.join(',') + ',' + storage.opacity + ')', 'important');
+            extension.ui.surface.style.setProperty('background-color', 'rgba(' + storage.background_color.join(',') + ',' + storage.opacity + ')', 'important');
         } else {
-            this.surface.style.setProperty('background-color', 'rgba(' + storage.background_color.join(',') + ',0.8)', 'important');
+            extension.ui.surface.style.setProperty('background-color', 'rgba(' + storage.background_color.join(',') + ',0.8)', 'important');
         }
     }
 
     if (storage.text_color) {
-        this.surface.style.setProperty('color', 'rgb(' + storage.text_color.join(',') + ')', 'important');
+        extension.ui.surface.style.setProperty('color', 'rgb(' + storage.text_color.join(',') + ')', 'important');
     }
 
     if (storage.blur) {
-        this.surface.style.setProperty('backdrop-filter', 'blur(' + storage.blur + 'px)', 'important');
+        extension.ui.surface.style.setProperty('backdrop-filter', 'blur(' + storage.blur + 'px)', 'important');
     }
 });
