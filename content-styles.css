@@ -80,6 +80,7 @@ html.frame-by-frame--resize * {
 	border-radius: 8px !important;
 	background: rgba(41, 41, 41, .8) !important;
 	overflow: hidden !important;
+	--fbf-color: 255, 255, 255;
 }
 
 .frame-by-frame__surface--collapsed {
@@ -115,12 +116,12 @@ html.frame-by-frame--resize * {
 	height: 24px !important;
 	transition: visibility 225ms, opacity 225ms, border-radius 225ms !important;
 	opacity: 0 !important;
-	color: #999 !important;
+	color: rgba(var(--fbf-color), .75) !important;
 	background: rgb(128, 128, 128, .32) !important;
 }
 
 .frame-by-frame__button--hover {
-	color: #fff !important;
+	color: rgba(var(--fbf-color), 1) !important;
 }
 
 .frame-by-frame__surface--hover .frame-by-frame__button {

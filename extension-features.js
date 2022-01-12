@@ -304,6 +304,7 @@ document.addEventListener('ui-styles', function () {
 
     if (storage.text_color) {
         extension.ui.surface.style.setProperty('color', 'rgb(' + storage.text_color.join(',') + ')', 'important');
+        extension.ui.surface.style.setProperty('--fbf-color', storage.text_color.join(','), 'important');
     }
 
     if (storage.blur) {

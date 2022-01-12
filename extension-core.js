@@ -668,8 +668,15 @@ extension.videos.add = function (node) {
             extension.videos.update(this);
         }, true);
 
-        node.addEventListener('timeupdate', function () {
+        node.addEventListener('timeupdate', function (event) {
             extension.ui.update();
+
+            document.dispatchEvent(new CustomEvent('video-timeupdate', {
+                detail: {
+                    currentTime: event.target.currentTime,
+                    duration: event.target.duration
+                }
+            }));
         }, true);
     }
 };
@@ -1047,6 +1054,8 @@ extension.enable = function () {
 # INITIALIZATION
 --------------------------------------------------------------*/
 
+extension.observer.create();
+
 extension.message.sent('get-tab-url', function (response) {
     extension.hostname = response.url;
 
@@ -1073,4 +1082,12 @@ extension.storage.onchanged(function (key, value) {
     }
 
     extension.ui.styles();
+});
+
+document.addEventListener('fullscreenchange', function () {
+    if (document.fullscreenElement && extension.storage.items.hide_in_fullscreen === true) {
+        extension.ui.style.display = 'none';
+    } else {
+        extension.ui.style.display = '';
+    }
 });
