@@ -21,10 +21,10 @@
         "message": "Отмена"
     },
     "decreaseFramerate": {
-        "message": "Decrease framerate"
+        "message": "Уменьшить частоту кадров"
     },
     "default": {
-        "message": "Default"
+        "message": "По умолчанию"
     },
     "description": {
         "message": "Лучшее Frame By Frame расширение. Работает со всеми веб-сайтами! Наведите курсор на видео, затем используйте клавиатуру, чтобы выбрать нужный кадр."
@@ -48,7 +48,7 @@
         "message": "Импортировать"
     },
     "increaseFramerate": {
-        "message": "Increase framerate"
+        "message": "Увеличить частоту кадров"
     },
     "language": {
         "message": "Язык"
@@ -64,6 +64,9 @@
     },
     "opacity": {
         "message": "Прозрачность"
+    },
+    "outlineColor": {
+        "message": "Цвет контура"
     },
     "previousFrame": {
         "message": "Предыдущий кадр"

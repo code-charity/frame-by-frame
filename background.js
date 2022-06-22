@@ -13,8 +13,8 @@
 --------------------------------------------------------------*/
 
 var extension = {
-    locale: {},
-    storage: {}
+	locale: {},
+	storage: {}
 };
 
 
@@ -23,35 +23,35 @@ var extension = {
 --------------------------------------------------------------*/
 
 function getLocalization(code) {
-    var language = code || navigator.language;
+	var language = code || navigator.language;
 
-    if (language.indexOf('en') === 0) {
-        language = 'en';
-    }
+	if (language.indexOf('en') === 0) {
+		language = 'en';
+	}
 
-   fetch(chrome.runtime.getURL('_locales/' + language + '/messages.json')).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (response) {
-                extension.locale = {};
+	fetch(chrome.runtime.getURL('_locales/' + language + '/messages.json')).then(function (response) {
+		if (response.ok) {
+			response.json().then(function (response) {
+				extension.locale = {};
 
-                for (var key in response) {
-                    extension.locale[key] = response[key].message;
-                }
-            });
-        } else {
-            fetch(chrome.runtime.getURL('_locales/en/messages.json')).then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (response) {
-                        extension.locale = {};
+				for (var key in response) {
+					extension.locale[key] = response[key].message;
+				}
+			});
+		} else {
+			fetch(chrome.runtime.getURL('_locales/en/messages.json')).then(function (response) {
+				if (response.ok) {
+					response.json().then(function (response) {
+						extension.locale = {};
 
-                        for (var key in response) {
-                            extension.locale[key] = response[key].message;
-                        }
-                    });
-                }
-            });
-        }
-    });
+						for (var key in response) {
+							extension.locale[key] = response[key].message;
+						}
+					});
+				}
+			});
+		}
+	});
 }
 
 
@@ -64,11 +64,11 @@ function getLocalization(code) {
 --------------------------------------------------------------*/
 
 chrome.storage.onChanged.addListener(function (changes) {
-    for (var key in changes) {
-        extension.storage[key] = changes[key].newValue;
-    }
+	for (var key in changes) {
+		extension.storage[key] = changes[key].newValue;
+	}
 
-    getLocalization(extension.storage.language);
+	getLocalization(extension.storage.language);
 });
 
 
@@ -77,22 +77,28 @@ chrome.storage.onChanged.addListener(function (changes) {
 ---------------------------------------------------------------*/
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message === 'get-locale') {
-        var response = extension.locale;
+	var action = message.action;
 
-        sendResponse(response);
+	if (action === 'get-locale') {
+		var response = extension.locale;
 
-        return response;
-    } else if (message === 'get-tab-url') {
-        var response = {
-            url: new URL(sender.tab.url).hostname,
-            id: sender.tab.id
-        };
+		sendResponse(response);
 
-        sendResponse(response);
+		return response;
+	} else if (action === 'tab-connected') {
+		var response = {
+			url: new URL(sender.tab.url).hostname,
+			id: sender.tab.id
+		};
 
-        return response;
-    }
+		sendResponse(response);
+
+		return response;
+	} else if (action === 'options-page-connected') {
+		sendResponse({
+			isPopup: sender.hasOwnProperty('tab') === false
+		});
+	}
 });
 
 
@@ -101,7 +107,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 --------------------------------------------------------------*/
 
 chrome.storage.local.get(function (items) {
-    extension.storage = items;
+	extension.storage = items;
 
-    getLocalization(items.language);
+	getLocalization(items.language);
 });

@@ -1,12 +1,21 @@
 {
+    "appearance": {
+        "message": "Appearance"
+    },
     "areYouSureYouWantToExportTheData": {
         "message": "Are you sure you want to export the data?"
     },
     "areYouSureYouWantToImportTheData": {
         "message": "Are you sure you want to import the data?"
     },
+    "backgroundColor": {
+        "message": "Background color"
+    },
     "black": {
         "message": "Black"
+    },
+    "blur": {
+        "message": "Blur"
     },
     "cancel": {
         "message": "Cancel"
@@ -17,8 +26,23 @@
     "default": {
         "message": "Default"
     },
+    "description": {
+        "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
+    },
+    "duration": {
+        "message": "Duration"
+    },
     "export": {
         "message": "Export"
+    },
+    "frame": {
+        "message": "Frame"
+    },
+    "hideInFullscreen": {
+        "message": "Hide in fullscreen"
+    },
+    "hidePanel": {
+        "message": "Hide panel"
     },
     "import": {
         "message": "Import"
@@ -32,10 +56,40 @@
     "light": {
         "message": "Light"
     },
+    "nextFrame": {
+        "message": "Next frame"
+    },
     "ok": {
         "message": "Ok"
     },
+    "opacity": {
+        "message": "Opacity"
+    },
+    "outlineColor": {
+        "message": "Outline color"
+    },
+    "previousFrame": {
+        "message": "Previous frame"
+    },
+    "reset": {
+        "message": "Reset"
+    },
+    "save": {
+        "message": "Save"
+    },
+    "shortcuts": {
+        "message": "Shortcuts"
+    },
+    "somethingWentWrongTryReloadingThePage": {
+        "message": "Something went wrong. Try reloading the page."
+    },
+    "textColor": {
+        "message": "Text color"
+    },
     "theme": {
         "message": "Theme"
+    },
+    "time": {
+        "message": "Time"
     }
 }

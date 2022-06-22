@@ -65,6 +65,9 @@
     "opacity": {
         "message": "שקיפות"
     },
+    "outlineColor": {
+        "message": "Outline color"
+    },
     "previousFrame": {
         "message": "פריים קודם"
     },

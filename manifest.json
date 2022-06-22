@@ -1,43 +1,58 @@
 {
-    "manifest_version": 3,
-    "name": "Frame By Frame",
-    "description": "__MSG_description__",
-    "version": "3.3",
-    "default_locale": "en",
-    "icons": {
-        "16": "icons/16.png",
-        "32": "icons/32.png",
-        "48": "icons/48.png",
-        "128": "icons/128.png"
-    },
-    "background": {
-        "service_worker": "background.js"
-    },
-    "options_page": "ui/options.html",
-    "action": {
-        "default_popup": "ui/popup.html"
-    },
-    "content_scripts": [
-        {
-            "all_frames": true,
-            "css": [
-                "content-styles.css"
-            ],
-            "js": [
-                "extension-core.js",
-                "extension-features.js"
-            ],
-            "matches": [
-                "<all_urls>"
-            ],
-            "run_at": "document_start"
-        }
-    ],
-    "optional_permissions": [
-        "downloads"
-    ],
-    "permissions": [
-        "storage"
-    ],
-    "offline_enabled": true
+	"manifest_version": 3,
+	"name": "Frame By Frame",
+	"description": "__MSG_description__",
+	"version": "3.4",
+	"default_locale": "en",
+	"icons": {
+		"16": "assets/icons/16.png",
+		"32": "assets/icons/32.png",
+		"48": "assets/icons/48.png",
+		"128": "assets/icons/128.png"
+	},
+	"background": {
+		"service_worker": "background.js"
+	},
+	"options_page": "options-page/index.html",
+	"action": {
+		"default_popup": "options-page/index.html"
+	},
+	"content_scripts": [
+		{
+			"all_frames": true,
+			"css": [
+				"content-scripts/styles.css"
+			],
+			"js": [
+				"content-scripts/core.js",
+				"content-scripts/cursor.js",
+				"content-scripts/events.js",
+				"content-scripts/locale.js",
+				"content-scripts/messages.js",
+				"content-scripts/observer.js",
+				"content-scripts/storage.js",
+				"content-scripts/ui.js",
+				"content-scripts/videos.js",
+				"content-scripts/init.js",
+				"content-scripts/features/data.js",
+				"content-scripts/features/events.js",
+				"content-scripts/features/storage.js",
+				"content-scripts/features/ui.js"
+			],
+			"matches": [
+				"<all_urls>"
+			],
+			"run_at": "document_start"
+		}
+	],
+	"optional_permissions": [
+		"downloads"
+	],
+	"permissions": [
+		"storage"
+	],
+	"host_permissions": [
+		"<all_urls>"
+	],
+	"offline_enabled": true
 }

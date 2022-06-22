@@ -65,6 +65,9 @@
     "opacity": {
         "message": "Opacity"
     },
+    "outlineColor": {
+        "message": "Outline color"
+    },
     "previousFrame": {
         "message": "Previous frame"
     },
