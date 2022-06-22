@@ -21,10 +21,10 @@
         "message": "ביטול"
     },
     "decreaseFramerate": {
-        "message": "Decrease framerate"
+        "message": "הפחתת קצב הפריימים"
     },
     "default": {
-        "message": "Default"
+        "message": "ברירת מחדל"
     },
     "description": {
         "message": "הכלי הטוב ביותר למעבר בין חלוניות (פריימים). עובד עם כל האתרים! יש להזיז את סמן העכבר על גבי סרטון ולהשתמש במקשי החיצים למעבר בין פריימים."
@@ -48,7 +48,7 @@
         "message": "ייבוא"
     },
     "increaseFramerate": {
-        "message": "Increase framerate"
+        "message": "הגברת קצב הפריימים"
     },
     "language": {
         "message": "שפה"
