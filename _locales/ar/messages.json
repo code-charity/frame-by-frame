@@ -1,30 +1,30 @@
 {
     "appearance": {
-        "message": "Appearance"
+        "message": "مظهر"
     },
     "areYouSureYouWantToExportTheData": {
-        "message": "Are you sure you want to export the data?"
+        "message": "هل أنت متأكد أنك تريد تصدير البيانات؟"
     },
     "areYouSureYouWantToImportTheData": {
-        "message": "Are you sure you want to import the data?"
+        "message": "هل أنت متأكد أنك تريد استيراد البيانات؟"
     },
     "backgroundColor": {
-        "message": "Background color"
+        "message": "لون الخلفية"
     },
     "black": {
-        "message": "Black"
+        "message": "أسود"
     },
     "blur": {
-        "message": "Blur"
+        "message": "ضبابية"
     },
     "cancel": {
         "message": "إلغاء"
     },
     "decreaseFramerate": {
-        "message": "Decrease framerate"
+        "message": "تقليص معدل الإطارات"
     },
     "default": {
-        "message": "Default"
+        "message": "افتراضي"
     },
     "description": {
         "message": "أفضل أداة إطار حسب بإطار. تعمل على جميع المواقع! حرك مؤشر الفأرة على الفيديو و إستعمل مفاتيح الأسهم لتبديل بين الإطارات."
@@ -33,7 +33,7 @@
         "message": "المدة"
     },
     "export": {
-        "message": "Export"
+        "message": "تصدير"
     },
     "frame": {
         "message": "إطار"
@@ -42,34 +42,34 @@
         "message": "إخفاء في وضع ملء الشاشة"
     },
     "hidePanel": {
-        "message": "Hide panel"
+        "message": "إخفاء اللوحة"
     },
     "import": {
-        "message": "Import"
+        "message": "استيراد"
     },
     "increaseFramerate": {
-        "message": "Increase framerate"
+        "message": "زيادة معدل الإطارات"
     },
     "language": {
-        "message": "Language"
+        "message": "اللغة"
     },
     "light": {
-        "message": "Light"
+        "message": "فاتح"
     },
     "nextFrame": {
-        "message": "Next frame"
+        "message": "الإطار التالي"
     },
     "ok": {
-        "message": "Ok"
+        "message": "موافق"
     },
     "opacity": {
-        "message": "Opacity"
+        "message": "الشفافية"
     },
     "outlineColor": {
-        "message": "Outline color"
+        "message": "لون خط الاطار الخاري"
     },
     "previousFrame": {
-        "message": "Previous frame"
+        "message": "الإطار السابق"
     },
     "reset": {
         "message": "إعادة تعيين"
@@ -81,13 +81,13 @@
         "message": "الإختصارات"
     },
     "somethingWentWrongTryReloadingThePage": {
-        "message": "Something went wrong. Try reloading the page."
+        "message": ".حدث خطأ ما. حاول إعادة تحميل الصفحة"
     },
     "textColor": {
         "message": "Text color"
     },
     "theme": {
-        "message": "Theme"
+        "message": "السمة"
     },
     "time": {
         "message": "الوقت"
