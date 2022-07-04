@@ -1,95 +1,95 @@
 {
     "appearance": {
-        "message": "Appearance"
+        "message": "Apparence"
     },
     "areYouSureYouWantToExportTheData": {
-        "message": "Are you sure you want to export the data?"
+        "message": "Êtes-vous sûr de vouloir exporter les données ?"
     },
     "areYouSureYouWantToImportTheData": {
-        "message": "Are you sure you want to import the data?"
+        "message": "Voulez-vous vraiment importer les données ?"
     },
     "backgroundColor": {
-        "message": "Background color"
+        "message": "Couleur de fond"
     },
     "black": {
-        "message": "Black"
+        "message": "Noir"
     },
     "blur": {
-        "message": "Blur"
+        "message": "Flou"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Annuler"
     },
     "decreaseFramerate": {
-        "message": "Decrease framerate"
+        "message": "Diminuer la cadence de cadres"
     },
     "default": {
-        "message": "Default"
+        "message": "Défaut"
     },
     "description": {
-        "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
+        "message": "Le meilleur outil pour le cadre par cadre. Fonctionne avec tous les sites web ! Déplacez le curseur de votre souris sur la vidéo et utilisez les flèches du clavier pour changer de cadre."
     },
     "duration": {
-        "message": "Duration"
+        "message": "Durée"
     },
     "export": {
-        "message": "Export"
+        "message": "Exporter"
     },
     "frame": {
-        "message": "Frame"
+        "message": "Cadre"
     },
     "hideInFullscreen": {
-        "message": "Hide in fullscreen"
+        "message": "Masquer en plein écran"
     },
     "hidePanel": {
-        "message": "Hide panel"
+        "message": "Masquer le panneau"
     },
     "import": {
-        "message": "Import"
+        "message": "Importer"
     },
     "increaseFramerate": {
-        "message": "Increase framerate"
+        "message": "Augmenter la cadence de cadres"
     },
     "language": {
-        "message": "Language"
+        "message": "Langue"
     },
     "light": {
-        "message": "Light"
+        "message": "Clair"
     },
     "nextFrame": {
-        "message": "Next frame"
+        "message": "Cadre suivant"
     },
     "ok": {
-        "message": "Ok"
+        "message": "D'accord"
     },
     "opacity": {
-        "message": "Opacity"
+        "message": "Opacité"
     },
     "outlineColor": {
-        "message": "Outline color"
+        "message": "Couleur du contour"
     },
     "previousFrame": {
-        "message": "Previous frame"
+        "message": "Cadre précédent"
     },
     "reset": {
-        "message": "Reset"
+        "message": "Réinitialiser"
     },
     "save": {
-        "message": "Save"
+        "message": "Sauvegarder"
     },
     "shortcuts": {
-        "message": "Shortcuts"
+        "message": "Raccourcis"
     },
     "somethingWentWrongTryReloadingThePage": {
-        "message": "Something went wrong. Try reloading the page."
+        "message": "Quelque chose a mal tourné. Essayez de recharger la page."
     },
     "textColor": {
-        "message": "Text color"
+        "message": "Couleur du texte"
     },
     "theme": {
-        "message": "Theme"
+        "message": "Thème"
     },
     "time": {
-        "message": "Time"
+        "message": "Heure"
     }
 }
