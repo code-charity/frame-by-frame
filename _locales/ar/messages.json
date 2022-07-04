@@ -66,7 +66,7 @@
         "message": "الشفافية"
     },
     "outlineColor": {
-        "message": "لون خط الاطار الخاري"
+        "message": "لون المحيط الخارجي"
     },
     "previousFrame": {
         "message": "الإطار السابق"
@@ -84,7 +84,7 @@
         "message": ".حدث خطأ ما. حاول إعادة تحميل الصفحة"
     },
     "textColor": {
-        "message": "Text color"
+        "message": "لون النص"
     },
     "theme": {
         "message": "السمة"
