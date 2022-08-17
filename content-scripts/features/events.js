@@ -21,7 +21,7 @@ extension.events.clickResize = {
 # FEATURES
 --------------------------------------------------------------*/
 
-extension.events.features.increase_framerate = function () {
+extension.events.features.increase_framerate = function (event) {
 	if (extension.videos.active) {
 		if (event.shiftKey) {
 			extension.framerate += 10;
@@ -38,7 +38,7 @@ extension.events.features.increase_framerate = function () {
 	}
 };
 
-extension.events.features.decrease_framerate = function () {
+extension.events.features.decrease_framerate = function (event) {
 	if (extension.videos.active) {
 		if (event.shiftKey) {
 			extension.framerate -= 10;
@@ -55,7 +55,7 @@ extension.events.features.decrease_framerate = function () {
 	}
 };
 
-extension.events.features.next_shortcut = function () {
+extension.events.features.next_shortcut = function (event) {
 	if (extension.videos.active) {
 		var video = extension.videos.active,
 			frame = 1 / extension.framerate;
@@ -76,7 +76,7 @@ extension.events.features.next_shortcut = function () {
 	}
 };
 
-extension.events.features.prev_shortcut = function () {
+extension.events.features.prev_shortcut = function (event) {
 	if (extension.videos.active) {
 		var video = extension.videos.active,
 			frame = 1 / extension.framerate;
@@ -97,7 +97,7 @@ extension.events.features.prev_shortcut = function () {
 	}
 };
 
-extension.events.features.hide_shortcut = function () {
+extension.events.features.hide_shortcut = function (event) {
 	if (extension.videos.active) {
 		extension.ui.actions.toggle();
 

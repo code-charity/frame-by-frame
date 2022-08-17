@@ -57,7 +57,7 @@ extension.events.remove = function (target) {
 # CHECK ACTIVE ELEMENT
 --------------------------------------------------------------*/
 
-extension.events.checkActiveElement = function () {
+extension.events.checkActiveElement = function (event) {
 	if (
 		event.target.isContentEditable || [
 			'EMBED',
@@ -83,7 +83,7 @@ extension.events.features = {};
 # HANDLER
 --------------------------------------------------------------*/
 
-extension.events.handler = function () {
+extension.events.handler = function (event) {
 	var prevent = false;
 
 	if (extension.ui.classList.contains(extension.prefix + '--visible')) {
@@ -113,7 +113,7 @@ extension.events.handler = function () {
 
 					if (extension.events.data.wheel === 0) {
 						if (same_keys === true) {
-							extension.events.features[key]();
+							extension.events.features[key](event);
 
 							prevent = true;
 						}
@@ -132,7 +132,7 @@ extension.events.handler = function () {
 --------------------------------------------------------------*/
 
 extension.events.keyboard.keydown = function (event) {
-	if (extension.events.checkActiveElement()) {
+	if (extension.events.checkActiveElement(event)) {
 		return false;
 	}
 
@@ -148,7 +148,7 @@ extension.events.keyboard.keydown = function (event) {
 
 	extension.events.data.wheel = 0;
 
-	if (extension.events.handler()) {
+	if (extension.events.handler(event)) {
 		event.preventDefault();
 		event.stopPropagation();
 
@@ -157,7 +157,7 @@ extension.events.keyboard.keydown = function (event) {
 };
 
 extension.events.keyboard.keyup = function (event) {
-	if (extension.events.checkActiveElement()) {
+	if (extension.events.checkActiveElement(event)) {
 		return false;
 	}
 
@@ -320,7 +320,7 @@ extension.events.mouse.wheel = function (event) {
 		extension.events.data.wheel = -1;
 	}
 
-	if (extension.events.handler()) {
+	if (extension.events.handler(event)) {
 		event.preventDefault();
 	}
 };

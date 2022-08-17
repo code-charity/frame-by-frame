@@ -111,48 +111,65 @@
 .satus-base {
 	--satus-light: 0, 20, 82;
 	--satus-primary: #ff4158;
-
-	--satus-alert-hue-error: 0;
-	--satus-alert-hue-success: 200;
-
+	--satus-alert-background--error: #501616;
+	--satus-alert-border--error: 1px solid #6f1f1f;
+	--satus-alert-foreground--error: #d77070;
+	--satus-alert-background--success: rgb(246, 180, 101, .32);
+	--satus-alert-border--success: 1px solid rgb(246, 180, 101, .6);
+	--satus-alert-foreground--success: rgb(184, 115, 30);
 	--satus-base-background: #f3f4f6;
 	--satus-base-foreground: #565e76;
-
 	--satus-checkbox-background: #f3f4f6;
-    --satus-checkbox-border: #dcdfe5;
-    --satus-checkbox-foreground: rgb(255, 255, 255, .96);
-
-    --satus-divider: rgba(var(--satus-light),.1);
-
+	--satus-checkbox-border: #dcdfe5;
+	--satus-checkbox-foreground: rgb(255, 255, 255, .96);
+	--satus-divider: rgba(var(--satus-light), .1);
 	--satus-header-background: #fff;
 	--satus-header-foreground: inherit;
 	--satus-header-shadow: 0 1px 0 #dcdee5;
-
 	--satus-layers-background: var(--satus-base-background);
-	--satus-layers-foreground: inerit;
-
+	--satus-layers-foreground: inherit;
 	--satus-section-background: #fff;
-    --satus-section-border: #dcdee5;
-
+	--satus-section-border: #dcdee5;
+	--satus-section-foreground:  inherit;
 	--satus-sidebar-background: #fff;
 	--satus-sidebar-foreground: inherit;
 	--satus-sidebar-shadow: #dcdee5;
-
 	--satus-modal-foreground: inherit;
 	--satus-modal-background: #fff;
 	--satus-modal-shadow: 0 1px 4px #7d86a1;
-
-	--satus-tabs-background: var(--satus-section-background);
-
+	--satus-tabs-background: rgba(var(--satus-light), .04);
+	--satus-tabs-foreground: #fff;
 	--satus-text-field-background: #edf0f2;
 	--satus-text-field-border: #dcdee5;
 	--satus-text-field-color: #7d8ba1;
 	--satus-text-field-selection: rgb(149, 166, 178, .35);
 	--satus-text-field-cursor: #fa0;
-
 	--satus-switch-track: #e1e4ea;
 	--satus-switch-track--checked: var(--satus-primary);
 	--satus-switch-thumb: #fff;
+	--satus-input-text-background: #e8e8e3;
+	--satus-input-text-border: #d6d6cd;
+	--satus-input-text-text: #848471;
+}
+
+.satus-base[theme=dark] {
+	--satus-light: 255, 255, 255;
+	--satus-primary: #3691bf;
+	--satus-alert-background--error: #501616;
+	--satus-alert-border--error: 1px solid #6f1f1f;
+	--satus-alert-foreground--error: #d77070;
+	--satus-alert-background--success: #143648;
+	--satus-alert-border--success: 1px solid #1d4f67;
+	--satus-alert-foreground--success: #50a4ce;
+	--satus-base-background: #151528;
+	--satus-base-foreground: #fafafa;
+	--satus-header-background: #313172;
+	--satus-header-shadow: transparent;
+	--satus-section-background: #232343;
+	--satus-section-border: #232343;
+	--satus-modal-background: #313172;
+	--satus-modal-shadow: 0 1px 4px #22222f;
+	--satus-switch-track: #52527a;
 }
 /*--------------------------------------------------------------
 >>> NORMALIZE
@@ -247,6 +264,10 @@
 	animation: zoomOut 70ms linear forwards;
 }
 
+.satus-modal__content {
+	margin: 6px 0 12px;
+}
+
 .satus-section--actions {
 	justify-content: flex-end;
 }
@@ -286,6 +307,7 @@
 	font-weight: 500;
 	margin: 6px 0;
 	padding: 0 12px;
+	height: auto;
 }
 
 .satus-modal--vertical-menu .satus-modal__surface>.satus-tabs {
@@ -306,6 +328,16 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+.satus-modal--vertical-menu .satus-switch:hover {
+	cursor: pointer;
+
+	background-color: rgba(var(--satus-light), .06);
+}
+
+.satus-modal--vertical-menu .satus-switch:focus {
+	background-color: rgba(var(--satus-light), .08);
 }
 /*--------------------------------------------------------------
 >>> GRID
@@ -335,6 +367,7 @@
 	height: 36px;
 
 	color: var(--satus-text-field-foreground, inherit);
+	border: 1px solid var(--satus-text-field-border);
 	border-radius: 4px;
 	background: var(--satus-text-field-background);
 
@@ -352,7 +385,12 @@
 	flex: 1;
 }
 
-.satus-text-field__textarea {
+.satus-text-field[line-numbers=false] .satus-text-field__container {
+	margin-left: 8px;
+}
+
+.satus-text-field__textarea,
+.satus-text-field__input {
 	font: inherit;
 
 	position: absolute;
@@ -466,7 +504,9 @@
 }
 
 .satus-text-field__textarea:focus+.satus-text-field__display>.satus-text-field__cursor,
-.satus-text-field__textarea:focus+.satus-text-field__display>.satus-text-field__selection:not([disabled]) {
+.satus-text-field__textarea:focus+.satus-text-field__display>.satus-text-field__selection:not([disabled]),
+.satus-text-field__input:focus+.satus-text-field__display>.satus-text-field__cursor,
+.satus-text-field__input:focus+.satus-text-field__display>.satus-text-field__selection:not([disabled]) {
 	display: block;
 }
 
@@ -480,6 +520,19 @@
 	50% {
 		opacity: 0;
 	}
+}
+
+
+/*--------------------------------------------------------------
+# MULTILINE: FALSE
+--------------------------------------------------------------*/
+
+.satus-text-field[multiline=false] .satus-text-field__pre {
+	align-items: center;
+}
+
+.satus-text-field[multiline=false] .satus-text-field__cursor {
+	top: calc(50% - 9px);
 }
 
 
@@ -771,6 +824,7 @@
 	border: 1px solid var(--satus-section-border);
 	border-radius: 3px;
 	background: var(--satus-section-background);
+	color: var(--satus-section-foreground);
 }
 
 .satus-section--transparent-card {
@@ -805,7 +859,6 @@
 .satus-section--card>[class^='satus']:not(.satus-list):not(.satus-section) {
 	display: flex;
 
-	width: 100%;
 	min-height: 48px;
 	padding: 8px 12px;
 
@@ -817,7 +870,11 @@
 	align-items: center;
 }
 
-.satus-section--card>[class^='satus']:not(.satus-list):hover {
+.satus-section--card>[class^='satus']:not(.satus-list):not(.satus-section):not(.satus-chart) {
+	width: 100%;
+}
+
+.satus-section--card>[class^='satus']:not(.satus-chart):not(.satus-list):not(.satus-span):hover {
 	background-color: rgba(var(--satus-light), .06);
 }
 
@@ -880,25 +937,28 @@
 --------------------------------------------------------------*/
 
 .satus-alert {
-    display: flex;
-    min-height: 48px;
-    margin: 12px;
-    padding: 8px 12px;
-    border-radius: 3px;
-    align-items: center;
-    max-width: 900px;
+	display: flex;
+
+	max-width: 900px;
+	min-height: 48px;
+	margin: 12px;
+	padding: 8px 12px;
+
+	border-radius: 3px;
+
+	align-items: center;
 }
 
 .satus-alert--error {
-    color: hsl(var(--satus-alert-hue-error), 56%, 64%);
-    border: 1px solid hsl(var(--satus-alert-hue-error), 56%, 28%);
-    background: hsl(var(--satus-alert-hue-error), 56%, 20%);
+	color: var(--satus-alert-foreground--error);
+	border: var(--satus-alert-border--error);
+	background: var(--satus-alert-background--error);
 }
 
 .satus-alert--success {
-    color: hsl(var(--satus-alert-hue-success), 56%, 56%);
-    border: 1px solid hsl(var(--satus-alert-hue-success), 56%, 26%);
-    background: hsl(var(--satus-alert-hue-success), 56%, 18%);
+	color: var(--satus-alert-foreground--success);
+	border: var(--satus-alert-border--success);
+	background: var(--satus-alert-background--success);
 }
 
 
@@ -907,10 +967,41 @@
 --------------------------------------------------------------*/
 
 @media (min-width: 901px) {
-    .satus-alert {
-        margin-left: auto;
-        margin-right: auto;
-    }
+	.satus-alert {
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+/*--------------------------------------------------------------
+>>> INPUT
+--------------------------------------------------------------*/
+
+.satus-input[type=text],
+.satus-input[type=password] {
+	font: inherit;
+	font-size: 16px;
+
+	box-sizing: border-box;
+	width: 100%;
+	height: 26px;
+	margin: 0;
+	margin: 8px 0;
+	padding: 0 8px;
+
+	color: var(--satus-input-text-foreground, inherit);
+	border: none;
+	border: 1px solid var(--satus-input-text-border);
+	border-radius: 4px;
+	outline: none;
+	background: none;
+	background-color: var(--satus-input-text-background);
+
+	appearance: none;
+}
+
+.satus-input--error[type=text],
+.satus-input--error[type=password] {
+	outline: 2px solid rgba(255, 0, 0, .32);
 }
 /*--------------------------------------------------------------
 >>> MAIN
@@ -918,7 +1009,6 @@
 
 .satus-main {
 	display: flex;
-	background: var(--satus-base-background);
 	flex: 1
 }
 /*--------------------------------------------------------------
@@ -1296,6 +1386,25 @@
 	flex-wrap: wrap;
 }
 
+.satus-slider__content {
+	    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.satus-slider__input[type='text'] {
+    appearance: none;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font: inherit;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    width: 64px;
+    text-align: right;
+}
+
 .satus-slider__track-container {
 	position: relative;
 
@@ -1318,7 +1427,7 @@
 	background: var(--satus-primary);
 }
 
-.satus-slider__input {
+.satus-slider__input[type='range'] {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -1445,7 +1554,6 @@
 	margin: 0;
 	padding: 0 8px;
 
-	text-transform: lowercase;
 	text-overflow: ellipsis;
 
 	color: inherit;
@@ -1464,299 +1572,319 @@
 --------------------------------------------------------------*/
 
 .satus-shortcut__value {
-    font-size: 11px;
+	font-size: 11px;
 
-    display: flex;
+	display: flex;
 
-    margin-left: 16px;
+	margin-left: 16px;
 
-    text-transform: uppercase;
+	text-transform: uppercase;
 
-    align-items: center;
-    flex: 1;
-    justify-content: flex-end;
+	align-items: center;
+	flex: 1;
+	justify-content: flex-end;
 }
 
 .satus-shortcut__actions {
-    display: flex;
+	display: flex;
 
-    justify-content: flex-end;
+	justify-content: flex-end;
 }
 
 .satus-shortcut__actions .satus-button {
-    height: 32px;
-    margin: 8px 4px 0;
+	height: 32px;
+	margin: 8px 4px 0;
 
-    border-radius: 8px;
-    background: rgba(0, 0, 0, .15);
+	border-radius: 8px;
+	background: rgba(0, 0, 0, .15);
 }
 
 .satus-shortcut__actions .satus-button:hover {
-    background: rgba(0, 0, 0, .25);
+	background: rgba(0, 0, 0, .25);
 }
 
 .satus-shortcut__primary {
-    display: flex;
-    height: 64px;
-    padding: 16px;
-    background: rgba(0, 0, 0, .16);
-    align-items: center;
-    margin: 0 0 12px;
-    border-radius: 3px;
+	display: flex;
+
+	height: 64px;
+	margin: 0 0 12px;
+	padding: 16px;
+
+	border-radius: 3px;
+	background: rgba(0, 0, 0, .16);
+
+	align-items: center;
 }
 
 .satus-shortcut__key {
-    display: flex;
+	display: flex;
 
-    color: #242424;
-    min-width: 32px;
-    height: 32px;
-    padding: 4px 8px;
+	min-width: 32px;
+	height: 32px;
+	padding: 4px 8px;
 
-    border-radius: 4px;
-    background: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .15), inset 0 -3px 0 rgba(0, 0, 0, .1);
+	border-radius: 4px;
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .15), inset 0 -3px 0 rgba(0, 0, 0, .1);
 
-    align-items: center;
-    justify-content: center;
+	align-items: center;
+	justify-content: center;
 }
 
 .satus-shortcut__value>.satus-shortcut__key {
-    font-size: 14px;
+	font-size: 12px;
 
-    min-width: 24px;
-    height: 24px;
+	min-width: 24px;
+	height: 24px;
 }
 
 .satus-shortcut__plus {
-    position: relative;
+	position: relative;
 
-    width: 12px;
-    height: 12px;
-    margin: 8px;
+	width: 12px;
+	height: 12px;
+	margin: 8px;
 }
 
 .satus-shortcut__plus::before {
-    position: absolute;
-    top: 0;
-    left: 5px;
+	position: absolute;
+	top: 0;
+	left: 5px;
 
-    width: 2px;
-    height: 12px;
+	width: 2px;
+	height: 12px;
 
-    content: '';
+	content: '';
 
-    background-color: #aaa;
+	background-color: #aaa;
 }
 
 .satus-shortcut__plus::after {
-    position: absolute;
-    top: 5px;
-    left: 0;
+	position: absolute;
+	top: 5px;
+	left: 0;
 
-    width: 12px;
-    height: 2px;
+	width: 12px;
+	height: 2px;
 
-    content: '';
+	content: '';
 
-    background-color: #aaa;
+	background-color: #aaa;
 }
 
 .satus-shortcut__mouse {
-    position: relative;
+	position: relative;
 
-    display: flex;
+	display: flex;
 
-    width: 28px;
-    height: 36px;
+	width: 28px;
+	height: 36px;
 
-    border-radius: 50%;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    background: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .15), inset 0 -3px 0 rgba(0, 0, 0, .1);
+	border-radius: 50%;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .15), inset 0 -3px 0 rgba(0, 0, 0, .1);
 }
 
 .satus-shortcut__value>.satus-shortcut__mouse {
-    width: 22px;
-    height: 28px;
+	width: 22px;
+	height: 28px;
 }
 
 .satus-shortcut__mouse>div {
-    position: absolute;
-    top: 0;
-    left: calc(50% - 1px);
+	position: absolute;
+	top: 0;
+	left: calc(50% - 1px);
 
-    width: 2px;
-    height: 11px;
+	width: 2px;
+	height: 11px;
 
-    border-radius: 2px;
-    background: #ccc;
+	border-radius: 2px;
+	background: #ccc;
 }
 
 .satus-shortcut__mouse::before {
-    position: absolute;
-    top: -16%;
-    right: 14%;
+	position: absolute;
+	top: -16%;
+	right: 14%;
 
-    width: 2px;
-    height: 60%;
+	width: 2px;
+	height: 60%;
 
-    content: '';
+	content: '';
 
-    background: #f96754;
+	background: #f96754;
 }
 
 .satus-shortcut__mouse.false::before {
-    top: -6%;
+	top: -6%;
 }
 
 .satus-shortcut__mouse.false::after {
-    position: absolute;
-    top: -20%;
-    right: calc(14% - 4px);
+	position: absolute;
+	top: -20%;
+	right: calc(14% - 4px);
 
-    width: 0;
-    height: 0;
+	width: 0;
+	height: 0;
 
-    content: '';
+	content: '';
 
-    border-right: 5px solid transparent;
-    border-bottom: 8px solid #f96754;
-    border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 8px solid #f96754;
+	border-left: 5px solid transparent;
 }
 
 .satus-shortcut__mouse.true::after {
-    position: absolute;
-    top: 40%;
-    right: calc(14% - 4px);
+	position: absolute;
+	top: 40%;
+	right: calc(14% - 4px);
 
-    width: 0;
-    height: 0;
+	width: 0;
+	height: 0;
 
-    content: '';
+	content: '';
 
-    border-top: 8px solid #f96754;
-    border-right: 5px solid transparent;
-    border-left: 5px solid transparent;
+	border-top: 8px solid #f96754;
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
 }
 
 .satus-shortcut__mouse.click::before {
-    position: absolute;
-    top: 0;
-    left: -1px;
+	position: absolute;
+	top: 0;
+	left: -1px;
 
-    width: 10px;
-    height: 10px;
+	width: 10px;
+	height: 10px;
 
-    content: '';
+	content: '';
 
-    border-radius: 50%;
-    background: #f96754;
+	border-radius: 50%;
+	background: #f96754;
 }
 
 .satus-shortcut__mouse.middle::before {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 50%;
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 50%;
 
-    width: 10px;
-    height: 10px;
+	width: 10px;
+	height: 10px;
 
-    content: '';
-    transform: translateX(-50%);
+	content: '';
+	transform: translateX(-50%);
 
-    border-radius: 50%;
-    background: #f96754;
+	border-radius: 50%;
+	background: #f96754;
 }
 
 .satus-shortcut__mouse.context::before {
-    position: absolute;
-    top: 0;
-    left: 15px;
+	position: absolute;
+	top: 0;
+	left: 15px;
 
-    width: 10px;
-    height: 10px;
+	width: 10px;
+	height: 10px;
 
-    content: '';
+	content: '';
 
-    border-radius: 50%;
-    background: #f96754;
+	border-radius: 50%;
+	background: #f96754;
 }
 
 .satus-section_shortcut {
-    width: 100%;
-    margin: 8px 0 0;
+	width: 100%;
+	margin: 8px 0 0;
 
-    justify-content: flex-end;
+	justify-content: flex-end;
 }
 
 .satus-button_shortcut {
-    font-weight: 500;
+	font-weight: 500;
 
-    overflow: hidden;
+	overflow: hidden;
 
-    height: 28px;
-    min-height: 28px;
-    margin-right: 2px;
-    padding: 4px 8px;
+	height: 28px;
+	min-height: 28px;
+	margin-right: 2px;
+	padding: 4px 8px;
 
-    text-transform: uppercase;
+	text-transform: uppercase;
 
-    color: #f96754;
-    border-radius: 4px;
+	color: #f96754;
+	border-radius: 4px;
 }
 /*--------------------------------------------------------------
 >>> CHECKBOX
 --------------------------------------------------------------*/
 
-.satus-checkbox
-{
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
+.satus-checkbox {
+	position: relative;
+
+	display: flex;
+
+	cursor: pointer;
+
+	align-items: center;
 }
 
-.satus-checkbox::before
-{
-    display: flex;
-    width: 16px;
-    min-width: 16px;
-    height: 16px;
-    margin: 0 14px 0 0;
-    content: '';
-    border: 1px solid var(--satus-checkbox-border);
-    border-radius: 3px;
-    background: var(--satus-checkbox-background);
-    align-items: center;
-    justify-content: center;
+.satus-checkbox__input {
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+
+	opacity: 0;
+	border: none;
+
+	appearance: none;
 }
 
-.satus-checkbox[data-value=true]::before
-{
-    background: var(--satus-primary);
-    border-color: var(--satus-primary);
+.satus-checkbox__checkmark {
+	position: relative;
+
+	display: flex;
+
+	width: 16px;
+	min-width: 16px;
+	height: 16px;
+	min-height: 16px;
+	margin: 0 12px 0 0;
+
+	content: '';
+
+	border: 1px solid var(--satus-checkbox-border);
+	border-radius: 3px;
+	background: var(--satus-checkbox-background);
 }
 
-.satus-checkbox[data-value=true]::after
-{
-    position: absolute;
-    top: 20px;
-    left: 20px;
-
-    width: 8px;
-    height: 4px;
-
-    content: '';
-    transform: rotate(-45deg);
-
-    border: 2px solid var(--satus-checkbox-foreground);
-    border-top: none;
-    border-right: none;
+.satus-checkbox[data-value=true] .satus-checkbox__checkmark {
+	border-color: var(--satus-primary);
+	background: var(--satus-primary);
 }
 
+.satus-checkbox[data-value=true] .satus-checkbox__checkmark::before {
+	position: absolute;
+	top: 3px;
+	left: 2px;
+
+	width: 8px;
+	height: 4px;
+
+	content: '';
+	transform: rotate(-45deg);
+
+	border: 2px solid var(--satus-checkbox-foreground);
+	border-top: none;
+	border-right: none;
+}
 /*--------------------------------------------------------------
 >>> SWITCH
 ----------------------------------------------------------------
@@ -1852,4 +1980,87 @@
 
 .satus-switch[data-value='true']>i::before {
 	transform: translateX(14px);
+}
+/*--------------------------------------------------------------
+>>> CONTEXT MENU
+--------------------------------------------------------------*/
+
+.satus-modal--contextmenu .satus-modal__scrim {
+	visibility: visible;
+
+	transform: none;
+	animation: none;
+
+	opacity: 1;
+	background: none;
+
+	backdrop-filter: none;
+}
+
+.satus-modal--contextmenu .satus-modal__surface {
+	position: absolute;
+
+	visibility: visible;
+
+	min-width: 200px;
+	max-width: 200px;
+	margin: 0;
+	padding: 4px 0;
+
+	transform: none;
+	animation: none;
+
+	opacity: 1;
+	border-radius: 4px;
+	box-shadow: 0 0 0 1px rgba(var(--satus-light), .1);
+}
+
+.satus-modal--contextmenu .satus-modal__surface>* {
+	display: flex;
+
+	height: 32px;
+	padding: 0 16px;
+
+	align-items: center;
+}
+
+.satus-modal--contextmenu .satus-modal__surface .satus-button svg {
+	width: 20px;
+	height: 18px;
+	margin: 0 14px 0 0;
+
+	opacity: .75;
+
+	fill: none;
+	stroke: var(--satus-primary);
+	flex: 0 0 20px;
+}
+
+.satus-modal--contextmenu .satus-modal__surface .satus-button .satus-span {
+	overflow: hidden;
+
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+/*--------------------------------------------------------------
+>>> SORTABLE
+--------------------------------------------------------------*/
+
+.satus-sortable__chosen {
+	color: var(--satus-sortable-text) !important;
+	background-color: var(--satus-sortable-background) !important;
+}
+
+.satus-sortable__ghost {
+	position: fixed !important;
+	z-index: 999 !important;
+	top: 0 !important;
+	left: 0 !important;
+
+	pointer-events: none !important;
+
+	opacity: .8 !important;
+	box-shadow: 0 1px 3px rgb(0, 0, 0, .2), 0 4px 8px rgb(0, 0, 0, .1), inset 0 0 0 1px rgb(0, 0, 0, .16) !important;
+
+	will-change: transform !important;
 }
