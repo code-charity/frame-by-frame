@@ -105,6 +105,9 @@ extension.skeleton.header = {
 							}, {
 								value: 'ar',
 								text: 'العربية'
+							}, {
+								value: 'it',
+								text: 'Italiano'
 							}
 						],
 

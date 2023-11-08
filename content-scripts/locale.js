@@ -29,7 +29,8 @@ extension.locale.get = function (message) {
 --------------------------------------------------------------*/
 
 extension.locale.import = function () {
-	extension.message.sent('get-locale', function (response) {
+	extension.message.sent({ action: 'get-locale'}, function (response) {
 		extension.locale.message = response;
+		document.dispatchEvent(new CustomEvent('locale-updated'));
 	});
 };

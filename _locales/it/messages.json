@@ -1,93 +1,93 @@
 {
     "appearance": {
-        "message": "Appearance"
+        "message": "Aspetto"
     },
     "areYouSureYouWantToExportTheData": {
-        "message": "Are you sure you want to export the data?"
+        "message": "Sei sicuro di voler esportare i dati?"
     },
     "areYouSureYouWantToImportTheData": {
-        "message": "Are you sure you want to import the data?"
+        "message": "Sei sicuro di voler importare i dati?"
     },
     "backgroundColor": {
-        "message": "Background color"
+        "message": "Sfondo"
     },
     "black": {
-        "message": "Black"
+        "message": "Nero"
     },
     "blur": {
-        "message": "Blur"
+        "message": "Sfocatura"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Annulla"
     },
     "decreaseFramerate": {
-        "message": "Decrease framerate"
+        "message": "Riduci framerate"
     },
     "default": {
         "message": "Default"
     },
     "description": {
-        "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
+        "message": "Il miglior strumento Frame By Frame. Funziona con titti i siti! Sposta il cursore del mouse sul video e utilizza le frecce della tastiera per cambiare fotogramma."
     },
     "duration": {
-        "message": "Duration"
+        "message": "Durata"
     },
     "export": {
-        "message": "Export"
+        "message": "Esporta"
     },
     "frame": {
         "message": "Frame"
     },
     "hideInFullscreen": {
-        "message": "Hide in fullscreen"
+        "message": "Nascondi a schermo intero"
     },
     "hidePanel": {
-        "message": "Hide panel"
+        "message": "Nascondi pannello"
     },
     "import": {
-        "message": "Import"
+        "message": "Importa"
     },
     "increaseFramerate": {
-        "message": "Increase framerate"
+        "message": "Aumenta framerate"
     },
     "language": {
-        "message": "Language"
+        "message": "Lingua"
     },
     "light": {
-        "message": "Light"
+        "message": "Chiaro"
     },
     "nextFrame": {
-        "message": "Next frame"
+        "message": "Frame successivo"
     },
     "ok": {
         "message": "Ok"
     },
     "opacity": {
-        "message": "Opacity"
+        "message": "Opacità"
     },
     "outlineColor": {
-        "message": "Outline color"
+        "message": "Colore bordo"
     },
     "previousFrame": {
-        "message": "Previous frame"
+        "message": "Frame precedente"
     },
     "reset": {
         "message": "Reset"
     },
     "save": {
-        "message": "Save"
+        "message": "Salva"
     },
     "shortcuts": {
-        "message": "Shortcuts"
+        "message": "Scorciatoie da tastiera"
     },
     "somethingWentWrongTryReloadingThePage": {
-        "message": "Something went wrong. Try reloading the page."
+        "message": "Qualcosa è andato storto. Prova a ricaricare la pagina."
     },
     "textColor": {
-        "message": "Text color"
+        "message": "Colore testo"
     },
     "theme": {
-        "message": "Theme"
+        "message": "Tema"
     },
     "time": {
         "message": "Time"

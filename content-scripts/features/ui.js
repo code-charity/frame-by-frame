@@ -6,6 +6,13 @@
 # CREATE
 --------------------------------------------------------------*/
 
+function updateLocaleTextUi() {
+	extension.ui.time_text.textContent = extension.locale.get("time");
+	extension.ui.duration_text.textContent = extension.locale.get("duration");
+	extension.ui.frame_text.textContent = extension.locale.get("frame");
+	extension.ui.framerate_text.textContent = extension.locale.get("framerate");
+}
+
 document.addEventListener('ui-create', function (event) {
 	var time_container = document.createElement('div'),
 		duration_container = document.createElement('div'),
@@ -17,6 +24,11 @@ document.addEventListener('ui-create', function (event) {
 	extension.ui.frame = document.createElement('div');
 	extension.ui.framerate = document.createElement('div');
 
+	extension.ui.time_text = document.createElement('div');
+	extension.ui.duration_text = document.createElement('div');
+	extension.ui.frame_text = document.createElement('div');
+	extension.ui.framerate_text = document.createElement('div');
+
 	time_container.className = extension.prefix + '__container';
 	duration_container.className = extension.prefix + '__container';
 	frame_container.className = extension.prefix + '__container';
@@ -27,10 +39,11 @@ document.addEventListener('ui-create', function (event) {
 	extension.ui.frame.className = extension.prefix + '__value';
 	extension.ui.framerate.className = extension.prefix + '__value';
 
-	time_container.appendChild(document.createTextNode(extension.locale.get('time')));
-	duration_container.appendChild(document.createTextNode(extension.locale.get('duration')));
-	frame_container.appendChild(document.createTextNode(extension.locale.get('frame')));
-	framerate_container.appendChild(document.createTextNode(extension.locale.get('framerate')));
+	time_container.appendChild(extension.ui.time_text);
+	duration_container.appendChild(extension.ui.duration_text);
+	frame_container.appendChild(extension.ui.frame_text);
+	framerate_container.appendChild(extension.ui.framerate_text);
+	
 	time_container.appendChild(extension.ui.time);
 	duration_container.appendChild(extension.ui.duration);
 	frame_container.appendChild(extension.ui.frame);
@@ -40,6 +53,9 @@ document.addEventListener('ui-create', function (event) {
 	extension.ui.surface.appendChild(duration_container);
 	extension.ui.surface.appendChild(frame_container);
 	extension.ui.surface.appendChild(framerate_container);
+
+	updateLocaleTextUi();
+	document.addEventListener('locale-updated', updateLocaleTextUi);
 });
 
 
