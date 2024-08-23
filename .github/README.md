@@ -49,7 +49,7 @@
 - [ ] [Dutch](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/nl/messages.json) `/nl/`
 - [ ] [Norwegian](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/no/messages.json) `/no/`
 - [ ] [Polish](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/pl/messages.json) `/pl/`
-- [ ] [Portuguese (Brazil)](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/pt_BR/messages.json) `/pt_BR/`
+- [x] [Portuguese (Brazil)](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/pt_BR/messages.json) `/pt_BR/`
 - [ ] [Portuguese (Portugal)](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/pt_PT/messages.json) `/pt_PT/`
 - [ ] [Romanian](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/ro/messages.json) `/ro/`
 - [x] [Russian](https://github.com/victor-savinov/frame-by-frame/tree/master/_locales/ru/messages.json) `/ru/`
