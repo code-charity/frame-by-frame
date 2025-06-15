@@ -1,95 +1,95 @@
 {
     "appearance": {
-        "message": "Appearance"
+        "message": "Aparência"
     },
     "areYouSureYouWantToExportTheData": {
-        "message": "Are you sure you want to export the data?"
+        "message": "Tem certeza que deseja exportar os dados?"
     },
     "areYouSureYouWantToImportTheData": {
-        "message": "Are you sure you want to import the data?"
+        "message": "Tem certeza que deseja importar os dados?"
     },
     "backgroundColor": {
-        "message": "Background color"
+        "message": "Cor de fundo"
     },
     "black": {
-        "message": "Black"
+        "message": "Preto"
     },
     "blur": {
-        "message": "Blur"
+        "message": "Desfoque"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Cancelar"
     },
     "decreaseFramerate": {
-        "message": "Decrease framerate"
+        "message": "Diminuir taxa de quadros"
     },
     "default": {
-        "message": "Default"
+        "message": "Padrão"
     },
     "description": {
-        "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
+        "message": "Melhor ferramenta de análise quadro a quadro. Funciona com todos os sites! Passe o cursor do mouse sobre o vídeo e use as setas do teclado para alternar os quadros."
     },
     "duration": {
-        "message": "Duration"
+        "message": "Duração"
     },
     "export": {
-        "message": "Export"
+        "message": "Exportar"
     },
     "frame": {
-        "message": "Frame"
+        "message": "Quadro"
     },
     "hideInFullscreen": {
-        "message": "Hide in fullscreen"
+        "message": "Ocultar em tela cheia"
     },
     "hidePanel": {
-        "message": "Hide panel"
+        "message": "Ocultar painel"
     },
     "import": {
-        "message": "Import"
+        "message": "Importar"
     },
     "increaseFramerate": {
-        "message": "Increase framerate"
+        "message": "Aumentar taxa de quadros"
     },
     "language": {
-        "message": "Language"
+        "message": "Idioma"
     },
     "light": {
-        "message": "Light"
+        "message": "Claro"
     },
     "nextFrame": {
-        "message": "Next frame"
+        "message": "Próximo quadro"
     },
     "ok": {
         "message": "Ok"
     },
     "opacity": {
-        "message": "Opacity"
+        "message": "Opacidade"
     },
     "outlineColor": {
-        "message": "Outline color"
+        "message": "Cor do contorno"
     },
     "previousFrame": {
-        "message": "Previous frame"
+        "message": "Quadro anterior"
     },
     "reset": {
-        "message": "Reset"
+        "message": "Redefinir"
     },
     "save": {
-        "message": "Save"
+        "message": "Salvar"
     },
     "shortcuts": {
-        "message": "Shortcuts"
+        "message": "Atalhos"
     },
     "somethingWentWrongTryReloadingThePage": {
-        "message": "Something went wrong. Try reloading the page."
+        "message": "Algo deu errado. Tente recarregar a página."
     },
     "textColor": {
-        "message": "Text color"
+        "message": "Cor do texto"
     },
     "theme": {
-        "message": "Theme"
+        "message": "Tema"
     },
     "time": {
-        "message": "Time"
+        "message": "Tempo"
     }
 }
