@@ -1,95 +1,95 @@
 {
     "appearance": {
-        "message": "Appearance"
+        "message": "外観"
     },
     "areYouSureYouWantToExportTheData": {
-        "message": "Are you sure you want to export the data?"
+        "message": "データをエクスポートしますか？"
     },
     "areYouSureYouWantToImportTheData": {
-        "message": "Are you sure you want to import the data?"
+        "message": "データをインポートしますか？"
     },
     "backgroundColor": {
-        "message": "Background color"
+        "message": "背景色"
     },
     "black": {
-        "message": "Black"
+        "message": "黒"
     },
     "blur": {
-        "message": "Blur"
+        "message": "ぼかし"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "キャンセル"
     },
     "decreaseFramerate": {
-        "message": "Decrease framerate"
+        "message": "フレームレートを下げる"
     },
     "default": {
-        "message": "Default"
+        "message": "デフォルト"
     },
     "description": {
-        "message": "Best Frame By Frame Tool. Works with all websites! Move your mouse cursor over video and use keyboard arrows to switch frames."
+        "message": "動画を1フレームずつ再生できる、あらゆるWebサイトで使えるツールです。マウスカーソルを動画の上に置いておけば、キーボードの矢印キーでフレームを前後に移動できます。"
     },
     "duration": {
-        "message": "Duration"
+        "message": "再生時間"
     },
     "export": {
-        "message": "Export"
+        "message": "エクスポート"
     },
     "frame": {
-        "message": "Frame"
+        "message": "フレーム"
     },
     "hideInFullscreen": {
-        "message": "Hide in fullscreen"
+        "message": "全画面では非表示"
     },
     "hidePanel": {
-        "message": "Hide panel"
+        "message": "パネルを非表示"
     },
     "import": {
-        "message": "Import"
+        "message": "インポート"
     },
     "increaseFramerate": {
-        "message": "Increase framerate"
+        "message": "フレームレートを上げる"
     },
     "language": {
-        "message": "Language"
+        "message": "言語"
     },
     "light": {
-        "message": "Light"
+        "message": "ライトテーマ"
     },
     "nextFrame": {
-        "message": "Next frame"
+        "message": "次のフレーム"
     },
     "ok": {
-        "message": "Ok"
+        "message": "OK"
     },
     "opacity": {
-        "message": "Opacity"
+        "message": "不透明度"
     },
     "outlineColor": {
-        "message": "Outline color"
+        "message": "枠線の色"
     },
     "previousFrame": {
-        "message": "Previous frame"
+        "message": "前のフレーム"
     },
     "reset": {
-        "message": "Reset"
+        "message": "リセット"
     },
     "save": {
-        "message": "Save"
+        "message": "保存"
     },
     "shortcuts": {
-        "message": "Shortcuts"
+        "message": "ショートカット"
     },
     "somethingWentWrongTryReloadingThePage": {
-        "message": "Something went wrong. Try reloading the page."
+        "message": "問題が発生しました。ページを再読み込みしてください。"
     },
     "textColor": {
-        "message": "Text color"
+        "message": "文字色"
     },
     "theme": {
-        "message": "Theme"
+        "message": "テーマ"
     },
     "time": {
-        "message": "Time"
+        "message": "時間"
     }
 }
