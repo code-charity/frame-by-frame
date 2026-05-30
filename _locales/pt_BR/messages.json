@@ -3,10 +3,10 @@
         "message": "Aparência"
     },
     "areYouSureYouWantToExportTheData": {
-        "message": "Tem certeza que deseja exportar os dados?"
+        "message": "Tem certeza de que deseja exportar os dados?"
     },
     "areYouSureYouWantToImportTheData": {
-        "message": "Tem certeza que deseja importar os dados?"
+        "message": "Tem certeza de que deseja importar os dados?"
     },
     "backgroundColor": {
         "message": "Cor de fundo"
@@ -27,7 +27,7 @@
         "message": "Padrão"
     },
     "description": {
-        "message": "Melhor ferramenta de análise quadro a quadro. Funciona com todos os sites! Passe o cursor do mouse sobre o vídeo e use as setas do teclado para alternar os quadros."
+        "message": "Melhor ferramenta quadro a quadro. Funciona com todos os sites! Mova o cursor do mouse sobre o vídeo e use as setas do teclado para alternar os quadros."
     },
     "duration": {
         "message": "Duração"
@@ -48,13 +48,13 @@
         "message": "Importar"
     },
     "increaseFramerate": {
-        "message": "Aumentar taxa de quadros"
+        "message": "Aumentar a taxa de quadros"
     },
     "language": {
         "message": "Idioma"
     },
     "light": {
-        "message": "Claro"
+        "message": "Brilho"
     },
     "nextFrame": {
         "message": "Próximo quadro"
@@ -72,7 +72,7 @@
         "message": "Quadro anterior"
     },
     "reset": {
-        "message": "Redefinir"
+        "message": "Resetar"
     },
     "save": {
         "message": "Salvar"
