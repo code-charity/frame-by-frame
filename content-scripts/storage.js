@@ -67,12 +67,12 @@ extension.storage.onchanged = function (callback) {
 			document.removeEventListener('storage-change', callback);
 			document.addEventListener('storage-change', callback);
 
-			document.dispatchEvent(new CustomEvent('storage-import'), {
+			document.dispatchEvent(new CustomEvent('storage-change', {
 				detail: {
-					key,
-					value
+					key: key,
+					value: value
 				}
-			});
+			}));
 		}
 	});
 };

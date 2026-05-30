@@ -91,7 +91,7 @@ extension.events.features.prev_shortcut = function (event) {
 			is_autoplay = true;
 		}
 
-		video.currentTime = Math.min(video.duration, video.currentTime - frame);
+		video.currentTime = Math.max(0, video.currentTime - frame);
 
 		extension.ui.sleep();
 	}

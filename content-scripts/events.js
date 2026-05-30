@@ -33,10 +33,10 @@ extension.events = {
 
 extension.events.create = function (target) {
 	for (var type in this[target]) {
-		if (type !== 'mouseleave') {
-			document.addEventListener(type, this[target][type], true);
-		} else {
+		if (target === 'keyboard' || type === 'mouseleave') {
 			window.addEventListener(type, this[target][type], true);
+		} else {
+			document.addEventListener(type, this[target][type], true);
 		}
 	}
 };
@@ -48,7 +48,11 @@ extension.events.create = function (target) {
 
 extension.events.remove = function (target) {
 	for (var type in this[target]) {
-		document.removeEventListener(type, this[target][type]);
+		if (target === 'keyboard' || type === 'mouseleave') {
+			window.removeEventListener(type, this[target][type], true);
+		} else {
+			document.removeEventListener(type, this[target][type], true);
+		}
 	}
 };
 
@@ -80,13 +84,39 @@ extension.events.features = {};
 
 
 /*--------------------------------------------------------------
+# VIDEO CONTEXT
+--------------------------------------------------------------*/
+
+extension.events.isVideoContext = function () {
+	var video = extension.videos.active;
+
+	if (!video || typeof video.getBoundingClientRect !== 'function') {
+		return false;
+	}
+
+	var DOMRect = video.getBoundingClientRect();
+
+	if (DOMRect.width <= 0 || DOMRect.height <= 0) {
+		return false;
+	}
+
+	return (
+		extension.cursor.x > DOMRect.left &&
+		extension.cursor.y > DOMRect.top &&
+		extension.cursor.x < DOMRect.left + DOMRect.width &&
+		extension.cursor.y < DOMRect.top + DOMRect.height
+	);
+};
+
+
+/*--------------------------------------------------------------
 # HANDLER
 --------------------------------------------------------------*/
 
 extension.events.handler = function (event) {
 	var prevent = false;
 
-	if (extension.ui.classList.contains(extension.prefix + '--visible')) {
+	if (extension.events.isVideoContext()) {
 		for (var key in extension.events.features) {
 			var shortcut = extension.storage.items[key];
 
@@ -150,6 +180,7 @@ extension.events.keyboard.keydown = function (event) {
 
 	if (extension.events.handler(event)) {
 		event.preventDefault();
+		event.stopImmediatePropagation();
 		event.stopPropagation();
 
 		return false;
